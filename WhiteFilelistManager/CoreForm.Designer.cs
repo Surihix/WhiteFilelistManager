@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             GameSelectGroupBox = new GroupBox();
-            radioButton3 = new RadioButton();
-            radioButton2 = new RadioButton();
-            radioButton1 = new RadioButton();
+            FF13LRRadioButton = new RadioButton();
+            FF132RadioButton = new RadioButton();
+            FF131RadioButton = new RadioButton();
             UnpkJSONButton = new Button();
             FilelistToolsGroupBox = new GroupBox();
             RpkTxtButton = new Button();
@@ -53,9 +53,9 @@
             // 
             // GameSelectGroupBox
             // 
-            GameSelectGroupBox.Controls.Add(radioButton3);
-            GameSelectGroupBox.Controls.Add(radioButton2);
-            GameSelectGroupBox.Controls.Add(radioButton1);
+            GameSelectGroupBox.Controls.Add(FF13LRRadioButton);
+            GameSelectGroupBox.Controls.Add(FF132RadioButton);
+            GameSelectGroupBox.Controls.Add(FF131RadioButton);
             GameSelectGroupBox.Location = new Point(12, 12);
             GameSelectGroupBox.Name = "GameSelectGroupBox";
             GameSelectGroupBox.Size = new Size(189, 52);
@@ -63,37 +63,37 @@
             GameSelectGroupBox.TabStop = false;
             GameSelectGroupBox.Text = "Select Game:";
             // 
-            // radioButton3
+            // FF13LRRadioButton
             // 
-            radioButton3.AutoSize = true;
-            radioButton3.Location = new Point(122, 18);
-            radioButton3.Name = "radioButton3";
-            radioButton3.Size = new Size(59, 19);
-            radioButton3.TabIndex = 2;
-            radioButton3.Text = "XIII-LR";
-            radioButton3.UseVisualStyleBackColor = true;
+            FF13LRRadioButton.AutoSize = true;
+            FF13LRRadioButton.Location = new Point(122, 18);
+            FF13LRRadioButton.Name = "FF13LRRadioButton";
+            FF13LRRadioButton.Size = new Size(59, 19);
+            FF13LRRadioButton.TabIndex = 2;
+            FF13LRRadioButton.Text = "XIII-LR";
+            FF13LRRadioButton.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // FF132RadioButton
             // 
-            radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(64, 18);
-            radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(52, 19);
-            radioButton2.TabIndex = 1;
-            radioButton2.Text = "XIII-2";
-            radioButton2.UseVisualStyleBackColor = true;
+            FF132RadioButton.AutoSize = true;
+            FF132RadioButton.Location = new Point(64, 18);
+            FF132RadioButton.Name = "FF132RadioButton";
+            FF132RadioButton.Size = new Size(52, 19);
+            FF132RadioButton.TabIndex = 1;
+            FF132RadioButton.Text = "XIII-2";
+            FF132RadioButton.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // FF131RadioButton
             // 
-            radioButton1.AutoSize = true;
-            radioButton1.Checked = true;
-            radioButton1.Location = new Point(6, 18);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(52, 19);
-            radioButton1.TabIndex = 0;
-            radioButton1.TabStop = true;
-            radioButton1.Text = "XIII-1";
-            radioButton1.UseVisualStyleBackColor = true;
+            FF131RadioButton.AutoSize = true;
+            FF131RadioButton.Checked = true;
+            FF131RadioButton.Location = new Point(6, 18);
+            FF131RadioButton.Name = "FF131RadioButton";
+            FF131RadioButton.Size = new Size(52, 19);
+            FF131RadioButton.TabIndex = 0;
+            FF131RadioButton.TabStop = true;
+            FF131RadioButton.Text = "XIII-1";
+            FF131RadioButton.UseVisualStyleBackColor = true;
             // 
             // UnpkJSONButton
             // 
@@ -245,7 +245,7 @@
             Controls.Add(PathGenToolsGroupBox);
             Controls.Add(FilelistToolsGroupBox);
             Controls.Add(GameSelectGroupBox);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "CoreForm";
             Text = "White Filelist Manager";
@@ -260,9 +260,9 @@
         #endregion
 
         private GroupBox GameSelectGroupBox;
-        private RadioButton radioButton3;
-        private RadioButton radioButton2;
-        private RadioButton radioButton1;
+        private RadioButton FF13LRRadioButton;
+        private RadioButton FF132RadioButton;
+        private RadioButton FF131RadioButton;
         private Button UnpkJSONButton;
         private GroupBox FilelistToolsGroupBox;
         private Button RpkJSONButton;
