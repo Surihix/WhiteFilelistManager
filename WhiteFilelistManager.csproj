@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="WhiteFilelistManager\FilelistHelpers\" />
     <Folder Include="WhiteFilelistManager\PathGenerationHelpers\" />
   </ItemGroup>
 

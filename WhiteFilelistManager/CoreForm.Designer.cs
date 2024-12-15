@@ -32,11 +32,11 @@
             FF13LRRadioButton = new RadioButton();
             FF132RadioButton = new RadioButton();
             FF131RadioButton = new RadioButton();
-            UnpkJSONButton = new Button();
+            UnpkAsJSONButton = new Button();
             FilelistToolsGroupBox = new GroupBox();
             RpkTxtButton = new Button();
             RpkJSONButton = new Button();
-            UnpkTXTButton = new Button();
+            UnpkAsTXTButton = new Button();
             PathGenToolsGroupBox = new GroupBox();
             VPathTiplabel = new Label();
             ClearOutputButton = new Button();
@@ -46,9 +46,12 @@
             VPathLabel = new Label();
             OutputTxtBox = new TextBox();
             VPathTxtBox = new TextBox();
+            AppStatusStrip = new StatusStrip();
+            AppStatusStripLabel = new ToolStripStatusLabel();
             GameSelectGroupBox.SuspendLayout();
             FilelistToolsGroupBox.SuspendLayout();
             PathGenToolsGroupBox.SuspendLayout();
+            AppStatusStrip.SuspendLayout();
             SuspendLayout();
             // 
             // GameSelectGroupBox
@@ -95,22 +98,22 @@
             FF131RadioButton.Text = "XIII-1";
             FF131RadioButton.UseVisualStyleBackColor = true;
             // 
-            // UnpkJSONButton
+            // UnpkAsJSONButton
             // 
-            UnpkJSONButton.Location = new Point(15, 22);
-            UnpkJSONButton.Name = "UnpkJSONButton";
-            UnpkJSONButton.Size = new Size(107, 23);
-            UnpkJSONButton.TabIndex = 1;
-            UnpkJSONButton.Text = "Unpack as JSON";
-            UnpkJSONButton.UseVisualStyleBackColor = true;
-            UnpkJSONButton.Click += UnpkJSONButton_Click;
+            UnpkAsJSONButton.Location = new Point(15, 22);
+            UnpkAsJSONButton.Name = "UnpkAsJSONButton";
+            UnpkAsJSONButton.Size = new Size(107, 23);
+            UnpkAsJSONButton.TabIndex = 1;
+            UnpkAsJSONButton.Text = "Unpack as JSON";
+            UnpkAsJSONButton.UseVisualStyleBackColor = true;
+            UnpkAsJSONButton.Click += UnpkAsJSONButton_Click;
             // 
             // FilelistToolsGroupBox
             // 
             FilelistToolsGroupBox.Controls.Add(RpkTxtButton);
             FilelistToolsGroupBox.Controls.Add(RpkJSONButton);
-            FilelistToolsGroupBox.Controls.Add(UnpkTXTButton);
-            FilelistToolsGroupBox.Controls.Add(UnpkJSONButton);
+            FilelistToolsGroupBox.Controls.Add(UnpkAsTXTButton);
+            FilelistToolsGroupBox.Controls.Add(UnpkAsJSONButton);
             FilelistToolsGroupBox.Location = new Point(328, 12);
             FilelistToolsGroupBox.Name = "FilelistToolsGroupBox";
             FilelistToolsGroupBox.Size = new Size(261, 90);
@@ -138,15 +141,15 @@
             RpkJSONButton.UseVisualStyleBackColor = true;
             RpkJSONButton.Click += RpkJSONButton_Click;
             // 
-            // UnpkTXTButton
+            // UnpkAsTXTButton
             // 
-            UnpkTXTButton.Location = new Point(15, 51);
-            UnpkTXTButton.Name = "UnpkTXTButton";
-            UnpkTXTButton.Size = new Size(107, 23);
-            UnpkTXTButton.TabIndex = 6;
-            UnpkTXTButton.Text = "Unpack as TXT(s)";
-            UnpkTXTButton.UseVisualStyleBackColor = true;
-            UnpkTXTButton.Click += UnpkTXTButton_Click;
+            UnpkAsTXTButton.Location = new Point(15, 51);
+            UnpkAsTXTButton.Name = "UnpkAsTXTButton";
+            UnpkAsTXTButton.Size = new Size(107, 23);
+            UnpkAsTXTButton.TabIndex = 6;
+            UnpkAsTXTButton.Text = "Unpack as TXT(s)";
+            UnpkAsTXTButton.UseVisualStyleBackColor = true;
+            UnpkAsTXTButton.Click += UnpkAsTXTButton_Click;
             // 
             // PathGenToolsGroupBox
             // 
@@ -237,11 +240,28 @@
             VPathTxtBox.Size = new Size(546, 23);
             VPathTxtBox.TabIndex = 0;
             // 
+            // AppStatusStrip
+            // 
+            AppStatusStrip.Items.AddRange(new ToolStripItem[] { AppStatusStripLabel });
+            AppStatusStrip.Location = new Point(0, 449);
+            AppStatusStrip.Name = "AppStatusStrip";
+            AppStatusStrip.Size = new Size(601, 22);
+            AppStatusStrip.SizingGrip = false;
+            AppStatusStrip.TabIndex = 7;
+            AppStatusStrip.Text = "statusStrip1";
+            // 
+            // AppStatusStripLabel
+            // 
+            AppStatusStripLabel.Name = "AppStatusStripLabel";
+            AppStatusStripLabel.Size = new Size(105, 17);
+            AppStatusStripLabel.Text = "App has launched!";
+            // 
             // CoreForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(601, 440);
+            ClientSize = new Size(601, 471);
+            Controls.Add(AppStatusStrip);
             Controls.Add(PathGenToolsGroupBox);
             Controls.Add(FilelistToolsGroupBox);
             Controls.Add(GameSelectGroupBox);
@@ -254,7 +274,10 @@
             FilelistToolsGroupBox.ResumeLayout(false);
             PathGenToolsGroupBox.ResumeLayout(false);
             PathGenToolsGroupBox.PerformLayout();
+            AppStatusStrip.ResumeLayout(false);
+            AppStatusStrip.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -263,11 +286,11 @@
         private RadioButton FF13LRRadioButton;
         private RadioButton FF132RadioButton;
         private RadioButton FF131RadioButton;
-        private Button UnpkJSONButton;
+        private Button UnpkAsJSONButton;
         private GroupBox FilelistToolsGroupBox;
         private Button RpkJSONButton;
         private Button RpkTxtButton;
-        private Button UnpkTXTButton;
+        private Button UnpkAsTXTButton;
         private GroupBox PathGenToolsGroupBox;
         private TextBox OutputTxtBox;
         private TextBox VPathTxtBox;
@@ -277,5 +300,7 @@
         private Button GenerateJSONButton;
         private Button ClearOutputButton;
         private Label VPathTiplabel;
+        private StatusStrip AppStatusStrip;
+        private ToolStripStatusLabel AppStatusStripLabel;
     }
 }
