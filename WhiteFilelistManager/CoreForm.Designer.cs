@@ -191,19 +191,19 @@
             // 
             GenerateTXTButton.Location = new Point(298, 109);
             GenerateTXTButton.Name = "GenerateTXTButton";
-            GenerateTXTButton.Size = new Size(107, 23);
+            GenerateTXTButton.Size = new Size(126, 23);
             GenerateTXTButton.TabIndex = 5;
-            GenerateTXTButton.Text = "Generate for TXT";
+            GenerateTXTButton.Text = "Generate TXT Output";
             GenerateTXTButton.UseVisualStyleBackColor = true;
             GenerateTXTButton.Click += GenerateTXTButton_Click;
             // 
             // GenerateJSONButton
             // 
-            GenerateJSONButton.Location = new Point(160, 109);
+            GenerateJSONButton.Location = new Point(137, 109);
             GenerateJSONButton.Name = "GenerateJSONButton";
-            GenerateJSONButton.Size = new Size(113, 23);
+            GenerateJSONButton.Size = new Size(136, 23);
             GenerateJSONButton.TabIndex = 4;
-            GenerateJSONButton.Text = "Generate for JSON";
+            GenerateJSONButton.Text = "Generate JSON Output";
             GenerateJSONButton.UseVisualStyleBackColor = true;
             GenerateJSONButton.Click += GenerateJSONButton_Click;
             // 
