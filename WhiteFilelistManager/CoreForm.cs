@@ -4,7 +4,7 @@ namespace WhiteFilelistManager
 {
     public partial class CoreForm : Form
     {
-        private static CoreForm CoreFormInstance { get; set; }
+        public static CoreForm CoreFormInstance { get; set; }
 
         public CoreForm()
         {
@@ -62,7 +62,7 @@ namespace WhiteFilelistManager
         {
             if (FilelistSelect.ShowDialog() == DialogResult.OK)
             {
-                AppStatusStripLabel.Text = "Unpacking to JSON....";
+                AppStatusStripLabel.Text = "Unpacking data to JSON file....";
 
                 var gameCode = GetGameCode();
                 EnableDisableGUI(false);
@@ -127,7 +127,7 @@ namespace WhiteFilelistManager
         {
             if (FilelistSelect.ShowDialog() == DialogResult.OK)
             {
-                AppStatusStripLabel.Text = "Unpacking to TXT file(s)....";
+                AppStatusStripLabel.Text = "Unpacking data to text file(s)....";
 
                 var gameCode = GetGameCode();
                 EnableDisableGUI(false);
@@ -150,11 +150,11 @@ namespace WhiteFilelistManager
                     {
                         if (success)
                         {
-                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished unpacking data to TXT file(s)!"));
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished unpacking data to text file(s)!"));
                         }
                         else
                         {
-                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Failed to unpack data to TXT file(s)!"));
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Failed to unpack data to text file(s)!"));
                         }
 
                         BeginInvoke(new Action(() => EnableDisableGUI(true)));

@@ -52,17 +52,7 @@ namespace WhiteFilelistManager.FilelistHelpers
 
                                 if (gameCode == GameCode.ff131)
                                 {
-                                    if (filelistVariables.ChunkNumber != chunkNumberJson)
-                                    {
-                                        chunkNumberJson = filelistVariables.ChunkNumber;
-
-                                        if (f != 0)
-                                        {
-                                            jsonWriter.WriteEndArray();
-                                        }
-
-                                        jsonWriter.WriteStartArray($"Chunk_{filelistVariables.ChunkNumber}");
-                                    }
+                                    OpenCloseChunkArray(filelistVariables.ChunkNumber, ref chunkNumberJson, f, jsonWriter);
 
                                     jsonWriter.WriteStartObject();
                                     jsonWriter.WriteNumber("fileCode", filelistVariables.FileCode);
@@ -70,17 +60,7 @@ namespace WhiteFilelistManager.FilelistHelpers
                                 }
                                 else if (gameCode == GameCode.ff132)
                                 {
-                                    if (filelistVariables.CurrentChunkNumber != chunkNumberJson)
-                                    {
-                                        chunkNumberJson = filelistVariables.CurrentChunkNumber;
-
-                                        if (f != 0)
-                                        {
-                                            jsonWriter.WriteEndArray();
-                                        }
-
-                                        jsonWriter.WriteStartArray($"Chunk_{filelistVariables.CurrentChunkNumber}");
-                                    }
+                                    OpenCloseChunkArray(filelistVariables.CurrentChunkNumber, ref chunkNumberJson, f, jsonWriter);
 
                                     jsonWriter.WriteStartObject();
                                     jsonWriter.WriteNumber("fileCode", filelistVariables.FileCode);
@@ -103,6 +83,21 @@ namespace WhiteFilelistManager.FilelistHelpers
 
                 jsonStream.Seek(0, SeekOrigin.Begin);
                 File.WriteAllBytes(outJsonFile, jsonStream.ToArray());
+            }
+        }
+
+        private static void OpenCloseChunkArray(int chunkNumber, ref int chunkNumberJson, int f, Utf8JsonWriter jsonWriter)
+        {
+            if (chunkNumber != chunkNumberJson)
+            {
+                chunkNumberJson = chunkNumber;
+
+                if (f != 0)
+                {
+                    jsonWriter.WriteEndArray();
+                }
+
+                jsonWriter.WriteStartArray($"Chunk_{chunkNumber}");
             }
         }
 
