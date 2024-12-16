@@ -4,7 +4,7 @@ namespace WhiteFilelistManager
 {
     public partial class CoreForm : Form
     {
-        private static readonly CoreForm CoreFormInstance = (CoreForm)Application.OpenForms["CoreForm"];
+        private static CoreForm CoreFormInstance { get; set; }
 
         public CoreForm()
         {
@@ -15,6 +15,8 @@ namespace WhiteFilelistManager
 
         private void EnableDisableGUI(bool isEnabled)
         {
+            CoreFormInstance = (CoreForm)Application.OpenForms["CoreForm"];
+
             GameSelectGroupBox.Enabled = isEnabled;
             FilelistToolsGroupBox.Enabled = isEnabled;
             PathGenToolsGroupBox.Enabled = isEnabled;
