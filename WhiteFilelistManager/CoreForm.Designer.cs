@@ -253,8 +253,7 @@
             // AppStatusStripLabel
             // 
             AppStatusStripLabel.Name = "AppStatusStripLabel";
-            AppStatusStripLabel.Size = new Size(105, 17);
-            AppStatusStripLabel.Text = "App has launched!";
+            AppStatusStripLabel.Size = new Size(0, 17);
             // 
             // CoreForm
             // 

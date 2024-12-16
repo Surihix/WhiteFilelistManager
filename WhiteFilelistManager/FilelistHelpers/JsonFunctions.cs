@@ -24,7 +24,7 @@ namespace WhiteFilelistManager.FilelistHelpers
                         jsonWriter.WriteBoolean("encrypted", true);
                         jsonWriter.WriteNumber("seedA", filelistVariables.SeedA);
                         jsonWriter.WriteNumber("seedB", filelistVariables.SeedB);
-                        jsonWriter.WriteNumber("encryptionTag", filelistVariables.EncTag);
+                        jsonWriter.WriteNumber("encryptionTag(DO_NOT_CHANGE)", filelistVariables.EncTag);
                     }
                     else
                     {
@@ -42,8 +42,6 @@ namespace WhiteFilelistManager.FilelistHelpers
 
                         using (var entriesReader = new BinaryReader(entriesStream))
                         {
-                            // Process each file entry from 
-                            // the entry section
                             int chunkNumberJson = -1;
                             long entriesReadPos = 0;
 
@@ -106,6 +104,12 @@ namespace WhiteFilelistManager.FilelistHelpers
                 jsonStream.Seek(0, SeekOrigin.Begin);
                 File.WriteAllBytes(outJsonFile, jsonStream.ToArray());
             }
+        }
+
+
+        public static void JsonRepackProcess(FilelistVariables filelistVariables, string jsonFile, GameCode gameCode)
+        {
+
         }
     }
 }

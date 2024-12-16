@@ -61,5 +61,11 @@ namespace WhiteFilelistManager.FilelistHelpers
                     break;
             }
         }
+
+
+        public static void RepackFilelist(ParseType parseType, GameCode gameCode, string jsonFileOrTxtDir)
+        {
+
+        }
     }
 }

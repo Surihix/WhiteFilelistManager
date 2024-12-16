@@ -9,6 +9,7 @@ namespace WhiteFilelistManager
         public CoreForm()
         {
             InitializeComponent();
+            AppStatusStripLabel.Text = "Tool opened!";
         }
 
 
