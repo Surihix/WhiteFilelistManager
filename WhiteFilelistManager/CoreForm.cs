@@ -4,6 +4,8 @@ namespace WhiteFilelistManager
 {
     public partial class CoreForm : Form
     {
+        private static readonly CoreForm CoreFormInstance = (CoreForm)Application.OpenForms["CoreForm"];
+
         public CoreForm()
         {
             InitializeComponent();
@@ -15,6 +17,15 @@ namespace WhiteFilelistManager
             GameSelectGroupBox.Enabled = isEnabled;
             FilelistToolsGroupBox.Enabled = isEnabled;
             PathGenToolsGroupBox.Enabled = isEnabled;
+        }
+
+
+        private static void ShowException(Exception ex)
+        {
+            if (ex.Message.ToString() != "Handled")
+            {
+                CoreFormInstance.Invoke(new Action(() => MessageBox.Show($"An exception has occured\n{ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)));                
+            }
         }
 
 
@@ -55,23 +66,29 @@ namespace WhiteFilelistManager
 
                 Task.Run(() =>
                 {
+                    bool success = true;
+
                     try
                     {
                         FilelistFunctions.UnpackFilelist(FilelistFunctions.ParseType.json, gameCode, FilelistSelect.FileName);
-                        BeginInvoke(new Action(() => MessageBox.Show("Selected filelist is now unpacked as JSON file", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                        CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected filelist is now unpacked as JSON file", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
                     }
                     catch (Exception ex)
                     {
-                        if (ex.Message.ToString() != "Handled")
-                        {
-                            
-
-                            MessageBox.Show($"An exception has occured\n{ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        success = false;
+                        ShowException(ex);
                     }
                     finally
                     {
-                        BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished unpacking data to JSON file!"));
+                        if (success)
+                        {
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished unpacking data to JSON file!"));
+                        }
+                        else
+                        {
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Failed to unpack data to JSON file!"));
+                        }
+
                         BeginInvoke(new Action(() => EnableDisableGUI(true)));
                     }
                 });
@@ -85,16 +102,16 @@ namespace WhiteFilelistManager
 
             Task.Run(() =>
             {
+                bool success = true;
+
                 try
                 {
 
                 }
                 catch (Exception ex)
                 {
-                    if (ex.Message.ToString() != "Handled")
-                    {
-                        MessageBox.Show($"An exception has occured\n{ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    success = false;
+                    ShowException(ex);
                 }
                 finally
                 {
@@ -114,21 +131,29 @@ namespace WhiteFilelistManager
 
                 Task.Run(() =>
                 {
+                    bool success = true;
+
                     try
                     {
                         FilelistFunctions.UnpackFilelist(FilelistFunctions.ParseType.txt, gameCode, FilelistSelect.FileName);
-                        BeginInvoke(new Action(() => MessageBox.Show("Selected filelist is now unpacked as text file(s)", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                        CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected filelist is now unpacked as text file(s)", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
                     }
                     catch (Exception ex)
                     {
-                        if (ex.Message.ToString() != "Handled")
-                        {
-                            MessageBox.Show($"An exception has occured\n{ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        success = false;
+                        ShowException(ex);
                     }
                     finally
                     {
-                        BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished unpacking data to TXT file(s)!"));
+                        if (success)
+                        {
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished unpacking data to TXT file(s)!"));
+                        }
+                        else
+                        {
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Failed to unpack data to TXT file(s)!"));
+                        }
+
                         BeginInvoke(new Action(() => EnableDisableGUI(true)));
                     }
                 });
@@ -142,16 +167,16 @@ namespace WhiteFilelistManager
 
             Task.Run(() =>
             {
+                bool success = true;
+
                 try
                 {
 
                 }
                 catch (Exception ex)
                 {
-                    if (ex.Message.ToString() != "Handled")
-                    {
-                        MessageBox.Show($"An exception has occured\n{ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    success = false;
+                    ShowException(ex);
                 }
                 finally
                 {
@@ -170,16 +195,16 @@ namespace WhiteFilelistManager
 
             Task.Run(() =>
             {
+                bool success = true;
+
                 try
                 {
 
                 }
                 catch (Exception ex)
                 {
-                    if (ex.Message.ToString() != "Handled")
-                    {
-                        MessageBox.Show($"An exception has occured\n{ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    success = false;
+                    ShowException(ex);
                 }
                 finally
                 {
@@ -195,16 +220,16 @@ namespace WhiteFilelistManager
 
             Task.Run(() =>
             {
+                bool success = true;
+
                 try
                 {
 
                 }
                 catch (Exception ex)
                 {
-                    if (ex.Message.ToString() != "Handled")
-                    {
-                        MessageBox.Show($"An exception has occured\n{ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    success = false;
+                    ShowException(ex);
                 }
                 finally
                 {

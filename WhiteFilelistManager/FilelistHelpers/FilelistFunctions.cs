@@ -12,8 +12,10 @@ namespace WhiteFilelistManager.FilelistHelpers
 
         public static void UnpackFilelist(ParseType parseType, GameCode gameCode, string filelistFile)
         {
-            var filelistVariables = new FilelistVariables();
-            filelistVariables.FilelistOutName = Path.GetFileName(filelistFile);
+            var filelistVariables = new FilelistVariables
+            {
+                FilelistOutName = Path.GetFileName(filelistFile)
+            };
 
             FilelistProcesses.PrepareFilelistVars(filelistVariables, filelistFile);
             FilelistCrypto.DecryptProcess(gameCode, filelistVariables);
@@ -55,7 +57,7 @@ namespace WhiteFilelistManager.FilelistHelpers
                     break;
 
                 case ParseType.txt:
-                    TxtsFunctions.TxtsUnpackProcess(filelistVariables);
+                    TxtsFunctions.TxtsUnpackProcess(filelistVariables, gameCode);
                     break;
             }
         }
