@@ -104,6 +104,77 @@ namespace WhiteFilelistManager.FilelistHelpers
 
         public static void JsonRepackProcess(string jsonFile, GameCode gameCode)
         {
+            var filelistVariables = new FilelistVariables();
+
+            var jsonData = File.ReadAllBytes(jsonFile);
+
+            var options = new JsonReaderOptions
+            {
+                AllowTrailingCommas = true,
+                CommentHandling = JsonCommentHandling.Skip
+            };
+
+            var jsonReader = new Utf8JsonReader(jsonData, options);
+            _ = jsonReader.Read();
+
+            JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "encrypted");
+            JsonFunctions.CheckPropertyName(ref jsonReader, "encrypted");
+            JsonFunctions.CheckTokenType("Bool", ref jsonReader, "encrypted");
+            filelistVariables.IsEncrypted = jsonReader.GetBoolean();
+
+            if (gameCode == GameCode.ff131 && filelistVariables.IsEncrypted)
+            {
+                SharedFunctions.Error("XIII-1 filelists cannot be encrypted. make sure the encrypted property's value is set to false.");
+            }
+
+            if (gameCode == GameCode.ff132 && filelistVariables.IsEncrypted)
+            {
+                JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "seedA");
+                JsonFunctions.CheckPropertyName(ref jsonReader, "seedA");
+                JsonFunctions.CheckTokenType("Number", ref jsonReader, "seedA");
+                filelistVariables.SeedA = jsonReader.GetUInt64();
+
+                JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "seedB");
+                JsonFunctions.CheckPropertyName(ref jsonReader, "seedB");
+                JsonFunctions.CheckTokenType("Number", ref jsonReader, "seedB");
+                filelistVariables.SeedB = jsonReader.GetUInt64();
+
+                JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "encryptionTag(DO_NOT_CHANGE)");
+                JsonFunctions.CheckPropertyName(ref jsonReader, "encryptionTag(DO_NOT_CHANGE)");
+                JsonFunctions.CheckTokenType("Number", ref jsonReader, "encryptionTag(DO_NOT_CHANGE)");
+                filelistVariables.EncTag = jsonReader.GetUInt32();
+            }
+
+            JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "fileCount");
+            JsonFunctions.CheckPropertyName(ref jsonReader, "fileCount");
+            JsonFunctions.CheckTokenType("Number", ref jsonReader, "fileCount");
+            filelistVariables.TotalFiles = jsonReader.GetUInt32();
+
+            JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "chunkCount");
+            JsonFunctions.CheckPropertyName(ref jsonReader, "chunkCount");
+            JsonFunctions.CheckTokenType("Number", ref jsonReader, "chunkCount");
+            filelistVariables.TotalChunks = jsonReader.GetUInt32();
+
+            JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "data");
+            JsonFunctions.CheckPropertyName(ref jsonReader, "data");
+            JsonFunctions.CheckTokenType("Object_Start", ref jsonReader, "data");
+
+            var newChunksDict = new Dictionary<int, List<byte>>();
+            FilelistProcesses.CreateEmptyNewChunksDict(filelistVariables, newChunksDict);
+
+            var oddChunkNumValues = new List<int>();
+            if (gameCode == GameCode.ff132 && filelistVariables.TotalChunks > 1)
+            {
+                FilelistProcesses.CreateOddChunkNumList(filelistVariables, ref oddChunkNumValues);
+            }
+
+            using (var entriesStream = new MemoryStream())
+            {
+                using (var entriesWriter = new BinaryWriter(entriesStream))
+                {
+
+                }
+            }
 
         }
     }

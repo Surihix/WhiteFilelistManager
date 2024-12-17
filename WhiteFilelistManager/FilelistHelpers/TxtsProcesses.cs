@@ -25,7 +25,7 @@ namespace WhiteFilelistManager.FilelistHelpers
                     infoStreamWriter.WriteLine("encrypted: true");
                     infoStreamWriter.WriteLine($"seedA: {filelistVariables.SeedA}");
                     infoStreamWriter.WriteLine($"seedB: {filelistVariables.SeedB}");
-                    infoStreamWriter.WriteLine($"encryptionTag_(DO_NOT_CHANGE): {filelistVariables.EncTag}");
+                    infoStreamWriter.WriteLine($"encryptionTag(DO_NOT_CHANGE): {filelistVariables.EncTag}");
                 }
                 else
                 {

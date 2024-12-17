@@ -67,5 +67,29 @@ namespace WhiteFilelistManager.FilelistHelpers
 
             filelistVariables.PathString = Encoding.UTF8.GetString(currentChunkData, pathPos, length);
         }
+
+
+        public static void CreateEmptyNewChunksDict(FilelistVariables filelistVariables, Dictionary<int, List<byte>> newChunksDict)
+        {
+            for (int c = 0; c < filelistVariables.TotalChunks; c++)
+            {
+                var chunkDataList = new List<byte>();
+                newChunksDict.Add(c, chunkDataList);
+            }
+        }
+
+
+        public static void CreateOddChunkNumList(FilelistVariables filelistVariables, ref List<int> oddChunkNumValues)
+        {
+            var nextChunkNo = 1;
+            for (int i = 0; i < filelistVariables.TotalChunks; i++)
+            {
+                if (i == nextChunkNo)
+                {
+                    oddChunkNumValues.Add(i);
+                    nextChunkNo += 2;
+                }
+            }
+        }
     }
 }

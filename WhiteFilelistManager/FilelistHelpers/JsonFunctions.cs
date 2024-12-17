@@ -34,6 +34,13 @@ namespace WhiteFilelistManager.FilelistHelpers
                     }
                     break;
 
+                case "Object_Start":
+                    if (jsonReader.TokenType != JsonTokenType.StartObject)
+                    {
+                        SharedFunctions.Error($"Specified {property} property's value is not a start object");
+                    }
+                    break;
+
                 case "PropertyName":
                     if (jsonReader.TokenType != JsonTokenType.PropertyName)
                     {
