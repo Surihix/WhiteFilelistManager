@@ -103,7 +103,7 @@
             UnpkAsJSONButton.Location = new Point(15, 22);
             UnpkAsJSONButton.Name = "UnpkAsJSONButton";
             UnpkAsJSONButton.Size = new Size(107, 23);
-            UnpkAsJSONButton.TabIndex = 1;
+            UnpkAsJSONButton.TabIndex = 0;
             UnpkAsJSONButton.Text = "Unpack as JSON";
             UnpkAsJSONButton.UseVisualStyleBackColor = true;
             UnpkAsJSONButton.Click += UnpkAsJSONButton_Click;
@@ -117,7 +117,7 @@
             FilelistToolsGroupBox.Location = new Point(328, 12);
             FilelistToolsGroupBox.Name = "FilelistToolsGroupBox";
             FilelistToolsGroupBox.Size = new Size(261, 90);
-            FilelistToolsGroupBox.TabIndex = 5;
+            FilelistToolsGroupBox.TabIndex = 1;
             FilelistToolsGroupBox.TabStop = false;
             FilelistToolsGroupBox.Text = "Filelist tools:";
             // 
@@ -126,8 +126,8 @@
             RpkTxtButton.Location = new Point(137, 51);
             RpkTxtButton.Name = "RpkTxtButton";
             RpkTxtButton.Size = new Size(107, 23);
-            RpkTxtButton.TabIndex = 7;
-            RpkTxtButton.Text = "Repack TXT(s)";
+            RpkTxtButton.TabIndex = 3;
+            RpkTxtButton.Text = "Repack TXTs";
             RpkTxtButton.UseVisualStyleBackColor = true;
             RpkTxtButton.Click += RpkTxtButton_Click;
             // 
@@ -136,7 +136,7 @@
             RpkJSONButton.Location = new Point(137, 22);
             RpkJSONButton.Name = "RpkJSONButton";
             RpkJSONButton.Size = new Size(107, 23);
-            RpkJSONButton.TabIndex = 5;
+            RpkJSONButton.TabIndex = 1;
             RpkJSONButton.Text = "Repack JSON";
             RpkJSONButton.UseVisualStyleBackColor = true;
             RpkJSONButton.Click += RpkJSONButton_Click;
@@ -146,8 +146,8 @@
             UnpkAsTXTButton.Location = new Point(15, 51);
             UnpkAsTXTButton.Name = "UnpkAsTXTButton";
             UnpkAsTXTButton.Size = new Size(107, 23);
-            UnpkAsTXTButton.TabIndex = 6;
-            UnpkAsTXTButton.Text = "Unpack as TXT(s)";
+            UnpkAsTXTButton.TabIndex = 2;
+            UnpkAsTXTButton.Text = "Unpack as TXTs";
             UnpkAsTXTButton.UseVisualStyleBackColor = true;
             UnpkAsTXTButton.Click += UnpkAsTXTButton_Click;
             // 
@@ -164,7 +164,7 @@
             PathGenToolsGroupBox.Location = new Point(12, 121);
             PathGenToolsGroupBox.Name = "PathGenToolsGroupBox";
             PathGenToolsGroupBox.Size = new Size(577, 306);
-            PathGenToolsGroupBox.TabIndex = 6;
+            PathGenToolsGroupBox.TabIndex = 2;
             PathGenToolsGroupBox.TabStop = false;
             PathGenToolsGroupBox.Text = "Path Generator tools:";
             // 
@@ -174,7 +174,7 @@
             VPathTiplabel.Location = new Point(168, 31);
             VPathTiplabel.Name = "VPathTiplabel";
             VPathTiplabel.Size = new Size(226, 15);
-            VPathTiplabel.TabIndex = 7;
+            VPathTiplabel.TabIndex = 0;
             VPathTiplabel.Text = "Path should be separated with / character";
             // 
             // ClearOutputButton
@@ -182,7 +182,7 @@
             ClearOutputButton.Location = new Point(232, 270);
             ClearOutputButton.Name = "ClearOutputButton";
             ClearOutputButton.Size = new Size(113, 23);
-            ClearOutputButton.TabIndex = 6;
+            ClearOutputButton.TabIndex = 7;
             ClearOutputButton.Text = "Clear Output";
             ClearOutputButton.UseVisualStyleBackColor = true;
             ClearOutputButton.Click += ClearOutputButton_Click;
@@ -192,7 +192,7 @@
             GenerateTXTButton.Location = new Point(298, 109);
             GenerateTXTButton.Name = "GenerateTXTButton";
             GenerateTXTButton.Size = new Size(126, 23);
-            GenerateTXTButton.TabIndex = 5;
+            GenerateTXTButton.TabIndex = 4;
             GenerateTXTButton.Text = "Generate TXT Output";
             GenerateTXTButton.UseVisualStyleBackColor = true;
             GenerateTXTButton.Click += GenerateTXTButton_Click;
@@ -202,7 +202,7 @@
             GenerateJSONButton.Location = new Point(137, 109);
             GenerateJSONButton.Name = "GenerateJSONButton";
             GenerateJSONButton.Size = new Size(136, 23);
-            GenerateJSONButton.TabIndex = 4;
+            GenerateJSONButton.TabIndex = 3;
             GenerateJSONButton.Text = "Generate JSON Output";
             GenerateJSONButton.UseVisualStyleBackColor = true;
             GenerateJSONButton.Click += GenerateJSONButton_Click;
@@ -213,7 +213,7 @@
             OutputLabel.Location = new Point(15, 143);
             OutputLabel.Name = "OutputLabel";
             OutputLabel.Size = new Size(48, 15);
-            OutputLabel.TabIndex = 3;
+            OutputLabel.TabIndex = 5;
             OutputLabel.Text = "Output:";
             // 
             // VPathLabel
@@ -222,23 +222,27 @@
             VPathLabel.Location = new Point(15, 54);
             VPathLabel.Name = "VPathLabel";
             VPathLabel.Size = new Size(71, 15);
-            VPathLabel.TabIndex = 2;
+            VPathLabel.TabIndex = 1;
             VPathLabel.Text = "Virtual Path:";
             // 
             // OutputTxtBox
             // 
+            OutputTxtBox.BackColor = SystemColors.Control;
+            OutputTxtBox.BorderStyle = BorderStyle.FixedSingle;
             OutputTxtBox.Location = new Point(15, 161);
             OutputTxtBox.Multiline = true;
             OutputTxtBox.Name = "OutputTxtBox";
+            OutputTxtBox.ReadOnly = true;
+            OutputTxtBox.ScrollBars = ScrollBars.Both;
             OutputTxtBox.Size = new Size(546, 98);
-            OutputTxtBox.TabIndex = 1;
+            OutputTxtBox.TabIndex = 6;
             // 
             // VPathTxtBox
             // 
             VPathTxtBox.Location = new Point(15, 72);
             VPathTxtBox.Name = "VPathTxtBox";
             VPathTxtBox.Size = new Size(546, 23);
-            VPathTxtBox.TabIndex = 0;
+            VPathTxtBox.TabIndex = 2;
             // 
             // AppStatusStrip
             // 
@@ -247,7 +251,7 @@
             AppStatusStrip.Name = "AppStatusStrip";
             AppStatusStrip.Size = new Size(601, 22);
             AppStatusStrip.SizingGrip = false;
-            AppStatusStrip.TabIndex = 7;
+            AppStatusStrip.TabIndex = 3;
             AppStatusStrip.Text = "statusStrip1";
             // 
             // AppStatusStripLabel

@@ -9,6 +9,7 @@ namespace WhiteFilelistManager
         public CoreForm()
         {
             InitializeComponent();
+            OutputTxtBox.BackColor = SystemColors.Window;
             AppStatusStripLabel.Text = "Tool opened!";
         }
 
@@ -73,7 +74,7 @@ namespace WhiteFilelistManager
 
                     try
                     {
-                        FilelistFunctions.UnpackFilelist(FilelistFunctions.ParseType.json, gameCode, FilelistSelect.FileName);
+                        FilelistFunctions.UnpackFilelist(gameCode, FilelistSelect.FileName, FilelistFunctions.ParseType.json);
                         CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected filelist is now unpacked as JSON file", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
                     }
                     catch (Exception ex)
@@ -100,27 +101,48 @@ namespace WhiteFilelistManager
 
         private void RpkJSONButton_Click(object sender, EventArgs e)
         {
-            var gameCode = GetGameCode();
-            EnableDisableGUI(false);
-
-            Task.Run(() =>
+            var jsonFileSelect = new OpenFileDialog
             {
-                bool success = true;
+                Title = "Select JSON file",
+                Filter = "JSON files (*.json)|*.json"
+            };
 
-                try
-                {
+            if (jsonFileSelect.ShowDialog() == DialogResult.OK)
+            {
+                AppStatusStripLabel.Text = "Repacking data from JSON file....";
 
-                }
-                catch (Exception ex)
+                var gameCode = GetGameCode();
+                EnableDisableGUI(false);
+
+                Task.Run(() =>
                 {
-                    success = false;
-                    ShowException(ex);
-                }
-                finally
-                {
-                    BeginInvoke(new Action(() => EnableDisableGUI(true)));
-                }
-            });
+                    bool success = true;
+
+                    try
+                    {
+                        FilelistFunctions.RepackFilelist(FilelistFunctions.ParseType.json, jsonFileSelect.FileName, gameCode);
+                        CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected JSON file is now repacked as a filelist", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                    }
+                    catch (Exception ex)
+                    {
+                        success = false;
+                        ShowException(ex);
+                    }
+                    finally
+                    {
+                        if (success)
+                        {
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished repacking data from JSON file!"));
+                        }
+                        else
+                        {
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Failed to repack data from JSON file!"));
+                        }
+
+                        BeginInvoke(new Action(() => EnableDisableGUI(true)));
+                    }
+                });
+            }
         }
 
         private void UnpkAsTXTButton_Click(object sender, EventArgs e)
@@ -138,7 +160,7 @@ namespace WhiteFilelistManager
 
                     try
                     {
-                        FilelistFunctions.UnpackFilelist(FilelistFunctions.ParseType.txt, gameCode, FilelistSelect.FileName);
+                        FilelistFunctions.UnpackFilelist(gameCode, FilelistSelect.FileName, FilelistFunctions.ParseType.txt);
                         CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected filelist is now unpacked as text file(s)", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
                     }
                     catch (Exception ex)
@@ -165,27 +187,49 @@ namespace WhiteFilelistManager
 
         private void RpkTxtButton_Click(object sender, EventArgs e)
         {
-            var gameCode = GetGameCode();
-            EnableDisableGUI(false);
-
-            Task.Run(() =>
+            var txtFilesDir = new FolderBrowserDialog
             {
-                bool success = true;
+                Description = "Select unpacked filelist folder",
+                UseDescriptionForTitle = true,
+                AutoUpgradeEnabled = true
+            };
 
-                try
-                {
+            if (txtFilesDir.ShowDialog() == DialogResult.OK)
+            {
+                AppStatusStripLabel.Text = "Repacking data from text files....";
 
-                }
-                catch (Exception ex)
+                var gameCode = GetGameCode();
+                EnableDisableGUI(false);
+
+                Task.Run(() =>
                 {
-                    success = false;
-                    ShowException(ex);
-                }
-                finally
-                {
-                    BeginInvoke(new Action(() => EnableDisableGUI(true)));
-                }
-            });
+                    bool success = true;
+
+                    try
+                    {
+                        FilelistFunctions.RepackFilelist(FilelistFunctions.ParseType.txt, txtFilesDir.SelectedPath, gameCode);
+                        CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected directory with text files is now repacked as a filelist", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                    }
+                    catch (Exception ex)
+                    {
+                        success = false;
+                        ShowException(ex);
+                    }
+                    finally
+                    {
+                        if (success)
+                        {
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished repacking data from text files!"));
+                        }
+                        else
+                        {
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Failed to repack data from text files!"));
+                        }
+
+                        BeginInvoke(new Action(() => EnableDisableGUI(true)));
+                    }
+                });
+            }
         }
         #endregion
 

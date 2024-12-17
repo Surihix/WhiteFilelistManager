@@ -102,7 +102,7 @@ namespace WhiteFilelistManager.FilelistHelpers
         }
 
 
-        public static void JsonRepackProcess(FilelistVariables filelistVariables, string jsonFile, GameCode gameCode)
+        public static void JsonRepackProcess(string jsonFile, GameCode gameCode)
         {
 
         }

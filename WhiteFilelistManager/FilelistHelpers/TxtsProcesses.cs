@@ -93,7 +93,7 @@ namespace WhiteFilelistManager.FilelistHelpers
         }
 
 
-        public static void TxtsRepackProcess(FilelistVariables filelistVariables, string txtsDir, GameCode gameCode)
+        public static void TxtsRepackProcess(string txtsDir, GameCode gameCode)
         {
 
         }

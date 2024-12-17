@@ -10,14 +10,19 @@ namespace WhiteFilelistManager.FilelistHelpers
             txt
         }
 
-        public static void UnpackFilelist(ParseType parseType, GameCode gameCode, string filelistFile)
+
+        public static void UnpackFilelist(GameCode gameCode, string filelistFile, ParseType parseType)
         {
             var filelistVariables = new FilelistVariables
             {
-                FilelistOutName = Path.GetFileName(filelistFile)
+                FilelistOutName = Path.GetFileName(filelistFile),
+                MainFilelistFile = filelistFile
             };
 
-            FilelistProcesses.PrepareFilelistVars(filelistVariables, filelistFile);
+            var inFilelistFilePath = Path.GetFullPath(filelistVariables.MainFilelistFile);
+            filelistVariables.MainFilelistDirectory = Path.GetDirectoryName(inFilelistFilePath);
+            filelistVariables.TmpDcryptFilelistFile = Path.Combine(filelistVariables.MainFilelistDirectory, "filelist_tmp.bin");
+
             FilelistCrypto.DecryptProcess(gameCode, filelistVariables);
 
             using (var filelistStream = new FileStream(filelistVariables.MainFilelistFile, FileMode.Open, FileAccess.Read))
@@ -63,9 +68,18 @@ namespace WhiteFilelistManager.FilelistHelpers
         }
 
 
-        public static void RepackFilelist(ParseType parseType, GameCode gameCode, string jsonFileOrTxtDir)
+        public static void RepackFilelist(ParseType parseType, string jsonFileOrTxtDir, GameCode gameCode)
         {
+            switch (parseType)
+            {
+                case ParseType.json:
+                    JsonProcesses.JsonRepackProcess(jsonFileOrTxtDir, gameCode);
+                    break;
 
+                case ParseType.txt:
+                    TxtsProcesses.TxtsRepackProcess(jsonFileOrTxtDir, gameCode);
+                    break;
+            }
         }
     }
 }
