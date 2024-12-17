@@ -53,11 +53,11 @@ namespace WhiteFilelistManager.FilelistHelpers
             switch (parseType)
             {
                 case ParseType.json:
-                    JsonFunctions.JsonUnpackProcess(filelistVariables, gameCode);
+                    JsonProcesses.JsonUnpackProcess(filelistVariables, gameCode);
                     break;
 
                 case ParseType.txt:
-                    TxtsFunctions.TxtsUnpackProcess(filelistVariables, gameCode);
+                    TxtsProcesses.TxtsUnpackProcess(filelistVariables, gameCode);
                     break;
             }
         }

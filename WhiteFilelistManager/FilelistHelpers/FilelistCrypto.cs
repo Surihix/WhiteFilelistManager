@@ -21,8 +21,7 @@ namespace WhiteFilelistManager.FilelistHelpers
 
                 if (filelistVariables.IsEncrypted)
                 {
-                    MessageBox.Show("Detected encrypted filelist file. set the game to 'XIII-2' for handling this type of filelist", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    throw new Exception("Handled");
+                    SharedFunctions.Error("Detected encrypted filelist file. set the game to 'XIII-2' for handling this type of filelist");
                 }
             }
 
@@ -53,8 +52,7 @@ namespace WhiteFilelistManager.FilelistHelpers
 
                     if (cryptBodySize % 8 != 0)
                     {
-                        MessageBox.Show("Length of the body to decrypt/encrypt is not valid", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        throw new Exception();
+                        SharedFunctions.Error("Length of the body to decrypt/encrypt is not valid");
                     }
 
                     encCheckReader.BaseStream.Position = 32 + cryptBodySize - 8;
@@ -94,8 +92,7 @@ namespace WhiteFilelistManager.FilelistHelpers
                             {
                                 decFilelistReader.Dispose();
 
-                                MessageBox.Show("Filelist was not decrypted correctly", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                throw new Exception("Handled");
+                                SharedFunctions.Error("Filelist was not decrypted correctly");
                             }
                         }
 
