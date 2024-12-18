@@ -23,13 +23,13 @@ namespace WhiteFilelistManager.FilelistHelpers
                 if (gameCode == GameCode.ff132)
                 {
                     infoStreamWriter.WriteLine($"encrypted: {filelistVariables.IsEncrypted}");
-                }
 
-                if (filelistVariables.IsEncrypted)
-                {
-                    infoStreamWriter.WriteLine($"seedA: {filelistVariables.SeedA}");
-                    infoStreamWriter.WriteLine($"seedB: {filelistVariables.SeedB}");
-                    infoStreamWriter.WriteLine($"encryptionTag(DO_NOT_CHANGE): {filelistVariables.EncTag}");
+                    if (filelistVariables.IsEncrypted)
+                    {
+                        infoStreamWriter.WriteLine($"seedA: {filelistVariables.SeedA}");
+                        infoStreamWriter.WriteLine($"seedB: {filelistVariables.SeedB}");
+                        infoStreamWriter.WriteLine($"encryptionTag(DO_NOT_CHANGE): {filelistVariables.EncTag}");
+                    }
                 }
 
                 infoStreamWriter.WriteLine($"fileCount: {filelistVariables.TotalFiles}");

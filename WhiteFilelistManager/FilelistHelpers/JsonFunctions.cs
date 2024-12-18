@@ -7,10 +7,14 @@ namespace WhiteFilelistManager.FilelistHelpers
         public static void CheckJSONProperty(ref Utf8JsonReader jsonReader, string tokenType, string propertyName)
         {
             CheckTokenType("PropertyName", ref jsonReader, propertyName);
-            CheckPropertyName(ref jsonReader, propertyName);
+
+            if (jsonReader.GetString() != propertyName)
+            {
+                SharedFunctions.Error($"Missing {propertyName} property at expected position");
+            }
+
             CheckTokenType(tokenType, ref jsonReader, propertyName);
         }
-
 
         private static void CheckTokenType(string tokenType, ref Utf8JsonReader jsonReader, string property)
         {
@@ -62,15 +66,6 @@ namespace WhiteFilelistManager.FilelistHelpers
                         SharedFunctions.Error($"Specified {property} property's value is not a string");
                     }
                     break;
-            }
-        }
-
-
-        private static void CheckPropertyName(ref Utf8JsonReader jsonReader, string propertyName)
-        {
-            if (jsonReader.GetString() != propertyName)
-            {
-                SharedFunctions.Error($"Missing {propertyName} property at expected position");
             }
         }
     }
