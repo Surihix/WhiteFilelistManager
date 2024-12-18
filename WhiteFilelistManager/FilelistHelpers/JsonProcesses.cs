@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using static WhiteFilelistManager.CoreForm;
 
 namespace WhiteFilelistManager.FilelistHelpers
@@ -157,7 +158,7 @@ namespace WhiteFilelistManager.FilelistHelpers
 
             JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "data");
             JsonFunctions.CheckPropertyName(ref jsonReader, "data");
-            JsonFunctions.CheckTokenType("Object_Start", ref jsonReader, "data");
+            JsonFunctions.CheckTokenType("Object", ref jsonReader, "data");
 
             var newChunksDict = new Dictionary<int, List<byte>>();
             FilelistProcesses.CreateEmptyNewChunksDict(filelistVariables, newChunksDict);
@@ -173,6 +174,83 @@ namespace WhiteFilelistManager.FilelistHelpers
                 using (var entriesWriter = new BinaryWriter(entriesStream))
                 {
 
+                    var oddChunkCounter = 0;
+                    long entriesWriterPos = 0;
+
+                    for (int c = 0; c < filelistVariables.TotalChunks; c++)
+                    {
+                        JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, $"Chunk_{c}");
+                        JsonFunctions.CheckPropertyName(ref jsonReader, $"Chunk_{c}");
+                        JsonFunctions.CheckTokenType("Array", ref jsonReader, $"Chunk_{c}");
+
+                        while (true)
+                        {
+                            _ = jsonReader.Read();
+
+                            if (jsonReader.TokenType == JsonTokenType.EndArray)
+                            {
+                                oddChunkCounter++;
+                                break;
+                            }
+
+                            JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "fileCode");
+                            JsonFunctions.CheckPropertyName(ref jsonReader, "fileCode");
+                            JsonFunctions.CheckTokenType("Number", ref jsonReader, "fileCode");
+                            filelistVariables.FileCode = jsonReader.GetUInt32();
+
+                            entriesWriter.BaseStream.Position = entriesWriterPos;
+                            entriesWriter.WriteBytesUInt32(filelistVariables.FileCode, false);
+
+                            if (gameCode == GameCode.ff131)
+                            {
+                                entriesWriter.BaseStream.Position = entriesWriterPos + 4;
+                                entriesWriter.WriteBytesUInt16((ushort)c, false);
+
+                                entriesWriter.BaseStream.Position = entriesWriterPos + 6;
+                                entriesWriter.WriteBytesUInt16(0, false);
+                            }
+                            else
+                            {
+                                JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "fileTypeID");
+                                JsonFunctions.CheckPropertyName(ref jsonReader, "fileTypeID");
+                                JsonFunctions.CheckTokenType("Number", ref jsonReader, "fileTypeID");
+                                filelistVariables.FileTypeID = jsonReader.GetByte();
+
+                                entriesWriter.BaseStream.Position = entriesWriterPos + 4;
+
+                                if (oddChunkNumValues.Contains(c))
+                                {
+                                    oddChunkCounter = oddChunkNumValues.IndexOf(c);
+                                    entriesWriter.WriteBytesUInt16(32768, false);
+                                }
+                                else
+                                {
+                                    entriesWriter.WriteBytesUInt16(0, false);
+                                }
+
+                                entriesWriter.BaseStream.Position = entriesWriterPos + 6;
+                                entriesWriter.Write((byte)oddChunkCounter);
+
+                                entriesWriter.BaseStream.Position = entriesWriterPos + 7;
+                                entriesWriter.Write(filelistVariables.FileTypeID);
+                            }
+
+                            JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "filePath");
+                            JsonFunctions.CheckPropertyName(ref jsonReader, "filePath");
+                            JsonFunctions.CheckTokenType("String", ref jsonReader, "filePath");
+                            filelistVariables.PathString = jsonReader.GetString();
+
+                            newChunksDict[c].AddRange(Encoding.UTF8.GetBytes(filelistVariables.PathString + "\0"));
+
+                            _ = jsonReader.Read();
+
+                            entriesWriterPos += 8;
+                        }
+                    }
+
+                    filelistVariables.EntriesData = new byte[entriesStream.Length];
+                    entriesStream.Seek(0, SeekOrigin.Begin);
+                    entriesStream.Read(filelistVariables.EntriesData, 0, filelistVariables.EntriesData.Length);
                 }
             }
 

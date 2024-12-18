@@ -34,7 +34,7 @@ namespace WhiteFilelistManager.FilelistHelpers
                     }
                     break;
 
-                case "Object_Start":
+                case "Object":
                     if (jsonReader.TokenType != JsonTokenType.StartObject)
                     {
                         SharedFunctions.Error($"Specified {property} property's value is not a start object");
