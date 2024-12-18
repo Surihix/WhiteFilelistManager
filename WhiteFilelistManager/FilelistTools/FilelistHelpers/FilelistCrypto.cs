@@ -1,7 +1,8 @@
-﻿using WhiteFilelistManager.FilelistHelpers.Crypto;
-using static WhiteFilelistManager.CoreForm;
+﻿using WhiteFilelistManager.FilelistTools.FilelistHelpers.Crypto;
+using WhiteFilelistManager.Support;
+using static WhiteFilelistManager.Support.SharedEnums;
 
-namespace WhiteFilelistManager.FilelistHelpers
+namespace WhiteFilelistManager.FilelistTools.FilelistHelpers
 {
     internal class FilelistCrypto
     {
@@ -124,62 +125,62 @@ namespace WhiteFilelistManager.FilelistHelpers
         }
 
 
-        //public static void EncryptProcess(RepackVariables repackVariables, StreamWriter logWriter)
-        //{
-        //    var filelistDataSize = (uint)0;
+        public static void EncryptProcess(string filelistFile)
+        {
+            var filelistDataSize = (uint)0;
 
-        //    // Check filelist size if divisibile by 8
-        //    // and pad in null bytes if not divisible.
-        //    // Then write some null bytes for the size 
-        //    // and hash offsets
-        //    using (var preEncryptedfilelist = new FileStream(repackVariables.NewFilelistFile, FileMode.Append, FileAccess.Write))
-        //    {
-        //        filelistDataSize = (uint)preEncryptedfilelist.Length - 32;
+            // Check filelist size if divisibile by 8
+            // and pad in null bytes if not divisible.
+            // Then write some null bytes for the size 
+            // and hash offsets
+            using (var preEncryptedfilelist = new FileStream(filelistFile, FileMode.Append, FileAccess.Write))
+            {
+                filelistDataSize = (uint)preEncryptedfilelist.Length - 32;
 
-        //        if (filelistDataSize % 8 != 0)
-        //        {
-        //            // Get remainder from the division and
-        //            // reduce the remainder with 8. set that
-        //            // reduced value to a variable
-        //            var remainder = filelistDataSize % 8;
-        //            var increaseByteAmount = 8 - remainder;
+                if (filelistDataSize % 8 != 0)
+                {
+                    // Get remainder from the division and
+                    // reduce the remainder with 8. set that
+                    // reduced value to a variable
+                    var remainder = filelistDataSize % 8;
+                    var increaseByteAmount = 8 - remainder;
 
-        //            // Increase the filelist size with the
-        //            // increase byte variable from the previous step and
-        //            // set this as a variable
-        //            // Then get the amount of null bytes to pad by subtracting 
-        //            // the new size with the filelist size
-        //            var newSize = filelistDataSize + increaseByteAmount;
-        //            var padNulls = newSize - filelistDataSize;
+                    // Increase the filelist size with the
+                    // increase byte variable from the previous step and
+                    // set this as a variable
+                    // Then get the amount of null bytes to pad by subtracting 
+                    // the new size with the filelist size
+                    var newSize = filelistDataSize + increaseByteAmount;
+                    var padNulls = newSize - filelistDataSize;
 
-        //            preEncryptedfilelist.Seek((uint)preEncryptedfilelist.Length, SeekOrigin.Begin);
-        //            preEncryptedfilelist.PadNull(padNulls);
+                    preEncryptedfilelist.Seek((uint)preEncryptedfilelist.Length, SeekOrigin.Begin);
+                    preEncryptedfilelist.PadNull((int)padNulls);
 
-        //            filelistDataSize = newSize;
-        //        }
+                    filelistDataSize = newSize;
+                }
 
-        //        // Add 8 bytes for the size and hash
-        //        // offsets and 8 null bytes
-        //        preEncryptedfilelist.Seek((uint)preEncryptedfilelist.Length, SeekOrigin.Begin);
-        //        preEncryptedfilelist.PadNull(16);
-        //    }
+                // Add 8 bytes for the size and hash
+                // offsets and 8 null bytes
+                preEncryptedfilelist.Seek((uint)preEncryptedfilelist.Length, SeekOrigin.Begin);
+                preEncryptedfilelist.PadNull(16);
+            }
 
-        //    using (var filelistToEncrypt = new FileStream(repackVariables.NewFilelistFile, FileMode.Open, FileAccess.Write))
-        //    {
-        //        using (var filelistToEncryptWriter = new BinaryWriter(filelistToEncrypt))
-        //        {
-        //            filelistToEncrypt.Seek(0, SeekOrigin.Begin);
+            using (var filelistToEncrypt = new FileStream(filelistFile, FileMode.Open, FileAccess.Write))
+            {
+                using (var filelistToEncryptWriter = new BinaryWriter(filelistToEncrypt))
+                {
+                    filelistToEncrypt.Seek(0, SeekOrigin.Begin);
 
-        //            filelistToEncryptWriter.BaseStream.Position = 16;
-        //            filelistToEncryptWriter.WriteBytesUInt32(filelistDataSize, true);
+                    filelistToEncryptWriter.BaseStream.Position = 16;
+                    filelistToEncryptWriter.WriteBytesUInt32(filelistDataSize, true);
 
-        //            filelistToEncryptWriter.BaseStream.Position = (uint)filelistToEncrypt.Length - 16;
-        //            filelistToEncryptWriter.WriteBytesUInt32(filelistDataSize, false);
-        //        }
-        //    }
+                    filelistToEncryptWriter.BaseStream.Position = (uint)filelistToEncrypt.Length - 16;
+                    filelistToEncryptWriter.WriteBytesUInt32(filelistDataSize, false);
+                }
+            }
 
-        //    // Encrypt the filelist file
-        //    CryptFilelist.ProcessFilelist(CryptActions.e, repackVariables.NewFilelistFile);
-        //}
+            // Encrypt the filelist file
+            CryptFilelist.ProcessFilelist(CryptActions.e, filelistFile);
+        }
     }
 }

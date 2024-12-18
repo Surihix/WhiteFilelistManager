@@ -1,16 +1,11 @@
-﻿using static WhiteFilelistManager.CoreForm;
+﻿using WhiteFilelistManager.FilelistTools.FilelistHelpers;
+using WhiteFilelistManager.Support;
+using static WhiteFilelistManager.Support.SharedEnums;
 
-namespace WhiteFilelistManager.FilelistHelpers
+namespace WhiteFilelistManager.FilelistTools
 {
-    internal class FilelistFunctions
+    internal class FilelistToolsCore
     {
-        public enum ParseType
-        {
-            json,
-            txt
-        }
-
-
         public static void UnpackFilelist(GameCode gameCode, string filelistFile, ParseType parseType)
         {
             var filelistVariables = new FilelistVariables
@@ -70,6 +65,8 @@ namespace WhiteFilelistManager.FilelistHelpers
 
         public static void RepackFilelist(ParseType parseType, string jsonFileOrTxtDir, GameCode gameCode)
         {
+            CoreForm.CoreFormInstance.Invoke(new Action(() => BackupOldFilelist(jsonFileOrTxtDir, parseType)));
+
             switch (parseType)
             {
                 case ParseType.json:
@@ -79,6 +76,29 @@ namespace WhiteFilelistManager.FilelistHelpers
                 case ParseType.txt:
                     TxtsProcesses.TxtsRepackProcess(jsonFileOrTxtDir, gameCode);
                     break;
+            }
+        }
+
+
+        private static void BackupOldFilelist(string jsonFileOrTxtDir, ParseType parseType)
+        {            
+            var bckupResult = MessageBox.Show("Backup old Filelist file if present?", "Filelist Backup", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (bckupResult == DialogResult.Yes)
+            {
+                var filelistFile = string.Empty;
+
+                if (parseType == ParseType.json)
+                {
+                    filelistFile = Path.Combine(Path.GetDirectoryName(jsonFileOrTxtDir), Path.GetFileNameWithoutExtension(jsonFileOrTxtDir));
+                }
+                else if (parseType == ParseType.txt)
+                {
+                    filelistFile = Path.Combine(Path.GetDirectoryName(jsonFileOrTxtDir), Path.GetFileName(jsonFileOrTxtDir).Remove(0, 1));
+                }
+
+                SharedFunctions.IfFileExistsDel(filelistFile + ".bak");
+                File.Copy(filelistFile, filelistFile + ".bak");
             }
         }
     }

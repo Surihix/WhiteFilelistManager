@@ -1,8 +1,8 @@
 ﻿using System.IO.Compression;
 
-namespace WhiteFilelistManager.FilelistHelpers
+namespace WhiteFilelistManager.FilelistTools.FilelistHelpers
 {
-    internal class ZlibMethods
+    internal class ZlibFunctions
     {
         public static void ZlibDecompress(Stream cmpStreamName, Stream outStreamName)
         {

@@ -1,7 +1,8 @@
 ﻿using System.Text;
-using static WhiteFilelistManager.CoreForm;
+using WhiteFilelistManager.FilelistTools.FilelistHelpers;
+using static WhiteFilelistManager.Support.SharedEnums;
 
-namespace WhiteFilelistManager.FilelistHelpers
+namespace WhiteFilelistManager.FilelistTools
 {
     internal class TxtsProcesses
     {

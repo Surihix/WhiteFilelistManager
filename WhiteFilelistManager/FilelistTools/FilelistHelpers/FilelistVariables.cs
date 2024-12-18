@@ -1,4 +1,4 @@
-﻿namespace WhiteFilelistManager.FilelistHelpers
+﻿namespace WhiteFilelistManager.FilelistTools.FilelistHelpers
 {
     internal class FilelistVariables
     {

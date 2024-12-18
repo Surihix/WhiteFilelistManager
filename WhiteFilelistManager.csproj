@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="WhiteFilelistManager\PathGenerationHelpers\" />
+    <Folder Include="WhiteFilelistManager\PathGenTools\GenerationHelpers\" />
   </ItemGroup>
 
 </Project>

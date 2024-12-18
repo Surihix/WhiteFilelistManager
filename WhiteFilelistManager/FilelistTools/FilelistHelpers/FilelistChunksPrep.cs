@@ -1,4 +1,4 @@
-﻿namespace WhiteFilelistManager.FilelistHelpers
+﻿namespace WhiteFilelistManager.FilelistTools.FilelistHelpers
 {
     internal class FilelistChunksPrep
     {
@@ -71,7 +71,7 @@
                                 var readCmpBytes = chunkStream.Read(chunkBuffer, 0, chunkBuffer.Length);
                                 chunkToDcmp.Write(chunkBuffer, 0, readCmpBytes);
 
-                                filelistVariables.ChunkDataDict.Add(c, ZlibMethods.ZlibDecompressBuffer(chunkToDcmp));
+                                filelistVariables.ChunkDataDict.Add(c, ZlibFunctions.ZlibDecompressBuffer(chunkToDcmp));
                             }
 
                             chunkInfoReadVal += 12;

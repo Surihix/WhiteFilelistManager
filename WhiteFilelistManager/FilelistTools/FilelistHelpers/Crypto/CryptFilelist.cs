@@ -1,6 +1,7 @@
-﻿using static WhiteFilelistManager.FilelistHelpers.FilelistCrypto;
+﻿using WhiteFilelistManager.Support;
+using static WhiteFilelistManager.FilelistTools.FilelistHelpers.FilelistCrypto;
 
-namespace WhiteFilelistManager.FilelistHelpers.Crypto
+namespace WhiteFilelistManager.FilelistTools.FilelistHelpers.Crypto
 {
     internal class CryptFilelist
     {

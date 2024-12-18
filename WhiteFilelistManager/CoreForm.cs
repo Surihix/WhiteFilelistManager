@@ -1,4 +1,5 @@
-using WhiteFilelistManager.FilelistHelpers;
+using WhiteFilelistManager.FilelistTools;
+using static WhiteFilelistManager.Support.SharedEnums;
 
 namespace WhiteFilelistManager
 {
@@ -37,12 +38,6 @@ namespace WhiteFilelistManager
         }
 
 
-        public enum GameCode
-        {
-            ff131,
-            ff132
-        }
-
         private GameCode GetGameCode()
         {
             if (FF131RadioButton.Checked)
@@ -78,7 +73,7 @@ namespace WhiteFilelistManager
 
                     try
                     {
-                        FilelistFunctions.UnpackFilelist(gameCode, FilelistSelect.FileName, FilelistFunctions.ParseType.json);
+                        FilelistToolsCore.UnpackFilelist(gameCode, FilelistSelect.FileName, ParseType.json);
                         CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected filelist is now unpacked as JSON file", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
                     }
                     catch (Exception ex)
@@ -124,7 +119,7 @@ namespace WhiteFilelistManager
 
                     try
                     {
-                        FilelistFunctions.RepackFilelist(FilelistFunctions.ParseType.json, jsonFileSelect.FileName, gameCode);
+                        FilelistToolsCore.RepackFilelist(ParseType.json, jsonFileSelect.FileName, gameCode);
                         CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected JSON file is now repacked as a filelist", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
                     }
                     catch (Exception ex)
@@ -164,7 +159,7 @@ namespace WhiteFilelistManager
 
                     try
                     {
-                        FilelistFunctions.UnpackFilelist(gameCode, FilelistSelect.FileName, FilelistFunctions.ParseType.txt);
+                        FilelistToolsCore.UnpackFilelist(gameCode, FilelistSelect.FileName, ParseType.txt);
                         CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected filelist is now unpacked as text files", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
                     }
                     catch (Exception ex)
@@ -211,7 +206,7 @@ namespace WhiteFilelistManager
 
                     try
                     {
-                        FilelistFunctions.RepackFilelist(FilelistFunctions.ParseType.txt, txtFilesDir.SelectedPath, gameCode);
+                        FilelistToolsCore.RepackFilelist(ParseType.txt, txtFilesDir.SelectedPath, gameCode);
                         CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected directory with text files is now repacked as a filelist", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
                     }
                     catch (Exception ex)

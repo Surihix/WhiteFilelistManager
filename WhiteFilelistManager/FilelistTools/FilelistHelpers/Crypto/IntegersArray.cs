@@ -1,4 +1,4 @@
-﻿namespace WhiteFilelistManager.FilelistHelpers.Crypto
+﻿namespace WhiteFilelistManager.FilelistTools.FilelistHelpers.Crypto
 {
     internal class IntegersArray
     {

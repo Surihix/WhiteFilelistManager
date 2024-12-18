@@ -1,8 +1,11 @@
 ﻿using System.Text;
 using System.Text.Json;
-using static WhiteFilelistManager.CoreForm;
+using WhiteFilelistManager.FilelistTools.FilelistHelpers;
+using WhiteFilelistManager.FilelistTools.Support;
+using WhiteFilelistManager.Support;
+using static WhiteFilelistManager.Support.SharedEnums;
 
-namespace WhiteFilelistManager.FilelistHelpers
+namespace WhiteFilelistManager.FilelistTools
 {
     internal class JsonProcesses
     {
@@ -132,6 +135,24 @@ namespace WhiteFilelistManager.FilelistHelpers
 
                     JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "encryptionTag(DO_NOT_CHANGE)");
                     filelistVariables.EncTag = jsonReader.GetUInt32();
+
+                    using (var encHeaderStream = new MemoryStream())
+                    {
+                        using (var encHeaderWriter = new BinaryWriter(encHeaderStream))
+                        {
+                            encHeaderStream.Seek(0, SeekOrigin.Begin);
+
+                            encHeaderWriter.WriteBytesUInt64(filelistVariables.SeedA, false);
+                            encHeaderWriter.WriteBytesUInt64(filelistVariables.SeedB, false);
+                            encHeaderWriter.WriteBytesUInt32(0, false);
+                            encHeaderWriter.WriteBytesUInt32(filelistVariables.EncTag, false);
+                            encHeaderWriter.WriteBytesUInt64(0, false);
+
+                            encHeaderStream.Seek(0, SeekOrigin.Begin);
+                            filelistVariables.EncryptedHeaderData = new byte[32];
+                            filelistVariables.EncryptedHeaderData = encHeaderStream.ToArray();
+                        }
+                    }
                 }
             }
 
@@ -162,6 +183,7 @@ namespace WhiteFilelistManager.FilelistHelpers
 
                     for (int c = 0; c < filelistVariables.TotalChunks; c++)
                     {
+                        filelistVariables.LastChunkNumber = c;
                         JsonFunctions.CheckJSONProperty(ref jsonReader, "Array", $"Chunk_{c}");
 
                         while (true)
@@ -232,6 +254,15 @@ namespace WhiteFilelistManager.FilelistHelpers
             filelistVariables.MainFilelistDirectory = Path.GetDirectoryName(jsonFile);
             filelistVariables.FilelistOutName = Path.GetFileNameWithoutExtension(jsonFile);
             filelistVariables.MainFilelistFile = Path.Combine(filelistVariables.MainFilelistDirectory, filelistVariables.FilelistOutName);
+
+            SharedFunctions.IfFileExistsDel(filelistVariables.MainFilelistFile);
+
+            RepackFilelistData.BuildFilelist(filelistVariables, newChunksDict, gameCode);
+
+            if (filelistVariables.IsEncrypted)
+            {
+                FilelistCrypto.EncryptProcess(filelistVariables.MainFilelistFile);
+            }
         }
     }
 }

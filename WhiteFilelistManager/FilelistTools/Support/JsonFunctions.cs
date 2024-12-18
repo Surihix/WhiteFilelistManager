@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
+using WhiteFilelistManager.Support;
 
-namespace WhiteFilelistManager.FilelistHelpers
+namespace WhiteFilelistManager.FilelistTools.Support
 {
     internal class JsonFunctions
     {
