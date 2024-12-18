@@ -20,9 +20,13 @@ namespace WhiteFilelistManager.FilelistHelpers
 
             using (var infoStreamWriter = new StreamWriter(infoFile, true))
             {
+                if (gameCode == GameCode.ff132)
+                {
+                    infoStreamWriter.WriteLine($"encrypted: {filelistVariables.IsEncrypted}");
+                }
+
                 if (filelistVariables.IsEncrypted)
                 {
-                    infoStreamWriter.WriteLine("encrypted: true");
                     infoStreamWriter.WriteLine($"seedA: {filelistVariables.SeedA}");
                     infoStreamWriter.WriteLine($"seedB: {filelistVariables.SeedB}");
                     infoStreamWriter.WriteLine($"encryptionTag(DO_NOT_CHANGE): {filelistVariables.EncTag}");

@@ -20,12 +20,16 @@ namespace WhiteFilelistManager.FilelistHelpers
                 {
                     jsonWriter.WriteStartObject();
 
-                    if (filelistVariables.IsEncrypted)
+                    if (gameCode == GameCode.ff132)
                     {
-                        jsonWriter.WriteBoolean("encrypted", true);
-                        jsonWriter.WriteNumber("seedA", filelistVariables.SeedA);
-                        jsonWriter.WriteNumber("seedB", filelistVariables.SeedB);
-                        jsonWriter.WriteNumber("encryptionTag(DO_NOT_CHANGE)", filelistVariables.EncTag);
+                        jsonWriter.WriteBoolean("encrypted", filelistVariables.IsEncrypted);
+
+                        if (filelistVariables.IsEncrypted)
+                        {
+                            jsonWriter.WriteNumber("seedA", filelistVariables.SeedA);
+                            jsonWriter.WriteNumber("seedB", filelistVariables.SeedB);
+                            jsonWriter.WriteNumber("encryptionTag(DO_NOT_CHANGE)", filelistVariables.EncTag);
+                        }
                     }
 
                     jsonWriter.WriteNumber("fileCount", filelistVariables.TotalFiles);
@@ -112,7 +116,6 @@ namespace WhiteFilelistManager.FilelistHelpers
 
             var jsonReader = new Utf8JsonReader(jsonData, options);
             _ = jsonReader.Read();
-
 
             if (gameCode == GameCode.ff132)
             {
