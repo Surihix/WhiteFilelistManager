@@ -27,10 +27,6 @@ namespace WhiteFilelistManager.FilelistHelpers
                     infoStreamWriter.WriteLine($"seedB: {filelistVariables.SeedB}");
                     infoStreamWriter.WriteLine($"encryptionTag(DO_NOT_CHANGE): {filelistVariables.EncTag}");
                 }
-                else
-                {
-                    infoStreamWriter.WriteLine("encrypted: false");
-                }
 
                 infoStreamWriter.WriteLine($"fileCount: {filelistVariables.TotalFiles}");
                 infoStreamWriter.WriteLine($"chunkCount: {filelistVariables.TotalChunks}");

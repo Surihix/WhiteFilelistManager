@@ -14,10 +14,14 @@ namespace WhiteFilelistManager
         }
 
 
-        private void EnableDisableGUI(bool isEnabled)
+        private void CoreForm_Shown(object sender, EventArgs e)
         {
             CoreFormInstance = (CoreForm)Application.OpenForms["CoreForm"];
+        }
 
+
+        private void EnableDisableGUI(bool isEnabled)
+        {
             GameSelectGroupBox.Enabled = isEnabled;
             FilelistToolsGroupBox.Enabled = isEnabled;
             PathGenToolsGroupBox.Enabled = isEnabled;
@@ -28,7 +32,7 @@ namespace WhiteFilelistManager
         {
             if (ex.Message.ToString() != "Handled")
             {
-                CoreFormInstance.Invoke(new Action(() => MessageBox.Show($"An exception has occured\n{ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)));                
+                CoreFormInstance.Invoke(new Action(() => MessageBox.Show($"An exception has occured\n{ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)));
             }
         }
 
@@ -149,7 +153,7 @@ namespace WhiteFilelistManager
         {
             if (FilelistSelect.ShowDialog() == DialogResult.OK)
             {
-                AppStatusStripLabel.Text = "Unpacking data to text file(s)....";
+                AppStatusStripLabel.Text = "Unpacking data to text files....";
 
                 var gameCode = GetGameCode();
                 EnableDisableGUI(false);
@@ -161,7 +165,7 @@ namespace WhiteFilelistManager
                     try
                     {
                         FilelistFunctions.UnpackFilelist(gameCode, FilelistSelect.FileName, FilelistFunctions.ParseType.txt);
-                        CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected filelist is now unpacked as text file(s)", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                        CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected filelist is now unpacked as text files", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
                     }
                     catch (Exception ex)
                     {
@@ -172,11 +176,11 @@ namespace WhiteFilelistManager
                     {
                         if (success)
                         {
-                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished unpacking data to text file(s)!"));
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished unpacking data to text files!"));
                         }
                         else
                         {
-                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Failed to unpack data to text file(s)!"));
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Failed to unpack data to text files!"));
                         }
 
                         BeginInvoke(new Action(() => EnableDisableGUI(true)));

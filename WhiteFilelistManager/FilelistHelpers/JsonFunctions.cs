@@ -4,7 +4,15 @@ namespace WhiteFilelistManager.FilelistHelpers
 {
     internal class JsonFunctions
     {
-        public static void CheckTokenType(string tokenType, ref Utf8JsonReader jsonReader, string property)
+        public static void CheckJSONProperty(ref Utf8JsonReader jsonReader, string tokenType, string propertyName)
+        {
+            CheckTokenType("PropertyName", ref jsonReader, propertyName);
+            CheckPropertyName(ref jsonReader, propertyName);
+            CheckTokenType(tokenType, ref jsonReader, propertyName);
+        }
+
+
+        private static void CheckTokenType(string tokenType, ref Utf8JsonReader jsonReader, string property)
         {
             _ = jsonReader.Read();
 
@@ -58,7 +66,7 @@ namespace WhiteFilelistManager.FilelistHelpers
         }
 
 
-        public static void CheckPropertyName(ref Utf8JsonReader jsonReader, string propertyName)
+        private static void CheckPropertyName(ref Utf8JsonReader jsonReader, string propertyName)
         {
             if (jsonReader.GetString() != propertyName)
             {

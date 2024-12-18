@@ -272,6 +272,7 @@
             MaximizeBox = false;
             Name = "CoreForm";
             Text = "White Filelist Manager";
+            Shown += CoreForm_Shown;
             GameSelectGroupBox.ResumeLayout(false);
             GameSelectGroupBox.PerformLayout();
             FilelistToolsGroupBox.ResumeLayout(false);

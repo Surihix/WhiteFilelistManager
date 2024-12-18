@@ -27,10 +27,6 @@ namespace WhiteFilelistManager.FilelistHelpers
                         jsonWriter.WriteNumber("seedB", filelistVariables.SeedB);
                         jsonWriter.WriteNumber("encryptionTag(DO_NOT_CHANGE)", filelistVariables.EncTag);
                     }
-                    else
-                    {
-                        jsonWriter.WriteBoolean("encrypted", false);
-                    }
 
                     jsonWriter.WriteNumber("fileCount", filelistVariables.TotalFiles);
                     jsonWriter.WriteNumber("chunkCount", filelistVariables.TotalChunks);
@@ -57,7 +53,6 @@ namespace WhiteFilelistManager.FilelistHelpers
 
                                     jsonWriter.WriteStartObject();
                                     jsonWriter.WriteNumber("fileCode", filelistVariables.FileCode);
-
                                 }
                                 else if (gameCode == GameCode.ff132)
                                 {
@@ -118,47 +113,32 @@ namespace WhiteFilelistManager.FilelistHelpers
             var jsonReader = new Utf8JsonReader(jsonData, options);
             _ = jsonReader.Read();
 
-            JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "encrypted");
-            JsonFunctions.CheckPropertyName(ref jsonReader, "encrypted");
-            JsonFunctions.CheckTokenType("Bool", ref jsonReader, "encrypted");
-            filelistVariables.IsEncrypted = jsonReader.GetBoolean();
 
-            if (gameCode == GameCode.ff131 && filelistVariables.IsEncrypted)
+            if (gameCode == GameCode.ff132)
             {
-                SharedFunctions.Error("XIII-1 filelists cannot be encrypted. make sure the encrypted property's value is set to false.");
+                JsonFunctions.CheckJSONProperty(ref jsonReader, "Bool", "encrypted");
+                filelistVariables.IsEncrypted = jsonReader.GetBoolean();
+
+                if (filelistVariables.IsEncrypted)
+                {
+                    JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "seedA");
+                    filelistVariables.SeedA = jsonReader.GetUInt64();
+
+                    JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "seedB");
+                    filelistVariables.SeedB = jsonReader.GetUInt64();
+
+                    JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "encryptionTag(DO_NOT_CHANGE)");
+                    filelistVariables.EncTag = jsonReader.GetUInt32();
+                }
             }
 
-            if (gameCode == GameCode.ff132 && filelistVariables.IsEncrypted)
-            {
-                JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "seedA");
-                JsonFunctions.CheckPropertyName(ref jsonReader, "seedA");
-                JsonFunctions.CheckTokenType("Number", ref jsonReader, "seedA");
-                filelistVariables.SeedA = jsonReader.GetUInt64();
-
-                JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "seedB");
-                JsonFunctions.CheckPropertyName(ref jsonReader, "seedB");
-                JsonFunctions.CheckTokenType("Number", ref jsonReader, "seedB");
-                filelistVariables.SeedB = jsonReader.GetUInt64();
-
-                JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "encryptionTag(DO_NOT_CHANGE)");
-                JsonFunctions.CheckPropertyName(ref jsonReader, "encryptionTag(DO_NOT_CHANGE)");
-                JsonFunctions.CheckTokenType("Number", ref jsonReader, "encryptionTag(DO_NOT_CHANGE)");
-                filelistVariables.EncTag = jsonReader.GetUInt32();
-            }
-
-            JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "fileCount");
-            JsonFunctions.CheckPropertyName(ref jsonReader, "fileCount");
-            JsonFunctions.CheckTokenType("Number", ref jsonReader, "fileCount");
+            JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "fileCount");
             filelistVariables.TotalFiles = jsonReader.GetUInt32();
 
-            JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "chunkCount");
-            JsonFunctions.CheckPropertyName(ref jsonReader, "chunkCount");
-            JsonFunctions.CheckTokenType("Number", ref jsonReader, "chunkCount");
+            JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "chunkCount");
             filelistVariables.TotalChunks = jsonReader.GetUInt32();
 
-            JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "data");
-            JsonFunctions.CheckPropertyName(ref jsonReader, "data");
-            JsonFunctions.CheckTokenType("Object", ref jsonReader, "data");
+            JsonFunctions.CheckJSONProperty(ref jsonReader, "Object", "data");
 
             var newChunksDict = new Dictionary<int, List<byte>>();
             FilelistProcesses.CreateEmptyNewChunksDict(filelistVariables, newChunksDict);
@@ -179,9 +159,7 @@ namespace WhiteFilelistManager.FilelistHelpers
 
                     for (int c = 0; c < filelistVariables.TotalChunks; c++)
                     {
-                        JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, $"Chunk_{c}");
-                        JsonFunctions.CheckPropertyName(ref jsonReader, $"Chunk_{c}");
-                        JsonFunctions.CheckTokenType("Array", ref jsonReader, $"Chunk_{c}");
+                        JsonFunctions.CheckJSONProperty(ref jsonReader, "Array", $"Chunk_{c}");
 
                         while (true)
                         {
@@ -193,9 +171,7 @@ namespace WhiteFilelistManager.FilelistHelpers
                                 break;
                             }
 
-                            JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "fileCode");
-                            JsonFunctions.CheckPropertyName(ref jsonReader, "fileCode");
-                            JsonFunctions.CheckTokenType("Number", ref jsonReader, "fileCode");
+                            JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "fileCode");
                             filelistVariables.FileCode = jsonReader.GetUInt32();
 
                             entriesWriter.BaseStream.Position = entriesWriterPos;
@@ -211,9 +187,7 @@ namespace WhiteFilelistManager.FilelistHelpers
                             }
                             else
                             {
-                                JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "fileTypeID");
-                                JsonFunctions.CheckPropertyName(ref jsonReader, "fileTypeID");
-                                JsonFunctions.CheckTokenType("Number", ref jsonReader, "fileTypeID");
+                                JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "fileTypeID");
                                 filelistVariables.FileTypeID = jsonReader.GetByte();
 
                                 entriesWriter.BaseStream.Position = entriesWriterPos + 4;
@@ -235,9 +209,7 @@ namespace WhiteFilelistManager.FilelistHelpers
                                 entriesWriter.Write(filelistVariables.FileTypeID);
                             }
 
-                            JsonFunctions.CheckTokenType("PropertyName", ref jsonReader, "filePath");
-                            JsonFunctions.CheckPropertyName(ref jsonReader, "filePath");
-                            JsonFunctions.CheckTokenType("String", ref jsonReader, "filePath");
+                            JsonFunctions.CheckJSONProperty(ref jsonReader, "String", "filePath");
                             filelistVariables.PathString = jsonReader.GetString();
 
                             newChunksDict[c].AddRange(Encoding.UTF8.GetBytes(filelistVariables.PathString + "\0"));
@@ -254,6 +226,9 @@ namespace WhiteFilelistManager.FilelistHelpers
                 }
             }
 
+            filelistVariables.MainFilelistDirectory = Path.GetDirectoryName(jsonFile);
+            filelistVariables.FilelistOutName = Path.GetFileNameWithoutExtension(jsonFile);
+            filelistVariables.MainFilelistFile = Path.Combine(filelistVariables.MainFilelistDirectory, filelistVariables.FilelistOutName);
         }
     }
 }
