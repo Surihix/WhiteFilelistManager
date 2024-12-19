@@ -90,7 +90,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                     fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
-                    PathGenCore.FileCodeAndTypeID = fileCode;
+                    GenerationVariables.FileCode = fileCode;
                 }
                 else
                 {
@@ -168,7 +168,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
-                                        PathGenCore.FileCodeAndTypeID = fileCode;
+                                        GenerationVariables.FileCode = fileCode;
+                                        GenerationVariables.FileTypeID = "64";
                                     }
                                     else if (!virtualPath.EndsWith("vwx.bin"))
                                     {
@@ -204,7 +205,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
-                                        PathGenCore.FileCodeAndTypeID = fileCode;
+                                        GenerationVariables.FileCode = fileCode;
+                                        GenerationVariables.FileTypeID = "178";
                                     }
                                     else
                                     {
@@ -262,7 +264,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
-                            PathGenCore.FileCodeAndTypeID = fileCode;
+                            GenerationVariables.FileCode = fileCode;
+                            GenerationVariables.FileTypeID = "176";
                         }
                         else
                         {
@@ -339,7 +342,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
-                            PathGenCore.FileCodeAndTypeID = fileCode;
+                            GenerationVariables.FileCode = fileCode;
+                            GenerationVariables.FileTypeID = "177";
                         }
                         else
                         {
@@ -386,7 +390,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
-                            PathGenCore.FileCodeAndTypeID = fileCode;
+                            GenerationVariables.FileCode = fileCode;
+                            GenerationVariables.FileTypeID = "176";
                         }
                         else
                         {
