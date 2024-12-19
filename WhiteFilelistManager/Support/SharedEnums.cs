@@ -13,5 +13,12 @@
             json,
             txt
         }
+
+        public enum GameID
+        {
+            xiii,
+            xiii2,
+            xiii3
+        }
     }
 }

@@ -1,4 +1,5 @@
 using WhiteFilelistManager.FilelistTools;
+using WhiteFilelistManager.PathGenTools;
 using static WhiteFilelistManager.Support.SharedEnums;
 
 namespace WhiteFilelistManager
@@ -6,6 +7,7 @@ namespace WhiteFilelistManager
     public partial class CoreForm : Form
     {
         public static CoreForm CoreFormInstance { get; set; }
+        public static TextBox OutputTxtBoxInstance { get; set; }
 
         public CoreForm()
         {
@@ -47,6 +49,32 @@ namespace WhiteFilelistManager
             else
             {
                 return GameCode.ff132;
+            }
+        }
+
+
+        private GameID GetGameID()
+        {
+            if (FF131RadioButton.Checked)
+            {
+                return GameID.xiii;
+            }
+            else if (FF132RadioButton.Checked)
+            {
+                return GameID.xiii2;
+            }
+            else
+            {
+                return GameID.xiii3;
+            }
+        }
+
+
+        private void SetOutputTxtBox()
+        {
+            if (OutputTxtBoxInstance == null)
+            {
+                OutputTxtBoxInstance = OutputTxtBox;
             }
         }
 
@@ -236,7 +264,13 @@ namespace WhiteFilelistManager
         #region Path Generator tools
         private void GenerateJSONButton_Click(object sender, EventArgs e)
         {
-            var gameCode = GetGameCode();
+            SetOutputTxtBox();
+
+            var virtualPath = VPathTxtBox.Text;
+
+            AppStatusStripLabel.Text = "Generating JSON output....";
+
+            var gameID = GetGameID();
             EnableDisableGUI(false);
 
             Task.Run(() =>
@@ -245,7 +279,9 @@ namespace WhiteFilelistManager
 
                 try
                 {
-
+                    var jsonOutput = PathGenCore.GenerateOutput(virtualPath, ParseType.json, gameID);
+                    BeginInvoke(new Action(() => OutputTxtBoxInstance.Text = jsonOutput));
+                    CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Generated JSON output for the specified virtual path", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
                 }
                 catch (Exception ex)
                 {
@@ -254,6 +290,15 @@ namespace WhiteFilelistManager
                 }
                 finally
                 {
+                    if (success)
+                    {
+                        BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished generating JSON output!"));
+                    }
+                    else
+                    {
+                        BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Failed to generate JSON output!"));
+                    }
+
                     BeginInvoke(new Action(() => EnableDisableGUI(true)));
                 }
             });
@@ -261,7 +306,13 @@ namespace WhiteFilelistManager
 
         private void GenerateTXTButton_Click(object sender, EventArgs e)
         {
-            var gameCode = GetGameCode();
+            SetOutputTxtBox();
+
+            var virtualPath = VPathTxtBox.Text;
+
+            AppStatusStripLabel.Text = "Generating TXT output....";
+
+            var gameID = GetGameID();
             EnableDisableGUI(false);
 
             Task.Run(() =>
@@ -270,7 +321,9 @@ namespace WhiteFilelistManager
 
                 try
                 {
-
+                    var txtOutput = PathGenCore.GenerateOutput(virtualPath, ParseType.txt, gameID);
+                    BeginInvoke(new Action(() => OutputTxtBoxInstance.Text = txtOutput));
+                    CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Generated TXT output for the specified virtual path", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
                 }
                 catch (Exception ex)
                 {
@@ -279,6 +332,15 @@ namespace WhiteFilelistManager
                 }
                 finally
                 {
+                    if (success)
+                    {
+                        BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished generating TXT output!"));
+                    }
+                    else
+                    {
+                        BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Failed to generate TXT output!"));
+                    }
+
                     BeginInvoke(new Action(() => EnableDisableGUI(true)));
                 }
             });

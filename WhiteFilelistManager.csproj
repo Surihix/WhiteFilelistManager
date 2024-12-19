@@ -9,8 +9,4 @@
     <Company>Surihix</Company>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="WhiteFilelistManager\PathGenTools\GenerationHelpers\" />
-  </ItemGroup>
-
 </Project>
