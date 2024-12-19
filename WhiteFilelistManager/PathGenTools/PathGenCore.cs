@@ -29,13 +29,13 @@ namespace WhiteFilelistManager.PathGenTools
                     BtsceneDir.ProcessBtscenePath(virtualPathData, virtualPath, gameID);
                     break;
 
-                //case "chr":
-                //    ChrDir.ProcessChrPath(virtualPathData, virtualPath, gameID);
-                //    break;
+                case "chr":
+                    ChrDir.ProcessChrPath(virtualPathData, virtualPath, gameID);
+                    break;
 
-                //case "event":
-                //    EventDir.ProcessEventPath(virtualPathData, virtualPath, gameID);
-                //    break;
+                case "event":
+                    EventDir.ProcessEventPath(virtualPathData, virtualPath, gameID);
+                    break;
 
                 //case "gui":
                 //    GuiDir.ProcessGuiPath(virtualPathData, virtualPath, gameID);

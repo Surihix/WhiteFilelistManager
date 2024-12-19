@@ -18,7 +18,6 @@ namespace WhiteFilelistManager
         private void InputOkBtn_Click(object sender, EventArgs e)
         {
             GenerationVariables.NumInput = (int)RangeNumericUpDown.Value;
-
             Close();
         }
     }

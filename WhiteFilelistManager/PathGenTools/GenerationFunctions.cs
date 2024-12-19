@@ -4,9 +4,6 @@ namespace WhiteFilelistManager.PathGenTools
 {
     internal class GenerationFunctions
     {
-        public static int NumInput { get; set; }
-
-
         public static readonly List<char> LettersList = new List<char>
         {
             'a','b','c','d','e','f','g','h','i','j','k','l','m',
@@ -53,6 +50,14 @@ namespace WhiteFilelistManager.PathGenTools
             {
                 return -1;
             }
+        }
+
+
+        public static void UserInput(string formTitle, string rangeTxt, int min, int max)
+        {
+            var numInputForm = new InputForm(formTitle, rangeTxt, min, max);
+            System.Media.SystemSounds.Asterisk.Play();
+            numInputForm.ShowDialog();
         }
     }
 }
