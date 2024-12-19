@@ -206,7 +206,19 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                                         GenerationVariables.FileCode = fileCode;
-                                        GenerationVariables.FileTypeID = "178";
+
+                                        if (virtualPathData[2] == "wdb")
+                                        {
+                                            GenerationVariables.FileTypeID = "177";
+                                        }
+                                        else if (virtualPathData[2] == "clb") 
+                                        {
+                                            GenerationVariables.FileTypeID = "178";
+                                        }
+                                        else
+                                        {
+                                            SharedFunctions.Error("Unable to generate filecode. check if the path starts with a valid directory.");
+                                        }
                                     }
                                     else
                                     {
