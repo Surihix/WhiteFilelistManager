@@ -37,29 +37,29 @@ namespace WhiteFilelistManager.PathGenTools
                     EventDir.ProcessEventPath(virtualPathData, virtualPath, gameID);
                     break;
 
-                //case "gui":
-                //    GuiDir.ProcessGuiPath(virtualPathData, virtualPath, gameID);
-                //    break;
+                case "gui":
+                    GuiDir.ProcessGuiPath(virtualPathData, virtualPath, gameID);
+                    break;
 
-                //case "mot":
-                //    MotDir.ProcessMotPath(virtualPathData, virtualPath, gameID);
-                //    break;
+                case "mot":
+                    MotDir.ProcessMotPath(virtualPathData, virtualPath, gameID);
+                    break;
 
-                //case "sound":
-                //    SoundDir.ProcessSoundPath(virtualPathData, virtualPath, gameID);
-                //    break;
+                case "sound":
+                    SoundDir.ProcessSoundPath(virtualPathData, virtualPath, gameID);
+                    break;
 
-                //case "txtres":
-                //    TxtresDir.ProcessTxtresPath(virtualPathData, virtualPath, gameID);
-                //    break;
+                case "txtres":
+                    TxtresDir.ProcessTxtresPath(virtualPathData, virtualPath, gameID);
+                    break;
 
-                //case "vfx":
-                //    VfxDir.ProcessVfxPath(virtualPathData, virtualPath, gameID);
-                //    break;
+                case "vfx":
+                    VfxDir.ProcessVfxPath(virtualPathData, virtualPath, gameID);
+                    break;
 
-                //case "zone":
-                //    ZoneDir.ProcessZonePath(virtualPathData, virtualPath, gameID);
-                //    break;
+                case "zone":
+                    ZoneDir.ProcessZonePath(virtualPathData, virtualPath, gameID);
+                    break;
 
                 default:
                     SharedFunctions.Error("Valid root directory is not specified");
