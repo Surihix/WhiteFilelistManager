@@ -215,7 +215,7 @@ namespace WhiteFilelistManager.FilelistTools
                             {
                                 if (currentEntryData.Length < 2)
                                 {
-                                    SharedFunctions.Error("");
+                                    SharedFunctions.Error($"Not enough data specified for the entry at line_{l} in 'Chunk_{c}.txt' file. check if the entry contains valid data for the game that is selected in the tool.");
                                 }
 
                                 TxtsFunctions.CheckChunkEntryData(currentEntryData[0], "Uint", c, l);
@@ -236,7 +236,7 @@ namespace WhiteFilelistManager.FilelistTools
                             {
                                 if (currentEntryData.Length < 3)
                                 {
-                                    SharedFunctions.Error("");
+                                    SharedFunctions.Error($"Not enough data specified for the entry at line_{l} in 'Chunk_{c}.txt' file. check if the entry contains valid data for the game that is selected in the tool.");
                                 }
 
                                 TxtsFunctions.CheckChunkEntryData(currentEntryData[0], "Uint", c, l);
