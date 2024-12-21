@@ -25,7 +25,7 @@ namespace WhiteFilelistManager.FilelistTools
             {
                 if (gameCode == GameCode.ff132)
                 {
-                    infoStreamWriter.WriteLine($"encrypted: {filelistVariables.IsEncrypted}");
+                    infoStreamWriter.WriteLine($"encrypted: {filelistVariables.IsEncrypted.ToString().ToLower()}");
 
                     if (filelistVariables.IsEncrypted)
                     {
