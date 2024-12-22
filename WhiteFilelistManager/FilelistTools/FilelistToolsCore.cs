@@ -97,8 +97,11 @@ namespace WhiteFilelistManager.FilelistTools
                     filelistFile = Path.Combine(Path.GetDirectoryName(jsonFileOrTxtDir), Path.GetFileName(jsonFileOrTxtDir).Remove(0, 1));
                 }
 
-                SharedFunctions.IfFileExistsDel(filelistFile + ".bak");
-                File.Copy(filelistFile, filelistFile + ".bak");
+                if (File.Exists(filelistFile))
+                {
+                    SharedFunctions.IfFileExistsDel(filelistFile + ".bak");
+                    File.Copy(filelistFile, filelistFile + ".bak");
+                }
             }
         }
     }
