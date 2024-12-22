@@ -4,7 +4,15 @@ namespace WhiteFilelistManager.FilelistTools.Support
 {
     internal class TxtsFunctions
     {
-        public static void CheckPropertyInInfoFile(string propertyDataRead, string expectedPropertyName, string valueType)
+        public enum TxtValueTypes
+        {
+            Boolean,
+            Byte,
+            Uint,
+            Ulong
+        }
+
+        public static void CheckPropertyInInfoFile(string propertyDataRead, string expectedPropertyName, TxtValueTypes valueType)
         {
             if (!propertyDataRead.StartsWith(expectedPropertyName))
             {
@@ -15,15 +23,15 @@ namespace WhiteFilelistManager.FilelistTools.Support
 
             switch (valueType)
             {
-                case "Boolean":
+                case TxtValueTypes.Boolean:
                     isValidVal = bool.TryParse(propertyDataRead.Split(' ')[1], out _);
                     break;
 
-                case "Uint":
+                case TxtValueTypes.Uint:
                     isValidVal = uint.TryParse(propertyDataRead.Split(' ')[1], out _);
                     break;
 
-                case "Ulong":
+                case TxtValueTypes.Ulong:
                     isValidVal = ulong.TryParse(propertyDataRead.Split(' ')[1], out _);
                     break;           
             }
@@ -35,21 +43,17 @@ namespace WhiteFilelistManager.FilelistTools.Support
         }
 
 
-        public static void CheckChunkEntryData(string currentLine, string entryValueType, int chunkId, int lineNo)
+        public static void CheckChunkEntryData(string currentLine, TxtValueTypes entryValueType, int chunkId, int lineNo)
         {
             var isValidVal = true;
 
             switch (entryValueType)
             {
-                case "Byte":
+                case TxtValueTypes.Byte:
                     isValidVal = byte.TryParse(currentLine, out _);
                     break;
 
-                case "Ushort":
-                    isValidVal = ushort.TryParse(currentLine, out _);
-                    break;
-
-                case "Uint":
+                case TxtValueTypes.Uint:
                     isValidVal = uint.TryParse(currentLine, out _);
                     break;
             }

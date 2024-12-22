@@ -5,9 +5,19 @@ namespace WhiteFilelistManager.FilelistTools.Support
 {
     internal class JsonFunctions
     {
-        public static void CheckJSONProperty(ref Utf8JsonReader jsonReader, string tokenType, string propertyName)
+        public enum TokenTypes
         {
-            CheckTokenType("PropertyName", ref jsonReader, propertyName);
+            Array,
+            Bool,
+            Number,
+            Object,
+            PropertyName,
+            String
+        }
+
+        public static void CheckJSONProperty(ref Utf8JsonReader jsonReader, TokenTypes tokenType, string propertyName)
+        {
+            CheckTokenType(TokenTypes.PropertyName, ref jsonReader, propertyName);
 
             if (jsonReader.GetString() != propertyName)
             {
@@ -17,20 +27,20 @@ namespace WhiteFilelistManager.FilelistTools.Support
             CheckTokenType(tokenType, ref jsonReader, propertyName);
         }
 
-        private static void CheckTokenType(string tokenType, ref Utf8JsonReader jsonReader, string property)
+        public static void CheckTokenType(TokenTypes tokenType, ref Utf8JsonReader jsonReader, string property)
         {
             _ = jsonReader.Read();
 
             switch (tokenType)
             {
-                case "Array":
+                case TokenTypes.Array:
                     if (jsonReader.TokenType != JsonTokenType.StartArray)
                     {
                         SharedFunctions.Error($"Specified {property} property's value is not a number");
                     }
                     break;
 
-                case "Bool":
+                case TokenTypes.Bool:
                     if (jsonReader.TokenType != JsonTokenType.True)
                     {
                         if (jsonReader.TokenType != JsonTokenType.False)
@@ -40,28 +50,28 @@ namespace WhiteFilelistManager.FilelistTools.Support
                     }
                     break;
 
-                case "Number":
+                case TokenTypes.Number:
                     if (jsonReader.TokenType != JsonTokenType.Number)
                     {
                         SharedFunctions.Error($"Specified {property} property's value is not a number");
                     }
                     break;
 
-                case "Object":
+                case TokenTypes.Object:
                     if (jsonReader.TokenType != JsonTokenType.StartObject)
                     {
                         SharedFunctions.Error($"Specified {property} property's value is not a start object");
                     }
                     break;
 
-                case "PropertyName":
+                case TokenTypes.PropertyName:
                     if (jsonReader.TokenType != JsonTokenType.PropertyName)
                     {
                         SharedFunctions.Error($"{property} type is not a valid PropertyName");
                     }
                     break;
 
-                case "String":
+                case TokenTypes.String:
                     if (jsonReader.TokenType != JsonTokenType.String)
                     {
                         SharedFunctions.Error($"Specified {property} property's value is not a string");

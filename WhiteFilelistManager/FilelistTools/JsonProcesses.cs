@@ -122,18 +122,18 @@ namespace WhiteFilelistManager.FilelistTools
 
             if (gameCode == GameCode.ff132)
             {
-                JsonFunctions.CheckJSONProperty(ref jsonReader, "Bool", "encrypted");
+                JsonFunctions.CheckJSONProperty(ref jsonReader, JsonFunctions.TokenTypes.Bool, "encrypted");
                 filelistVariables.IsEncrypted = jsonReader.GetBoolean();
 
                 if (filelistVariables.IsEncrypted)
                 {
-                    JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "seedA");
+                    JsonFunctions.CheckJSONProperty(ref jsonReader, JsonFunctions.TokenTypes.Number, "seedA");
                     filelistVariables.SeedA = jsonReader.GetUInt64();
 
-                    JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "seedB");
+                    JsonFunctions.CheckJSONProperty(ref jsonReader, JsonFunctions.TokenTypes.Number, "seedB");
                     filelistVariables.SeedB = jsonReader.GetUInt64();
 
-                    JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "encryptionTag(DO_NOT_CHANGE)");
+                    JsonFunctions.CheckJSONProperty(ref jsonReader, JsonFunctions.TokenTypes.Number, "encryptionTag(DO_NOT_CHANGE)");
                     filelistVariables.EncTag = jsonReader.GetUInt32();
 
                     using (var encHeaderStream = new MemoryStream())
@@ -156,13 +156,13 @@ namespace WhiteFilelistManager.FilelistTools
                 }
             }
 
-            JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "fileCount");
+            JsonFunctions.CheckJSONProperty(ref jsonReader, JsonFunctions.TokenTypes.Number, "fileCount");
             filelistVariables.TotalFiles = jsonReader.GetUInt32();
 
-            JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "chunkCount");
+            JsonFunctions.CheckJSONProperty(ref jsonReader, JsonFunctions.TokenTypes.Number, "chunkCount");
             filelistVariables.TotalChunks = jsonReader.GetUInt32();
 
-            JsonFunctions.CheckJSONProperty(ref jsonReader, "Object", "data");
+            JsonFunctions.CheckJSONProperty(ref jsonReader, JsonFunctions.TokenTypes.Object, "data");
 
             var newChunksDict = new Dictionary<int, List<byte>>();
             FilelistProcesses.CreateEmptyNewChunksDict(filelistVariables, newChunksDict);
@@ -184,7 +184,7 @@ namespace WhiteFilelistManager.FilelistTools
                     for (int c = 0; c < filelistVariables.TotalChunks; c++)
                     {
                         filelistVariables.LastChunkNumber = c;
-                        JsonFunctions.CheckJSONProperty(ref jsonReader, "Array", $"Chunk_{c}");
+                        JsonFunctions.CheckJSONProperty(ref jsonReader, JsonFunctions.TokenTypes.Array, $"Chunk_{c}");
 
                         while (true)
                         {
@@ -196,7 +196,7 @@ namespace WhiteFilelistManager.FilelistTools
                                 break;
                             }
 
-                            JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "fileCode");
+                            JsonFunctions.CheckJSONProperty(ref jsonReader, JsonFunctions.TokenTypes.Number, "fileCode");
                             filelistVariables.FileCode = jsonReader.GetUInt32();
 
                             entriesWriter.BaseStream.Position = entriesWriterPos;
@@ -212,7 +212,7 @@ namespace WhiteFilelistManager.FilelistTools
                             }
                             else
                             {
-                                JsonFunctions.CheckJSONProperty(ref jsonReader, "Number", "fileTypeID");
+                                JsonFunctions.CheckJSONProperty(ref jsonReader, JsonFunctions.TokenTypes.Number, "fileTypeID");
                                 filelistVariables.FileTypeID = jsonReader.GetByte();
 
                                 entriesWriter.BaseStream.Position = entriesWriterPos + 4;
@@ -234,7 +234,7 @@ namespace WhiteFilelistManager.FilelistTools
                                 entriesWriter.Write(filelistVariables.FileTypeID);
                             }
 
-                            JsonFunctions.CheckJSONProperty(ref jsonReader, "String", "filePath");
+                            JsonFunctions.CheckJSONProperty(ref jsonReader, JsonFunctions.TokenTypes.String, "filePath");
                             filelistVariables.PathString = jsonReader.GetString();
 
                             newChunksDict[c].AddRange(Encoding.UTF8.GetBytes(filelistVariables.PathString + "\0"));

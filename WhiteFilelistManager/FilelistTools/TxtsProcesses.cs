@@ -116,10 +116,10 @@ namespace WhiteFilelistManager.FilelistTools
                     SharedFunctions.Error("Not enough data present in the #info.txt file");
                 }
 
-                TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[0], "fileCount: ", "Uint");
+                TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[0], "fileCount: ", TxtsFunctions.TxtValueTypes.Uint);
                 filelistVariables.TotalFiles = uint.Parse(infoFileLines[0].Split(' ')[1]);
 
-                TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[1], "chunkCount: ", "Uint");
+                TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[1], "chunkCount: ", TxtsFunctions.TxtValueTypes.Uint);
                 filelistVariables.TotalChunks = uint.Parse(infoFileLines[1].Split(' ')[1]);
 
             }
@@ -130,24 +130,24 @@ namespace WhiteFilelistManager.FilelistTools
                     SharedFunctions.Error("Not enough data present in the #info.txt file");
                 }
 
-                TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[0], "encrypted: ", "Boolean");
+                TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[0], "encrypted: ", TxtsFunctions.TxtValueTypes.Boolean);
                 filelistVariables.IsEncrypted = bool.Parse(infoFileLines[0].Split(' ')[1]);
 
                 if (filelistVariables.IsEncrypted)
                 {
-                    TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[1], "seedA: ", "Ulong");
+                    TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[1], "seedA: ", TxtsFunctions.TxtValueTypes.Ulong);
                     filelistVariables.SeedA = ulong.Parse(infoFileLines[1].Split(' ')[1]);
 
-                    TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[2], "seedB: ", "Ulong");
+                    TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[2], "seedB: ", TxtsFunctions.TxtValueTypes.Ulong);
                     filelistVariables.SeedB = ulong.Parse(infoFileLines[2].Split(' ')[1]);
 
-                    TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[3], "encryptionTag(DO_NOT_CHANGE): ", "Uint");
+                    TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[3], "encryptionTag(DO_NOT_CHANGE): ", TxtsFunctions.TxtValueTypes.Uint);
                     filelistVariables.EncTag = uint.Parse(infoFileLines[3].Split(' ')[1]);
 
-                    TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[4], "fileCount: ", "Uint");
+                    TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[4], "fileCount: ", TxtsFunctions.TxtValueTypes.Uint);
                     filelistVariables.TotalFiles = uint.Parse(infoFileLines[4].Split(' ')[1]);
 
-                    TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[5], "chunkCount: ", "Uint");
+                    TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[5], "chunkCount: ", TxtsFunctions.TxtValueTypes.Uint);
                     filelistVariables.TotalChunks = uint.Parse(infoFileLines[5].Split(' ')[1]);
 
                     using (var encHeaderStream = new MemoryStream())
@@ -170,10 +170,10 @@ namespace WhiteFilelistManager.FilelistTools
                 }
                 else
                 {
-                    TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[1], "fileCount: ", "Uint");
+                    TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[1], "fileCount: ", TxtsFunctions.TxtValueTypes.Uint);
                     filelistVariables.TotalFiles = uint.Parse(infoFileLines[1].Split(' ')[1]);
 
-                    TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[2], "chunkCount: ", "Uint");
+                    TxtsFunctions.CheckPropertyInInfoFile(infoFileLines[2], "chunkCount: ", TxtsFunctions.TxtValueTypes.Uint);
                     filelistVariables.TotalChunks = uint.Parse(infoFileLines[2].Split(' ')[1]);
                 }
             }
@@ -218,7 +218,7 @@ namespace WhiteFilelistManager.FilelistTools
                                     SharedFunctions.Error($"Not enough data specified for the entry at line_{l} in 'Chunk_{c}.txt' file. check if the entry contains valid data for the game that is selected in the tool.");
                                 }
 
-                                TxtsFunctions.CheckChunkEntryData(currentEntryData[0], "Uint", c, l);
+                                TxtsFunctions.CheckChunkEntryData(currentEntryData[0], TxtsFunctions.TxtValueTypes.Uint, c, l);
                                 filelistVariables.FileCode = uint.Parse(currentEntryData[0]);
 
                                 entriesWriter.BaseStream.Position = entriesWriterPos;
@@ -239,10 +239,10 @@ namespace WhiteFilelistManager.FilelistTools
                                     SharedFunctions.Error($"Not enough data specified for the entry at line_{l} in 'Chunk_{c}.txt' file. check if the entry contains valid data for the game that is selected in the tool.");
                                 }
 
-                                TxtsFunctions.CheckChunkEntryData(currentEntryData[0], "Uint", c, l);
+                                TxtsFunctions.CheckChunkEntryData(currentEntryData[0], TxtsFunctions.TxtValueTypes.Uint, c, l);
                                 filelistVariables.FileCode = uint.Parse(currentEntryData[0]);
 
-                                TxtsFunctions.CheckChunkEntryData(currentEntryData[1], "Byte", c, l);
+                                TxtsFunctions.CheckChunkEntryData(currentEntryData[1], TxtsFunctions.TxtValueTypes.Byte, c, l);
                                 filelistVariables.FileTypeID = byte.Parse(currentEntryData[1]);
 
                                 entriesWriter.BaseStream.Position = entriesWriterPos;
