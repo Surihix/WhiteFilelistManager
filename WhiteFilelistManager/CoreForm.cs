@@ -8,6 +8,7 @@ namespace WhiteFilelistManager
     {
         public static CoreForm CoreFormInstance { get; set; }
         public static TextBox OutputTxtBoxInstance { get; set; }
+        public static bool IsSetForMorePaths { get; set; }
 
         public CoreForm()
         {
@@ -349,6 +350,16 @@ namespace WhiteFilelistManager
         private void ClearOutputButton_Click(object sender, EventArgs e)
         {
             OutputTxtBox.Clear();
+        }
+
+        private void GenerateMoreJSONButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GenerateMoreTXTButton_Click(object sender, EventArgs e)
+        {
+
         }
         #endregion
     }

@@ -38,6 +38,8 @@
             RpkJSONButton = new Button();
             UnpkAsTXTButton = new Button();
             PathGenToolsGroupBox = new GroupBox();
+            GenerateMoreTXTButton = new Button();
+            GenerateMoreJSONButton = new Button();
             VPathTiplabel = new Label();
             ClearOutputButton = new Button();
             GenerateTXTButton = new Button();
@@ -153,6 +155,8 @@
             // 
             // PathGenToolsGroupBox
             // 
+            PathGenToolsGroupBox.Controls.Add(GenerateMoreTXTButton);
+            PathGenToolsGroupBox.Controls.Add(GenerateMoreJSONButton);
             PathGenToolsGroupBox.Controls.Add(VPathTiplabel);
             PathGenToolsGroupBox.Controls.Add(ClearOutputButton);
             PathGenToolsGroupBox.Controls.Add(GenerateTXTButton);
@@ -163,10 +167,30 @@
             PathGenToolsGroupBox.Controls.Add(VPathTxtBox);
             PathGenToolsGroupBox.Location = new Point(12, 121);
             PathGenToolsGroupBox.Name = "PathGenToolsGroupBox";
-            PathGenToolsGroupBox.Size = new Size(577, 306);
+            PathGenToolsGroupBox.Size = new Size(577, 363);
             PathGenToolsGroupBox.TabIndex = 2;
             PathGenToolsGroupBox.TabStop = false;
             PathGenToolsGroupBox.Text = "Path Generator tools:";
+            // 
+            // GenerateMoreTXTButton
+            // 
+            GenerateMoreTXTButton.Location = new Point(351, 317);
+            GenerateMoreTXTButton.Name = "GenerateMoreTXTButton";
+            GenerateMoreTXTButton.Size = new Size(190, 23);
+            GenerateMoreTXTButton.TabIndex = 9;
+            GenerateMoreTXTButton.Text = "Generate more TXT Paths";
+            GenerateMoreTXTButton.UseVisualStyleBackColor = true;
+            GenerateMoreTXTButton.Click += GenerateMoreTXTButton_Click;
+            // 
+            // GenerateMoreJSONButton
+            // 
+            GenerateMoreJSONButton.Location = new Point(38, 317);
+            GenerateMoreJSONButton.Name = "GenerateMoreJSONButton";
+            GenerateMoreJSONButton.Size = new Size(190, 23);
+            GenerateMoreJSONButton.TabIndex = 8;
+            GenerateMoreJSONButton.Text = "Generate more JSON Paths";
+            GenerateMoreJSONButton.UseVisualStyleBackColor = true;
+            GenerateMoreJSONButton.Click += GenerateMoreJSONButton_Click;
             // 
             // VPathTiplabel
             // 
@@ -247,7 +271,7 @@
             // AppStatusStrip
             // 
             AppStatusStrip.Items.AddRange(new ToolStripItem[] { AppStatusStripLabel });
-            AppStatusStrip.Location = new Point(0, 449);
+            AppStatusStrip.Location = new Point(0, 498);
             AppStatusStrip.Name = "AppStatusStrip";
             AppStatusStrip.Size = new Size(601, 22);
             AppStatusStrip.SizingGrip = false;
@@ -263,7 +287,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(601, 471);
+            ClientSize = new Size(601, 520);
             Controls.Add(AppStatusStrip);
             Controls.Add(PathGenToolsGroupBox);
             Controls.Add(FilelistToolsGroupBox);
@@ -306,5 +330,7 @@
         private Label VPathTiplabel;
         private StatusStrip AppStatusStrip;
         private ToolStripStatusLabel AppStatusStripLabel;
+        private Button GenerateMoreJSONButton;
+        private Button GenerateMoreTXTButton;
     }
 }
