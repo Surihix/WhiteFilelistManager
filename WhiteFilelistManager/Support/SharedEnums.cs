@@ -20,5 +20,11 @@
             xiii2,
             xiii3
         }
+
+        public enum GenerationType
+        {
+            single,
+            batch
+        }
     }
 }

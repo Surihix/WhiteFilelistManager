@@ -350,14 +350,91 @@ namespace WhiteFilelistManager
             OutputTxtBox.Clear();
         }
 
+        private static readonly FolderBrowserDialog DirectorySelect = new()
+        {
+            Description = "Select a directory",
+            UseDescriptionForTitle = true,
+            AutoUpgradeEnabled = true
+        };
+
         private void GenerateJSONDirButton_Click(object sender, EventArgs e)
         {
+            if (DirectorySelect.ShowDialog() == DialogResult.OK)
+            {
+                AppStatusStripLabel.Text = "Generating JSON for directory....";
 
+                var gameID = GetGameID();
+                EnableDisableGUI(false);
+
+                Task.Run(() =>
+                {
+                    bool success = true;
+
+                    try
+                    {
+                        PathGenCore.GenerateForDir(ParseType.json, DirectorySelect.SelectedPath, gameID);
+                        CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Generated JSON for the specified directory", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                    }
+                    catch (Exception ex)
+                    {
+                        success = false;
+                        ShowException(ex);
+                    }
+                    finally
+                    {
+                        if (success)
+                        {
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished generating JSON for the directory!"));
+                        }
+                        else
+                        {
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Failed to generate JSON for the directory!"));
+                        }
+
+                        BeginInvoke(new Action(() => EnableDisableGUI(true)));
+                    }
+                });
+            }
         }
 
         private void GenerateTXTDirButton_Click(object sender, EventArgs e)
         {
+            if (DirectorySelect.ShowDialog() == DialogResult.OK)
+            {
+                AppStatusStripLabel.Text = "Generating TXT for directory....";
 
+                var gameID = GetGameID();
+                EnableDisableGUI(false);
+
+                Task.Run(() =>
+                {
+                    bool success = true;
+
+                    try
+                    {
+                        PathGenCore.GenerateForDir(ParseType.txt, DirectorySelect.SelectedPath, gameID);
+                        CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Generated TXT for the specified directory", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                    }
+                    catch (Exception ex)
+                    {
+                        success = false;
+                        ShowException(ex);
+                    }
+                    finally
+                    {
+                        if (success)
+                        {
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished generating TXT for the directory!"));
+                        }
+                        else
+                        {
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Failed to generate TXT for the directory!"));
+                        }
+
+                        BeginInvoke(new Action(() => EnableDisableGUI(true)));
+                    }
+                });
+            }
         }
         #endregion
     }

@@ -10,6 +10,7 @@ namespace WhiteFilelistManager.PathGenTools
         {
             GenerationVariables.FileCode = string.Empty;
             GenerationVariables.FileTypeID = string.Empty;
+            GenerationVariables.GenerationType = GenerationType.single;
 
             if (string.IsNullOrEmpty(virtualPath) || string.IsNullOrWhiteSpace(virtualPath))
             {
@@ -103,6 +104,40 @@ namespace WhiteFilelistManager.PathGenTools
                 }
 
                 return txtOutput;
+            }
+        }
+
+
+        public static void GenerateForDir(ParseType parseType, string directoryPath, GameID gameID)
+        {
+            GenerationVariables.FileCode = string.Empty;
+            GenerationVariables.FileTypeID = string.Empty;
+            GenerationVariables.GenerationType = GenerationType.batch;
+
+            var filesInDir = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
+            Array.Sort(filesInDir);
+
+            string currentFilePath;
+            var dirNameLength = directoryPath.Length;
+
+            for (int i = 0; i < filesInDir.Length; i++)
+            {
+                currentFilePath = filesInDir[i].Remove(0, dirNameLength + 1).Replace("\\", "/");
+                filesInDir[i] = currentFilePath;
+            }
+
+            foreach (var file in filesInDir)
+            {
+
+            }
+
+            if (parseType == ParseType.json)
+            {
+
+            }
+            else
+            {
+
             }
         }
     }

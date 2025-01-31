@@ -159,8 +159,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         var reservedBits = "0000000000";
 
                         // 10 bits
-                        GenerationFunctions.UserInput("Enter Zone ID", "Must be from 0 to 255", 0, 255);
-                        zoneID = GenerationVariables.NumInput;
+                        zoneID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
                         zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(10, '0');
 
                         // Assemble bits
@@ -345,8 +344,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         reservedBits = "00000000000000";
 
                         // 10 bits
-                        GenerationFunctions.UserInput("Enter Zone ID", "Must be from 0 to 1000", 0, 1000);
-                        zoneID = GenerationVariables.NumInput;
+                        zoneID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
                         zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(10, '0');
 
                         // Assemble bits
