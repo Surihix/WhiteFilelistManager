@@ -1,4 +1,4 @@
-﻿namespace WhiteFilelistManager
+namespace WhiteFilelistManager
 {
     partial class CoreForm
     {

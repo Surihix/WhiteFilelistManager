@@ -8,6 +8,7 @@ namespace WhiteFilelistManager
     {
         public static CoreForm CoreFormInstance { get; set; }
         public static TextBox OutputTxtBoxInstance { get; set; }
+        public static bool IsSetForMorePaths { get; set; }
 
         public CoreForm()
         {
