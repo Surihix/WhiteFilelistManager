@@ -350,6 +350,16 @@ namespace WhiteFilelistManager
         {
             OutputTxtBox.Clear();
         }
+
+        private void GenerateJSONDirButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GenerateTXTDirButton_Click(object sender, EventArgs e)
+        {
+
+        }
         #endregion
     }
 }
