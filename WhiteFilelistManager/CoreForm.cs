@@ -352,12 +352,12 @@ namespace WhiteFilelistManager
             OutputTxtBox.Clear();
         }
 
-        private void GenerateMoreJSONButton_Click(object sender, EventArgs e)
+        private void GenerateJSONDirButton_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void GenerateMoreTXTButton_Click(object sender, EventArgs e)
+        private void GenerateTXTDirButton_Click(object sender, EventArgs e)
         {
 
         }

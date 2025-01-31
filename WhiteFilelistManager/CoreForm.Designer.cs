@@ -1,4 +1,4 @@
-﻿namespace WhiteFilelistManager
+namespace WhiteFilelistManager
 {
     partial class CoreForm
     {
@@ -38,21 +38,27 @@
             RpkJSONButton = new Button();
             UnpkAsTXTButton = new Button();
             PathGenToolsGroupBox = new GroupBox();
-            GenerateMoreTXTButton = new Button();
-            GenerateMoreJSONButton = new Button();
+            TabControl = new TabControl();
+            SingleModePage = new TabPage();
             VPathTiplabel = new Label();
             ClearOutputButton = new Button();
-            GenerateTXTButton = new Button();
-            GenerateJSONButton = new Button();
-            OutputLabel = new Label();
             VPathLabel = new Label();
             OutputTxtBox = new TextBox();
+            OutputLabel = new Label();
+            GenerateTXTButton = new Button();
             VPathTxtBox = new TextBox();
+            GenerateJSONButton = new Button();
+            BatchModePage = new TabPage();
+            GenerateTXTDirButton = new Button();
+            GenerateJSONDirButton = new Button();
             AppStatusStrip = new StatusStrip();
             AppStatusStripLabel = new ToolStripStatusLabel();
             GameSelectGroupBox.SuspendLayout();
             FilelistToolsGroupBox.SuspendLayout();
             PathGenToolsGroupBox.SuspendLayout();
+            TabControl.SuspendLayout();
+            SingleModePage.SuspendLayout();
+            BatchModePage.SuspendLayout();
             AppStatusStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -155,47 +161,46 @@
             // 
             // PathGenToolsGroupBox
             // 
-            PathGenToolsGroupBox.Controls.Add(GenerateMoreTXTButton);
-            PathGenToolsGroupBox.Controls.Add(GenerateMoreJSONButton);
-            PathGenToolsGroupBox.Controls.Add(VPathTiplabel);
-            PathGenToolsGroupBox.Controls.Add(ClearOutputButton);
-            PathGenToolsGroupBox.Controls.Add(GenerateTXTButton);
-            PathGenToolsGroupBox.Controls.Add(GenerateJSONButton);
-            PathGenToolsGroupBox.Controls.Add(OutputLabel);
-            PathGenToolsGroupBox.Controls.Add(VPathLabel);
-            PathGenToolsGroupBox.Controls.Add(OutputTxtBox);
-            PathGenToolsGroupBox.Controls.Add(VPathTxtBox);
+            PathGenToolsGroupBox.Controls.Add(TabControl);
             PathGenToolsGroupBox.Location = new Point(12, 121);
             PathGenToolsGroupBox.Name = "PathGenToolsGroupBox";
-            PathGenToolsGroupBox.Size = new Size(577, 363);
+            PathGenToolsGroupBox.Size = new Size(577, 364);
             PathGenToolsGroupBox.TabIndex = 2;
             PathGenToolsGroupBox.TabStop = false;
             PathGenToolsGroupBox.Text = "Path Generator tools:";
             // 
-            // GenerateMoreTXTButton
+            // TabControl
             // 
-            GenerateMoreTXTButton.Location = new Point(351, 317);
-            GenerateMoreTXTButton.Name = "GenerateMoreTXTButton";
-            GenerateMoreTXTButton.Size = new Size(190, 23);
-            GenerateMoreTXTButton.TabIndex = 9;
-            GenerateMoreTXTButton.Text = "Generate more TXT Paths";
-            GenerateMoreTXTButton.UseVisualStyleBackColor = true;
-            GenerateMoreTXTButton.Click += GenerateMoreTXTButton_Click;
+            TabControl.Controls.Add(SingleModePage);
+            TabControl.Controls.Add(BatchModePage);
+            TabControl.Location = new Point(6, 33);
+            TabControl.Name = "TabControl";
+            TabControl.SelectedIndex = 0;
+            TabControl.Size = new Size(566, 325);
+            TabControl.TabIndex = 4;
             // 
-            // GenerateMoreJSONButton
+            // SingleModePage
             // 
-            GenerateMoreJSONButton.Location = new Point(38, 317);
-            GenerateMoreJSONButton.Name = "GenerateMoreJSONButton";
-            GenerateMoreJSONButton.Size = new Size(190, 23);
-            GenerateMoreJSONButton.TabIndex = 8;
-            GenerateMoreJSONButton.Text = "Generate more JSON Paths";
-            GenerateMoreJSONButton.UseVisualStyleBackColor = true;
-            GenerateMoreJSONButton.Click += GenerateMoreJSONButton_Click;
+            SingleModePage.Controls.Add(VPathTiplabel);
+            SingleModePage.Controls.Add(ClearOutputButton);
+            SingleModePage.Controls.Add(VPathLabel);
+            SingleModePage.Controls.Add(OutputTxtBox);
+            SingleModePage.Controls.Add(OutputLabel);
+            SingleModePage.Controls.Add(GenerateTXTButton);
+            SingleModePage.Controls.Add(VPathTxtBox);
+            SingleModePage.Controls.Add(GenerateJSONButton);
+            SingleModePage.Location = new Point(4, 24);
+            SingleModePage.Name = "SingleModePage";
+            SingleModePage.Padding = new Padding(3);
+            SingleModePage.Size = new Size(558, 297);
+            SingleModePage.TabIndex = 0;
+            SingleModePage.Text = "Single Mode";
+            SingleModePage.UseVisualStyleBackColor = true;
             // 
             // VPathTiplabel
             // 
             VPathTiplabel.AutoSize = true;
-            VPathTiplabel.Location = new Point(168, 31);
+            VPathTiplabel.Location = new Point(168, 12);
             VPathTiplabel.Name = "VPathTiplabel";
             VPathTiplabel.Size = new Size(226, 15);
             VPathTiplabel.TabIndex = 0;
@@ -203,7 +208,7 @@
             // 
             // ClearOutputButton
             // 
-            ClearOutputButton.Location = new Point(232, 270);
+            ClearOutputButton.Location = new Point(223, 264);
             ClearOutputButton.Name = "ClearOutputButton";
             ClearOutputButton.Size = new Size(113, 23);
             ClearOutputButton.TabIndex = 7;
@@ -211,39 +216,10 @@
             ClearOutputButton.UseVisualStyleBackColor = true;
             ClearOutputButton.Click += ClearOutputButton_Click;
             // 
-            // GenerateTXTButton
-            // 
-            GenerateTXTButton.Location = new Point(298, 109);
-            GenerateTXTButton.Name = "GenerateTXTButton";
-            GenerateTXTButton.Size = new Size(126, 23);
-            GenerateTXTButton.TabIndex = 4;
-            GenerateTXTButton.Text = "Generate TXT Output";
-            GenerateTXTButton.UseVisualStyleBackColor = true;
-            GenerateTXTButton.Click += GenerateTXTButton_Click;
-            // 
-            // GenerateJSONButton
-            // 
-            GenerateJSONButton.Location = new Point(137, 109);
-            GenerateJSONButton.Name = "GenerateJSONButton";
-            GenerateJSONButton.Size = new Size(136, 23);
-            GenerateJSONButton.TabIndex = 3;
-            GenerateJSONButton.Text = "Generate JSON Output";
-            GenerateJSONButton.UseVisualStyleBackColor = true;
-            GenerateJSONButton.Click += GenerateJSONButton_Click;
-            // 
-            // OutputLabel
-            // 
-            OutputLabel.AutoSize = true;
-            OutputLabel.Location = new Point(15, 143);
-            OutputLabel.Name = "OutputLabel";
-            OutputLabel.Size = new Size(48, 15);
-            OutputLabel.TabIndex = 5;
-            OutputLabel.Text = "Output:";
-            // 
             // VPathLabel
             // 
             VPathLabel.AutoSize = true;
-            VPathLabel.Location = new Point(15, 54);
+            VPathLabel.Location = new Point(11, 42);
             VPathLabel.Name = "VPathLabel";
             VPathLabel.Size = new Size(71, 15);
             VPathLabel.TabIndex = 1;
@@ -253,25 +229,86 @@
             // 
             OutputTxtBox.BackColor = SystemColors.Control;
             OutputTxtBox.BorderStyle = BorderStyle.FixedSingle;
-            OutputTxtBox.Location = new Point(15, 161);
+            OutputTxtBox.Location = new Point(8, 142);
             OutputTxtBox.Multiline = true;
             OutputTxtBox.Name = "OutputTxtBox";
             OutputTxtBox.ReadOnly = true;
             OutputTxtBox.ScrollBars = ScrollBars.Both;
-            OutputTxtBox.Size = new Size(546, 98);
+            OutputTxtBox.Size = new Size(542, 114);
             OutputTxtBox.TabIndex = 6;
+            // 
+            // OutputLabel
+            // 
+            OutputLabel.AutoSize = true;
+            OutputLabel.Location = new Point(11, 124);
+            OutputLabel.Name = "OutputLabel";
+            OutputLabel.Size = new Size(48, 15);
+            OutputLabel.TabIndex = 5;
+            OutputLabel.Text = "Output:";
+            // 
+            // GenerateTXTButton
+            // 
+            GenerateTXTButton.Location = new Point(298, 97);
+            GenerateTXTButton.Name = "GenerateTXTButton";
+            GenerateTXTButton.Size = new Size(126, 23);
+            GenerateTXTButton.TabIndex = 4;
+            GenerateTXTButton.Text = "Generate TXT Output";
+            GenerateTXTButton.UseVisualStyleBackColor = true;
+            GenerateTXTButton.Click += GenerateTXTButton_Click;
             // 
             // VPathTxtBox
             // 
-            VPathTxtBox.Location = new Point(15, 72);
+            VPathTxtBox.Location = new Point(8, 60);
             VPathTxtBox.Name = "VPathTxtBox";
-            VPathTxtBox.Size = new Size(546, 23);
+            VPathTxtBox.Size = new Size(542, 23);
             VPathTxtBox.TabIndex = 2;
+            // 
+            // GenerateJSONButton
+            // 
+            GenerateJSONButton.Location = new Point(129, 97);
+            GenerateJSONButton.Name = "GenerateJSONButton";
+            GenerateJSONButton.Size = new Size(136, 23);
+            GenerateJSONButton.TabIndex = 3;
+            GenerateJSONButton.Text = "Generate JSON Output";
+            GenerateJSONButton.UseVisualStyleBackColor = true;
+            GenerateJSONButton.Click += GenerateJSONButton_Click;
+            // 
+            // BatchModePage
+            // 
+            BatchModePage.Controls.Add(GenerateTXTDirButton);
+            BatchModePage.Controls.Add(GenerateJSONDirButton);
+            BatchModePage.Location = new Point(4, 24);
+            BatchModePage.Name = "BatchModePage";
+            BatchModePage.Padding = new Padding(3);
+            BatchModePage.Size = new Size(558, 297);
+            BatchModePage.TabIndex = 1;
+            BatchModePage.Text = "Batch Mode";
+            BatchModePage.UseVisualStyleBackColor = true;
+            // 
+            // GenerateTXTDirButton
+            // 
+            GenerateTXTDirButton.Location = new Point(296, 118);
+            GenerateTXTDirButton.Name = "GenerateTXTDirButton";
+            GenerateTXTDirButton.Size = new Size(189, 35);
+            GenerateTXTDirButton.TabIndex = 5;
+            GenerateTXTDirButton.Text = "Generate TXT for Directory";
+            GenerateTXTDirButton.UseVisualStyleBackColor = true;
+            GenerateTXTDirButton.Click += GenerateTXTDirButton_Click;
+            // 
+            // GenerateJSONDirButton
+            // 
+            GenerateJSONDirButton.Location = new Point(71, 118);
+            GenerateJSONDirButton.Name = "GenerateJSONDirButton";
+            GenerateJSONDirButton.Size = new Size(189, 35);
+            GenerateJSONDirButton.TabIndex = 4;
+            GenerateJSONDirButton.Text = "Generate JSON for Directory";
+            GenerateJSONDirButton.UseVisualStyleBackColor = true;
+            GenerateJSONDirButton.Click += GenerateJSONDirButton_Click;
             // 
             // AppStatusStrip
             // 
             AppStatusStrip.Items.AddRange(new ToolStripItem[] { AppStatusStripLabel });
-            AppStatusStrip.Location = new Point(0, 498);
+            AppStatusStrip.Location = new Point(0, 499);
             AppStatusStrip.Name = "AppStatusStrip";
             AppStatusStrip.Size = new Size(601, 22);
             AppStatusStrip.SizingGrip = false;
@@ -287,7 +324,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(601, 520);
+            ClientSize = new Size(601, 521);
             Controls.Add(AppStatusStrip);
             Controls.Add(PathGenToolsGroupBox);
             Controls.Add(FilelistToolsGroupBox);
@@ -301,7 +338,10 @@
             GameSelectGroupBox.PerformLayout();
             FilelistToolsGroupBox.ResumeLayout(false);
             PathGenToolsGroupBox.ResumeLayout(false);
-            PathGenToolsGroupBox.PerformLayout();
+            TabControl.ResumeLayout(false);
+            SingleModePage.ResumeLayout(false);
+            SingleModePage.PerformLayout();
+            BatchModePage.ResumeLayout(false);
             AppStatusStrip.ResumeLayout(false);
             AppStatusStrip.PerformLayout();
             ResumeLayout(false);
@@ -330,7 +370,10 @@
         private Label VPathTiplabel;
         private StatusStrip AppStatusStrip;
         private ToolStripStatusLabel AppStatusStripLabel;
-        private Button GenerateMoreJSONButton;
-        private Button GenerateMoreTXTButton;
+        private TabControl TabControl;
+        private TabPage SingleModePage;
+        private TabPage BatchModePage;
+        private Button GenerateTXTDirButton;
+        private Button GenerateJSONDirButton;
     }
 }
