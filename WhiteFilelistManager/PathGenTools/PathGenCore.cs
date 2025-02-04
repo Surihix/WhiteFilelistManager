@@ -91,9 +91,9 @@ namespace WhiteFilelistManager.PathGenTools
 
             foreach (var filePath in filesInDir)
             {
-                GenerationVariables.CommonExtnErrorMsg = $"Path does not contain a valid file extension for this root directory.\nError occured parsing path: {filePath}";
-                GenerationVariables.CommonErrorMsg = $"Unable to generate filecode. check if the path starts with a valid directory.\nError occured parsing path: {filePath}";
                 GenerationVariables.PathErrorStringForBatch = $"Error occured parsing path: {filePath}";
+                GenerationVariables.CommonExtnErrorMsg = $"Path does not contain a valid file extension for this root directory.\n{GenerationVariables.PathErrorStringForBatch}";
+                GenerationVariables.CommonErrorMsg = $"Unable to generate filecode. check if the path starts with a valid directory.\n{GenerationVariables.PathErrorStringForBatch}";
 
                 ProcessPath(filePath, gameID);
 
