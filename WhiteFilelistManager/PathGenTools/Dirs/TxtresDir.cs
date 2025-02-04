@@ -5,6 +5,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class TxtresDir
     {
+        private static string ParsingErrorMsg = string.Empty;
+
         public static void ProcessTxtresPath(string[] virtualPathData, string virtualPath, GameID gameID)
         {
             if (Path.GetExtension(virtualPath) != ".ztr")
@@ -45,6 +47,42 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             if (virtualPathData.Length > 2)
             {
+                if (virtualPathData[2].StartsWith("ac_comn") || virtualPathData[2].StartsWith("ev_comn"))
+                {
+                    zoneID = 0;
+                }
+                else
+                {
+                    if (GenerationVariables.GenerationType == GenerationType.single)
+                    {
+                        GenerationFunctions.UserInput("Enter Zone ID", "Must be from 0 to 255", 0, 255);
+                    }
+                    else
+                    {
+                        var hasZoneID = false;
+
+                        if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
+                        {
+                            if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 1)
+                            {
+                                GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][1]);
+                                hasZoneID = true;
+                            }
+                            else
+                            {
+                                hasZoneID = false;
+                            }
+                        }
+
+                        if (!hasZoneID)
+                        {
+                            SharedFunctions.Error($"Unable to determine Zone ID for a file.\n{GenerationVariables.PathErrorStringForBatch}");
+                        }
+                    }
+
+                    zoneID = GenerationVariables.NumInput;
+                }
+
                 switch (startingPortion)
                 {
                     case "txtres/ac":
@@ -54,15 +92,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         langIDbits = Convert.ToString(GetLangID(Path.GetFileName(virtualPath)), 2).PadLeft(4, '0');
 
                         // 10 bits
-                        if (virtualPathData[2].StartsWith("ac_comn"))
-                        {
-                            zoneID = 0;
-                        }
-                        else
-                        {
-                            GenerationFunctions.UserInput("Enter Zone ID", "Must be from 0 to 255", 0, 255);
-                            zoneID = GenerationVariables.NumInput;
-                        }
                         zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(10, '0');
 
                         // 10 bits
@@ -70,12 +99,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         if (acID == -1)
                         {
-                            SharedFunctions.Error("ac number in the path is invalid");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "ac number in the path is invalid";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"ac number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         if (acID > 999)
                         {
-                            SharedFunctions.Error("ac number in the path is too large. must be from 0 to 999.");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "ac number in the path is too large. must be from 0 to 999.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"ac number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         var acIDbits = Convert.ToString(acID, 2).PadLeft(10, '0');
@@ -105,15 +152,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         langIDbits = Convert.ToString(GetLangID(Path.GetFileName(virtualPath)), 2).PadLeft(4, '0');
 
                         // 10 bits
-                        if (virtualPathData[2].StartsWith("ev_comn"))
-                        {
-                            zoneID = 0;
-                        }
-                        else
-                        {
-                            GenerationFunctions.UserInput("Enter Zone ID", "Must be from 0 to 255", 0, 255);
-                            zoneID = GenerationVariables.NumInput;
-                        }
                         zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(10, '0');
 
                         // 10 bits
@@ -121,12 +159,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         if (evID == -1)
                         {
-                            SharedFunctions.Error("Event number in the path is invalid");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Event number in the path is invalid";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Event number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         if (evID > 999)
                         {
-                            SharedFunctions.Error("Event number in the path is too large. must be from 0 to 999.");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Event number in the path is too large. must be from 0 to 999.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Event number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         var evIDbits = Convert.ToString(evID, 2).PadLeft(10, '0');
@@ -160,6 +216,21 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // 10 bits
                         zoneID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
+
+                        if (zoneID == -1)
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Zone number in the path is invalid";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Zone number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
+                        }
+
                         zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(10, '0');
 
                         // Assemble bits
@@ -213,6 +284,42 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             if (virtualPathData.Length > 2)
             {
+                if (virtualPathData[2].StartsWith("ac_comn") || virtualPathData[2].StartsWith("ev_comn"))
+                {
+                    zoneID = 0;
+                }
+                else
+                {
+                    if (GenerationVariables.GenerationType == GenerationType.single)
+                    {
+                        GenerationFunctions.UserInput("Enter Zone ID", "Must be from 0 to 1000", 0, 1000);
+                    }
+                    else
+                    {
+                        var hasZoneID = false;
+
+                        if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
+                        {
+                            if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
+                            {
+                                GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][1]);
+                                hasZoneID = true;
+                            }
+                            else
+                            {
+                                hasZoneID = false;
+                            }
+                        }
+
+                        if (!hasZoneID)
+                        {
+                            SharedFunctions.Error($"Unable to determine Zone ID for a file.\n{GenerationVariables.PathErrorStringForBatch}");
+                        }
+                    }
+
+                    zoneID = GenerationVariables.NumInput;
+                }
+
                 switch (startingPortion)
                 {
                     case "txtres/ac":
@@ -226,16 +333,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         reservedBits = "0000";
 
                         // 10 bits
-                        if (virtualPathData[2].StartsWith("ac_comn"))
-                        {
-                            zoneID = 0;
-                        }
-                        else
-                        {
-                            GenerationFunctions.UserInput("Enter Zone ID", "Must be from 0 to 1000", 0, 1000);
-                            zoneID = GenerationVariables.NumInput;
-                        }
-
                         zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(10, '0');
 
                         // 10 bits
@@ -243,12 +340,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         if (acID == -1)
                         {
-                            SharedFunctions.Error("ac number in the path is invalid");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "ac number in the path is invalid";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"ac number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         if (acID > 999)
                         {
-                            SharedFunctions.Error("ac number in the path is too large. must be from 0 to 999.");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "ac number in the path is too large. must be from 0 to 999.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"ac number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         var acIDbits = Convert.ToString(acID, 2).PadLeft(10, '0');
@@ -285,16 +400,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         reservedBits = "0000";
 
                         // 10 bits
-                        if (virtualPathData[2].StartsWith("ev_comn"))
-                        {
-                            zoneID = 0;
-                        }
-                        else
-                        {
-                            GenerationFunctions.UserInput("Enter Zone ID", "Must be from 0 to 1000", 0, 1000);
-                            zoneID = GenerationVariables.NumInput;
-                        }
-
                         zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(10, '0');
 
                         // 10 bits
@@ -302,12 +407,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         if (evID == -1)
                         {
-                            SharedFunctions.Error("Event number in the path is invalid");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Event number in the path is invalid";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Event number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         if (evID > 999)
                         {
-                            SharedFunctions.Error("Event number in the path is too large. must be from 0 to 999.");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Event number in the path is too large. must be from 0 to 999.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Event number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         var evIDbits = Convert.ToString(evID, 2).PadLeft(10, '0');
@@ -345,6 +468,21 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // 10 bits
                         zoneID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
+
+                        if (zoneID == -1)
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Zone number in the path is invalid";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Zone number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
+                        }
+
                         zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(10, '0');
 
                         // Assemble bits

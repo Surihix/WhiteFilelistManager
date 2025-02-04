@@ -1,4 +1,5 @@
-﻿using WhiteFilelistManager.PathGenTools.Dirs;
+﻿using System.Text.Json;
+using WhiteFilelistManager.PathGenTools.Dirs;
 using WhiteFilelistManager.Support;
 using static WhiteFilelistManager.Support.SharedEnums;
 
@@ -131,6 +132,66 @@ namespace WhiteFilelistManager.PathGenTools
                 else
                 {
                     processedDataDict.Add(filePath, (int.Parse(GenerationVariables.FileCode), int.Parse(GenerationVariables.FileTypeID)));
+                }
+            }
+
+            if (processedDataDict.Count > 0)
+            {
+                if (parseType == ParseType.json)
+                {
+                    var outJsonFile = Path.Combine(Path.GetDirectoryName(directoryPath), "#batch_json.json");
+
+                    using (var jsonStream = new MemoryStream())
+                    {
+                        using (var jsonWriter = new Utf8JsonWriter(jsonStream, new JsonWriterOptions { Indented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping }))
+                        {
+                            jsonWriter.WriteStartObject();
+                            jsonWriter.WriteNumber("fileCount", processedDataDict.Count);
+
+                            jsonWriter.WriteStartArray("data");
+                            
+                            foreach (var item in processedDataDict)
+                            {
+                                jsonWriter.WriteStartObject();
+                                jsonWriter.WriteNumber("fileCode", item.Value.Item1);
+
+                                if (gameID != GameID.xiii)
+                                {
+                                    jsonWriter.WriteNumber("fileTypeID", item.Value.Item2);
+                                }
+
+                                jsonWriter.WriteString("filePath", $"0:0:0:{item.Key}");
+                                jsonWriter.WriteEndObject();
+                            }
+
+                            jsonWriter.WriteEndArray();
+                        }
+
+                        jsonStream.Seek(0, SeekOrigin.Begin);
+                        SharedFunctions.IfFileExistsDel(outJsonFile);
+
+                        File.WriteAllBytes(outJsonFile, jsonStream.ToArray());
+                    }
+                }
+                else
+                {
+                    var outTxtFile = Path.Combine(Path.GetDirectoryName(directoryPath), "#batch_txt.txt");
+                    SharedFunctions.IfFileExistsDel(outTxtFile);
+
+                    using (var sw = new StreamWriter(outTxtFile, true))
+                    {
+                        foreach (var item in processedDataDict)
+                        {
+                            sw.Write(item.Value.Item1 + "|");
+
+                            if (gameID != GameID.xiii)
+                            {
+                                sw.Write(item.Value.Item2 + "|");
+                            }
+
+                            sw.WriteLine($"0:0:0:{item.Key}");
+                        }
+                    }
                 }
             }
         }
