@@ -181,13 +181,13 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
 
                     default:
-                        SharedFunctions.Error("Unable to generate filecode. check if the path starts with a valid directory.");
+                        SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
                         break;
                 }
             }
             else
             {
-                SharedFunctions.Error("Unable to generate filecode. check if the path starts with a valid directory.");
+                SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
             }
         }
         #endregion
@@ -367,13 +367,13 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
 
                     default:
-                        SharedFunctions.Error("Unable to generate filecode. check if the path starts with a valid directory.");
+                        SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
                         break;
                 }
             }
             else
             {
-                SharedFunctions.Error("Unable to generate filecode. check if the path starts with a valid directory.");
+                SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
             }
         }
         #endregion

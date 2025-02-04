@@ -17,59 +17,14 @@ namespace WhiteFilelistManager.PathGenTools
                 SharedFunctions.Error("A valid virtual path was not specified. Please specify the virtual path before using this option.");
             }
 
-            var virtualPathData = virtualPath.Split('/');
+            GenerationVariables.CommonExtnErrorMsg = "Path does not contain a valid file extension for this root directory";
+            GenerationVariables.CommonErrorMsg = "Unable to generate filecode. check if the path starts with a valid directory.";
 
-            if (virtualPathData.Length < 2)
-            {
-                SharedFunctions.Error("A Valid path is not specified");
-            }
-
-            switch (virtualPathData[0])
-            {
-                case "btscene":
-                    BtsceneDir.ProcessBtscenePath(virtualPathData, virtualPath, gameID);
-                    break;
-
-                case "chr":
-                    ChrDir.ProcessChrPath(virtualPathData, virtualPath, gameID);
-                    break;
-
-                case "event":
-                    EventDir.ProcessEventPath(virtualPathData, virtualPath, gameID);
-                    break;
-
-                case "gui":
-                    GuiDir.ProcessGuiPath(virtualPathData, virtualPath, gameID);
-                    break;
-
-                case "mot":
-                    MotDir.ProcessMotPath(virtualPathData, virtualPath, gameID);
-                    break;
-
-                case "sound":
-                    SoundDir.ProcessSoundPath(virtualPathData, virtualPath, gameID);
-                    break;
-
-                case "txtres":
-                    TxtresDir.ProcessTxtresPath(virtualPathData, virtualPath, gameID);
-                    break;
-
-                case "vfx":
-                    VfxDir.ProcessVfxPath(virtualPathData, virtualPath, gameID);
-                    break;
-
-                case "zone":
-                    ZoneDir.ProcessZonePath(virtualPathData, virtualPath, gameID);
-                    break;
-
-                default:
-                    SharedFunctions.Error("Valid root directory is not specified");
-                    break;
-            }
+            ProcessPath(virtualPath, gameID);
 
             if (parseType == ParseType.json)
             {
-                var jsonOutput = "{\r\n     "; 
+                var jsonOutput = "{\r\n     ";
 
                 if (gameID == GameID.xiii)
                 {
@@ -113,6 +68,7 @@ namespace WhiteFilelistManager.PathGenTools
             GenerationVariables.FileCode = string.Empty;
             GenerationVariables.FileTypeID = string.Empty;
             GenerationVariables.GenerationType = GenerationType.batch;
+            GenerationVariables.IdBasedPathsTxtFile = Path.Combine(directoryPath, "#id-based_paths.txt");
 
             var filesInDir = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
             Array.Sort(filesInDir);
@@ -126,18 +82,86 @@ namespace WhiteFilelistManager.PathGenTools
                 filesInDir[i] = currentFilePath;
             }
 
-            foreach (var file in filesInDir)
+            if (File.Exists(GenerationVariables.IdBasedPathsTxtFile))
             {
-
+                GenerationVariables.IdBasedPathsData = File.ReadAllLines(GenerationVariables.IdBasedPathsTxtFile);
             }
 
-            if (parseType == ParseType.json)
-            {
+            var processedDataDict = new Dictionary<string, (int, int)>();
 
+            foreach (var filePath in filesInDir)
+            {
+                GenerationVariables.CommonExtnErrorMsg = $"Path does not contain a valid file extension for this root directory.\nError occured when parsing path: {filePath}";
+                GenerationVariables.CommonErrorMsg = $"Unable to generate filecode. check if the path starts with a valid directory.\nError occured when parsing path: {filePath}";
+                
+                ProcessPath(filePath, gameID);
+
+                if (gameID == GameID.xiii)
+                {
+                    processedDataDict.Add(filePath, (int.Parse(GenerationVariables.FileCode), 0));
+                }
+                else
+                {
+                    processedDataDict.Add(filePath, (int.Parse(GenerationVariables.FileCode), int.Parse(GenerationVariables.FileTypeID)));
+                }
             }
-            else
-            {
+        }
 
+
+        private static void ProcessPath(string virtualPath, GameID gameID)
+        {
+            var virtualPathData = virtualPath.Split('/');
+
+            string pathErrorMsg;
+
+            if (virtualPathData.Length < 2)
+            {
+                pathErrorMsg = GenerationVariables.GenerationType == GenerationType.single ? "A Valid path is not specified" : $"A Valid path is not specified for a file.\nError occured when parsing path: {virtualPath}";
+                SharedFunctions.Error(pathErrorMsg);
+            }
+
+            switch (virtualPathData[0])
+            {
+                case "btscene":
+                    BtsceneDir.ProcessBtscenePath(virtualPathData, virtualPath, gameID);
+                    break;
+
+                case "chr":
+                    ChrDir.ProcessChrPath(virtualPathData, virtualPath, gameID);
+                    break;
+
+                case "event":
+                    EventDir.ProcessEventPath(virtualPathData, virtualPath, gameID);
+                    break;
+
+                case "gui":
+                    GuiDir.ProcessGuiPath(virtualPathData, virtualPath, gameID);
+                    break;
+
+                case "mot":
+                    MotDir.ProcessMotPath(virtualPathData, virtualPath, gameID);
+                    break;
+
+                case "sound":
+                    SoundDir.ProcessSoundPath(virtualPathData, virtualPath, gameID);
+                    break;
+
+                case "txtres":
+                    TxtresDir.ProcessTxtresPath(virtualPathData, virtualPath, gameID);
+                    break;
+
+                case "vfx":
+                    VfxDir.ProcessVfxPath(virtualPathData, virtualPath, gameID);
+                    break;
+
+                case "zone":
+                    ZoneDir.ProcessZonePath(virtualPathData, virtualPath, gameID);
+                    break;
+
+                default:
+                    pathErrorMsg = GenerationVariables.GenerationType == GenerationType.single ? "Valid root directory is not specified" : $"Valid root directory is not specified for a file path\nDetected virtual path: {virtualPath}";
+                    SharedFunctions.Error(pathErrorMsg);
+                    break;
             }
         }
     }

@@ -34,7 +34,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             if (!_validExtensions.Contains(fileExtn))
             {
-                SharedFunctions.Error("Path does not contain a valid file extension for this root directory");
+                SharedFunctions.Error(GenerationVariables.CommonExtnErrorMsg);
             }
 
             var finalComputedBits = string.Empty;
@@ -137,7 +137,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                 }
                 else
                 {
-                    SharedFunctions.Error("Unable to generate filecode. check if the path starts with a valid directory.");
+                    SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
                 }
             }
             else
@@ -157,7 +157,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             if (!_validExtensions.Contains(fileExtn))
             {
-                SharedFunctions.Error("Path does not contain a valid file extension for this root directory");
+                SharedFunctions.Error(GenerationVariables.CommonExtnErrorMsg);
             }
 
             var finalComputedBits = string.Empty;
@@ -258,7 +258,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                 }
                 else
                 {
-                    SharedFunctions.Error("Unable to generate filecode. check if the path starts with a valid directory.");
+                    SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
                 }
             }
             else
