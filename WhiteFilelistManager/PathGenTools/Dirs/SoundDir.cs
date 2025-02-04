@@ -118,14 +118,10 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                                 if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
                                 {
-                                    if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 1)
+                                    if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
                                     {
-                                        GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][1]);
+                                        GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
                                         hasScdFileID = true;
-                                    }
-                                    else
-                                    {
-                                        hasScdFileID = false;
                                     }
                                 }
 
@@ -258,14 +254,10 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                                 if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
                                 {
-                                    if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 1)
+                                    if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
                                     {
-                                        GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][1]);
+                                        GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
                                         hasScdFileID = true;
-                                    }
-                                    else
-                                    {
-                                        hasScdFileID = false;
                                     }
                                 }
 

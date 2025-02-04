@@ -165,6 +165,7 @@ namespace WhiteFilelistManager.PathGenTools
                             }
 
                             jsonWriter.WriteEndArray();
+                            jsonWriter.WriteEndObject();
                         }
 
                         jsonStream.Seek(0, SeekOrigin.Begin);

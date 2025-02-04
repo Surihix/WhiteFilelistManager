@@ -63,14 +63,10 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
                         {
-                            if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 1)
+                            if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
                             {
-                                GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][1]);
+                                GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
                                 hasZoneID = true;
-                            }
-                            else
-                            {
-                                hasZoneID = false;
                             }
                         }
 
@@ -302,12 +298,11 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         {
                             if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
                             {
-                                GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][1]);
-                                hasZoneID = true;
-                            }
-                            else
-                            {
-                                hasZoneID = false;
+                                if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
+                                {
+                                    GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
+                                    hasZoneID = true;
+                                }
                             }
                         }
 

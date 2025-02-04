@@ -82,10 +82,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                                     GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
                                     hasFileID = true;
                                 }
-                                else
-                                {
-                                    hasFileID = false;
-                                }
                             }
 
                             if (!hasFileID)
@@ -138,10 +134,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                                 {
                                     GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
                                     hasFileID = true;
-                                }
-                                else
-                                {
-                                    hasFileID = false;
                                 }
                             }
 
@@ -196,10 +188,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                                     GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
                                     hasFileID = true;
                                 }
-                                else
-                                {
-                                    hasFileID = false;
-                                }
                             }
 
                             if (!hasFileID)
@@ -250,10 +238,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                                     GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
                                     hasCategoryID = true;
                                 }
-                                else
-                                {
-                                    hasCategoryID = false;
-                                }
                             }
 
                             if (!hasCategoryID)
@@ -281,10 +265,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                                 {
                                     GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][1]);
                                     hasFileID = true;
-                                }
-                                else
-                                {
-                                    hasFileID = false;
                                 }
                             }
 
@@ -338,10 +318,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                                 {
                                     GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
                                     hasFileID = true;
-                                }
-                                else
-                                {
-                                    hasFileID = false;
                                 }
                             }
 
@@ -475,10 +451,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                                     GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
                                     hasFileID = true;
                                 }
-                                else
-                                {
-                                    hasFileID = false;
-                                }
                             }
 
                             if (!hasFileID)
@@ -547,10 +519,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                                 {
                                     GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
                                     hasFileID = true;
-                                }
-                                else
-                                {
-                                    hasFileID = false;
                                 }
                             }
 
