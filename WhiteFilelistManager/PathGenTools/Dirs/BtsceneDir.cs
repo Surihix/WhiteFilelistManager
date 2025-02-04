@@ -5,10 +5,13 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class BtsceneDir
     {
+        private static string ParsingErrorMsg = string.Empty;
+
         private static readonly List<string> _validExtensions = new List<string>()
         {
             ".bin", ".wdb"
         };
+
 
         public static void ProcessBtscenePath(string[] virtualPathData, string virtualPath, GameID gameID)
         {
@@ -64,14 +67,32 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     var fileId = GenerationFunctions.DeriveNumFromString(virtualPathData[3]);
                     if (fileId == -1)
                     {
-                        SharedFunctions.Error("btscene file number in the path is invalid");
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = "btscene file number in the path is invalid";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"btscene file number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
                     }
 
                     fileId++;
 
                     if (fileId > 65535)
                     {
-                        SharedFunctions.Error("btscene file number in the path is too large. must be from 0 to 65534.");
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = "btscene file number in the path is too large. must be from 0 to 65534.";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"btscene file number in the path is too large. must be from 0 to 65534.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
                     }
 
                     var fileIdBits = Convert.ToString(fileId, 2).PadLeft(16, '0');
@@ -146,12 +167,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                                         var zoneID = GenerationFunctions.DeriveNumFromString(virtualPathData[3]);
                                         if (zoneID == -1)
                                         {
-                                            SharedFunctions.Error("Zone number in the path is invalid");
+                                            if (GenerationVariables.GenerationType == GenerationType.single)
+                                            {
+                                                ParsingErrorMsg = "Zone number in the path is invalid";
+                                            }
+                                            else
+                                            {
+                                                ParsingErrorMsg = $"Zone number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                                            }
+
+                                            SharedFunctions.Error(ParsingErrorMsg);
                                         }
 
                                         if (zoneID > 1000)
                                         {
-                                            SharedFunctions.Error("Zone number in the path is too large. must be from 0 to 1000.");
+                                            if (GenerationVariables.GenerationType == GenerationType.single)
+                                            {
+                                                ParsingErrorMsg = "Zone number in the path is too large. must be from 0 to 1000.";
+                                            }
+                                            else
+                                            {
+                                                ParsingErrorMsg = $"Zone number in the path is too large. must be from 0 to 1000.\n{GenerationVariables.PathErrorStringForBatch}";
+                                            }
+
+                                            SharedFunctions.Error(ParsingErrorMsg);
                                         }
 
                                         var zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(15, '0');
@@ -180,12 +219,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                                         var fileId = GenerationFunctions.DeriveNumFromString(virtualPathData[3]);
                                         if (fileId == -1)
                                         {
-                                            SharedFunctions.Error("File number in the path is invalid");
+                                            if (GenerationVariables.GenerationType == GenerationType.single)
+                                            {
+                                                ParsingErrorMsg = "File number in the path is invalid";
+                                            }
+                                            else
+                                            {
+                                                ParsingErrorMsg = $"File number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                                            }
+
+                                            SharedFunctions.Error(ParsingErrorMsg);
                                         }
 
                                         if (fileId > 999)
                                         {
-                                            SharedFunctions.Error("File number in the path is too large. must be from 0 to 999.");
+                                            if (GenerationVariables.GenerationType == GenerationType.single)
+                                            {
+                                                ParsingErrorMsg = "File number in the path is too large. must be from 0 to 999.";
+                                            }
+                                            else
+                                            {
+                                                ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                                            }
+
+                                            SharedFunctions.Error(ParsingErrorMsg);
                                         }
 
                                         var fileIdBits = Convert.ToString(fileId, 2).PadLeft(12, '0');
@@ -252,14 +309,32 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                             if (fileId == -1)
                             {
-                                SharedFunctions.Error("btsc file number in the path is invalid");
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = "btsc file number in the path is invalid";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"btsc file number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
                             }
 
                             fileId++;
 
                             if (fileId > 65535)
                             {
-                                SharedFunctions.Error("btsc file number in the path is too large. must be from 0 to 65534.");
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = "btsc file number in the path is too large. must be from 0 to 65534.";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"btsc file number in the path is too large. must be from 0 to 65534.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
                             }
 
                             var fileIdBits = Convert.ToString(fileId, 2).PadLeft(16, '0');
@@ -329,12 +404,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             var fileId = GenerationFunctions.DeriveNumFromString(virtualPathData[3]);
                             if (fileId == -1)
                             {
-                                SharedFunctions.Error("File number in the path is invalid");
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = "File number in the path is invalid";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"File number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
                             }
 
                             if (fileId > 999)
                             {
-                                SharedFunctions.Error("File number in the path is too large. must be from 0 to 999.");
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = "File number in the path is too large. must be from 0 to 999.";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
                             }
 
                             var fileIdBits = Convert.ToString(fileId, 2).PadLeft(12, '0');
@@ -378,14 +471,32 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                             if (fileId == -1)
                             {
-                                SharedFunctions.Error("btsc file number in the path is invalid");
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = "btsc file number in the path is invalid";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"btsc file number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
                             }
 
                             fileId++;
 
                             if (fileId > 65535)
                             {
-                                SharedFunctions.Error("btsc file number in the path is too large. must be from 0 to 65534.");
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = "btsc file number in the path is too large. must be from 0 to 65534.";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"btsc file number in the path is too large. must be from 0 to 65534.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
                             }
 
                             var fileIdBits = Convert.ToString(fileId, 2).PadLeft(16, '0');
@@ -429,7 +540,16 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
         {
             if (!GenerationFunctions.LettersList.Contains(fileName[0]))
             {
-                SharedFunctions.Error("Unable to get letter from filename");
+                if (GenerationVariables.GenerationType == GenerationType.single)
+                {
+                    ParsingErrorMsg = "Unable to get letter from filename";
+                }
+                else
+                {
+                    ParsingErrorMsg = $"Unable to get letter from filename.\n{GenerationVariables.PathErrorStringForBatch}";
+                }
+
+                SharedFunctions.Error(ParsingErrorMsg);
             }
 
             return GenerationFunctions.LettersList.IndexOf(fileName[0]) + 1;

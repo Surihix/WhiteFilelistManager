@@ -91,9 +91,10 @@ namespace WhiteFilelistManager.PathGenTools
 
             foreach (var filePath in filesInDir)
             {
-                GenerationVariables.CommonExtnErrorMsg = $"Path does not contain a valid file extension for this root directory.\nError occured when parsing path: {filePath}";
-                GenerationVariables.CommonErrorMsg = $"Unable to generate filecode. check if the path starts with a valid directory.\nError occured when parsing path: {filePath}";
-                
+                GenerationVariables.CommonExtnErrorMsg = $"Path does not contain a valid file extension for this root directory.\nError occured parsing path: {filePath}";
+                GenerationVariables.CommonErrorMsg = $"Unable to generate filecode. check if the path starts with a valid directory.\nError occured parsing path: {filePath}";
+                GenerationVariables.PathErrorStringForBatch = $"Error occured parsing path: {filePath}";
+
                 ProcessPath(filePath, gameID);
 
                 if (gameID == GameID.xiii)
@@ -116,7 +117,15 @@ namespace WhiteFilelistManager.PathGenTools
 
             if (virtualPathData.Length < 2)
             {
-                pathErrorMsg = GenerationVariables.GenerationType == GenerationType.single ? "A Valid path is not specified" : $"A Valid path is not specified for a file.\nError occured when parsing path: {virtualPath}";
+                if (GenerationVariables.GenerationType == GenerationType.single)
+                {
+                    pathErrorMsg = "A Valid path is not specified";
+                }
+                else
+                {
+                    pathErrorMsg = $"A Valid path is not specified for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                }
+
                 SharedFunctions.Error(pathErrorMsg);
             }
 
@@ -159,7 +168,15 @@ namespace WhiteFilelistManager.PathGenTools
                     break;
 
                 default:
-                    pathErrorMsg = GenerationVariables.GenerationType == GenerationType.single ? "Valid root directory is not specified" : $"Valid root directory is not specified for a file path\nDetected virtual path: {virtualPath}";
+                    if (GenerationVariables.GenerationType == GenerationType.single)
+                    {
+                        pathErrorMsg = "Valid root directory is not specified";
+                    }
+                    else
+                    {
+                        pathErrorMsg = $"Valid root directory is not specified for a file path\n{GenerationVariables.PathErrorStringForBatch}";
+                    }
+
                     SharedFunctions.Error(pathErrorMsg);
                     break;
             }
