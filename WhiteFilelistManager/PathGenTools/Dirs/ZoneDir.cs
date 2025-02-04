@@ -5,6 +5,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class ZoneDir
     {
+        private static string ParsingErrorMsg = string.Empty;
+
         private static readonly List<string> _validExtensions = new List<string>()
         {
             ".wdb", ".clb"
@@ -57,12 +59,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     var zoneID = GenerationFunctions.DeriveNumFromString(virtualPathData[1]);
                     if (zoneID == -1)
                     {
-                        SharedFunctions.Error("Zone number in the wdb filename is invalid");
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = "Zone number in the wdb filename is invalid";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"Zone number in the wdb filename is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
                     }
 
                     if (zoneID > 255)
                     {
-                        SharedFunctions.Error("Zone number in the wdb filename is too large. must be from 0 to 255.");
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = "Zone number in the wdb filename is too large. must be from 0 to 255.";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"Zone number in the wdb filename is too large. must be from 0 to 255.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
                     }
 
                     if (fileExtn == ".wdb")
@@ -108,12 +128,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         var scrID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
                         if (scrID == -1)
                         {
-                            SharedFunctions.Error("scr number in the clb filename is invalid or not specified");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "scr number in the clb filename is invalid or not specified";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"scr number in the clb filename is invalid or not specified.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         if (scrID > 255)
                         {
-                            SharedFunctions.Error("scr number in the clb filename is too large. must be from 0 to 255.");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "scr number in the clb filename is too large. must be from 0 to 255.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"scr number in the clb filename is too large. must be from 0 to 255.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         var scrIDbits = Convert.ToString(scrID, 2).PadLeft(8, '0');
@@ -140,11 +178,10 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
                 }
             }
-            else
-            {
-                // Assume its a filelist file
-                SharedFunctions.Error("not implemented");
-            }
+            //else
+            //{
+            //    // Assume its a filelist file
+            //}
         }
         #endregion
 
@@ -180,12 +217,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     var zoneID = GenerationFunctions.DeriveNumFromString(virtualPathData[1]);
                     if (zoneID == -1)
                     {
-                        SharedFunctions.Error("Number in the zone folder name, is invalid or not specified");
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = "Number in the zone folder name, is invalid or not specified";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"Number in the zone folder name, is invalid or not specified.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
                     }
 
                     if (zoneID > 1000)
                     {
-                        SharedFunctions.Error("Number in the zone folder name, is too large. must be from 0 to 1000.");
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = "Number in the zone folder name, is too large. must be from 0 to 1000.";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"Number in the zone folder name, is too large. must be from 0 to 1000.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
                     }
 
                     if (fileExtn == ".wdb")
@@ -228,12 +283,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         var scrID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
                         if (scrID == -1)
                         {
-                            SharedFunctions.Error("scr number in the clb filename is invalid or not specified");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "scr number in the clb filename is invalid or not specified";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"scr number in the clb filename is invalid or not specified.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         if (scrID > 255)
                         {
-                            SharedFunctions.Error("scr number in the clb filename is too large. must be from 0 to 255.");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "scr number in the clb filename is too large. must be from 0 to 255.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"scr number in the clb filename is too large. must be from 0 to 255.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         var scrIDbits = Convert.ToString(scrID, 2).PadLeft(8, '0');
@@ -261,11 +334,10 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
                 }
             }
-            else
-            {
-                // Assume its a filelist file
-                SharedFunctions.Error("not implemented");
-            }
+            //else
+            //{
+            //    // Assume its a filelist file
+            //}
         }
         #endregion
     }
