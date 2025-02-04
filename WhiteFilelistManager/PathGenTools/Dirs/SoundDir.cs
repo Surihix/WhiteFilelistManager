@@ -5,6 +5,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class SoundDir
     {
+        private static string ParsingErrorMsg = string.Empty;
+
         private static readonly List<string> _validExtensions = new List<string>()
         {
             ".scd", ".wpd"
@@ -72,12 +74,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         if (soundDirID == -1)
                         {
-                            SharedFunctions.Error("Sound directory number in path was invalid");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Sound directory number in path was invalid";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Sound directory number in path was invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         if (soundDirID > 9999)
                         {
-                            SharedFunctions.Error("Sound directory number in the path is too large. must be from 0 to 9999.");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Sound directory number in the path is too large. must be from 0 to 9999.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Sound directory number in the path is too large. must be from 0 to 9999.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         // If .wpd, then do not
@@ -88,7 +108,33 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         }
                         else
                         {
-                            GenerationFunctions.UserInput("Enter SCD number", "Must be from 0 to 999", 0, 999);
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                GenerationFunctions.UserInput("Enter SCD number", "Must be from 0 to 999", 0, 999);
+                            }
+                            else
+                            {
+                                var hasScdFileID = false;
+
+                                if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
+                                {
+                                    if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 1)
+                                    {
+                                        GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][1]);
+                                        hasScdFileID = true;
+                                    }
+                                    else
+                                    {
+                                        hasScdFileID = false;
+                                    }
+                                }
+
+                                if (!hasScdFileID)
+                                {
+                                    SharedFunctions.Error($"Unable to determine SCD number for a file.\n{GenerationVariables.PathErrorStringForBatch}");
+                                }
+                            }
+
                             var scdFileID = GenerationVariables.NumInput;
 
                             var scdFileIDmerged = int.Parse(soundDirID.ToString() + "" + scdFileID.ToString().PadLeft(3, '0'));
@@ -168,12 +214,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         if (soundDirID == -1)
                         {
-                            SharedFunctions.Error("Sound directory number specified was invalid");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Sound directory number specified was invalid";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Sound directory number specified was invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         if (soundDirID > 9999)
                         {
-                            SharedFunctions.Error("Sound directory number in the path is too large. must be from 0 to 9999.");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Sound directory number in the path is too large. must be from 0 to 9999.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Sound directory number in the path is too large. must be from 0 to 9999.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         // If .wpd, then do not
@@ -184,7 +248,33 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         }
                         else
                         {
-                            GenerationFunctions.UserInput("Enter SCD number", "Must be from 0 to 999", 0, 999);
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                GenerationFunctions.UserInput("Enter SCD number", "Must be from 0 to 999", 0, 999);
+                            }
+                            else
+                            {
+                                var hasScdFileID = false;
+
+                                if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
+                                {
+                                    if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 1)
+                                    {
+                                        GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][1]);
+                                        hasScdFileID = true;
+                                    }
+                                    else
+                                    {
+                                        hasScdFileID = false;
+                                    }
+                                }
+
+                                if (!hasScdFileID)
+                                {
+                                    SharedFunctions.Error($"Unable to determine SCD number for a file.\n{GenerationVariables.PathErrorStringForBatch}");
+                                }
+                            }
+
                             var scdFileID = GenerationVariables.NumInput;
 
                             var scdFileIDmerged = int.Parse(soundDirID.ToString() + "" + scdFileID.ToString().PadLeft(3, '0'));
