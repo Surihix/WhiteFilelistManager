@@ -5,6 +5,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class VfxDir
     {
+        private static string ParsingErrorMsg = string.Empty;
+
         private static readonly List<string> _validExtensions = new List<string>()
         {
             ".imgb", ".xfv"
@@ -61,12 +63,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         var modelID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
                         if (modelID == -1)
                         {
-                            SharedFunctions.Error("Model number in the path is invalid");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Model number in the path is invalid";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Model number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         if (modelID > 999)
                         {
-                            SharedFunctions.Error("Model number in the path is too large. must be from 0 to 999.");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Model number in the path is too large. must be from 0 to 999.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Model number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         var modelIDbits = Convert.ToString(modelID, 2).PadLeft(10, '0');
@@ -83,7 +103,16 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                             if (version == -1)
                             {
-                                SharedFunctions.Error("Version number in the path is invalid");
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = "Version number in the path is invalid";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"Version number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
                             }
                         }
                         else
@@ -159,12 +188,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         var modelID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
                         if (modelID == -1)
                         {
-                            SharedFunctions.Error("Model number in the path is invalid");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Model number in the path is invalid";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Model number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         if (modelID > 999)
                         {
-                            SharedFunctions.Error("Model number in the path is too large. must be from 0 to 999.");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Model number in the path is too large. must be from 0 to 999.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Model number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         var modelIDbits = Convert.ToString(modelID, 2).PadLeft(10, '0');
@@ -181,7 +228,16 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                             if (version == -1)
                             {
-                                SharedFunctions.Error("Version number in the path is invalid");
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = "Version number in the path is invalid";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"Version number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
                             }
                         }
                         else
@@ -256,7 +312,16 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     break;
 
                 default:
-                    SharedFunctions.Error("Unable to determine category from the filename. check if the vfx filename, starts with a valid category string.");
+                    if (GenerationVariables.GenerationType == GenerationType.single)
+                    {
+                        ParsingErrorMsg = "Unable to determine category from the filename. check if the vfx filename, starts with a valid category string.";
+                    }
+                    else
+                    {
+                        ParsingErrorMsg = $"Unable to determine category from the filename. check if the vfx filename, starts with a valid category string.\n{GenerationVariables.PathErrorStringForBatch}";
+                    }
+
+                    SharedFunctions.Error(ParsingErrorMsg);
                     break;
             }
 
