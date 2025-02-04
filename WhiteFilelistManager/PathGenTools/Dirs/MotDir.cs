@@ -7,6 +7,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
     {
         private static GameID _gameID = new GameID();
 
+        private static string ParsingErrorMsg = string.Empty;
+
         public static void ProcessMotPath(string[] virtualPathData, string virtualPath, GameID gameID)
         {
             _gameID = gameID;
@@ -64,12 +66,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         var modelID = GenerationFunctions.DeriveNumFromString(virtualPathData[2].Split('_')[1]);
                         if (modelID == -1)
                         {
-                            SharedFunctions.Error("Model number specified is invalid");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Model number specified is invalid";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Model number specified is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         if (modelID > 999)
                         {
-                            SharedFunctions.Error("Model number in the path is too large. must be from 0 to 999.");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Model number in the path is too large. must be from 0 to 999.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Model number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         var modelIDbits = Convert.ToString(modelID, 2).PadLeft(10, '0');
@@ -181,12 +201,30 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         var modelID = GenerationFunctions.DeriveNumFromString(virtualPathData[2].Split('_')[1]);
                         if (modelID == -1)
                         {
-                            SharedFunctions.Error("Model number specified is invalid");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Model number specified is invalid";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Model number specified is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         if (modelID > 999)
                         {
-                            SharedFunctions.Error("Model number in the path is too large. must be from 0 to 999.");
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = "Model number in the path is too large. must be from 0 to 999.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Model number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
                         }
 
                         var modelIDbits = Convert.ToString(modelID, 2).PadLeft(10, '0');
@@ -283,7 +321,16 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     break;
 
                 default:
-                    SharedFunctions.Error("Unable to determine category from the filename. check if the mot filename, starts with a valid category string.");
+                    if (GenerationVariables.GenerationType == GenerationType.single)
+                    {
+                        ParsingErrorMsg = "Unable to determine category from the filename. check if the mot filename, starts with a valid category string.";
+                    }
+                    else
+                    {
+                        ParsingErrorMsg = $"Unable to determine category from the filename. check if the mot filename, starts with a valid category string.\n{GenerationVariables.PathErrorStringForBatch}";
+                    }
+
+                    SharedFunctions.Error(ParsingErrorMsg);
                     break;
             }
 
