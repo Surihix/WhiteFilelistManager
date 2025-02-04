@@ -84,7 +84,34 @@ namespace WhiteFilelistManager.PathGenTools
 
             if (File.Exists(GenerationVariables.IdBasedPathsTxtFile))
             {
-                GenerationVariables.IdBasedPathsData = File.ReadAllLines(GenerationVariables.IdBasedPathsTxtFile);
+                GenerationVariables.HasIdPathsTxtFile = true;
+                GenerationVariables.IdBasedPathsDataDict = new Dictionary<string, List<string>>();
+
+                using (var sr = new StreamReader(GenerationVariables.IdBasedPathsTxtFile))
+                {
+                    string currentLine;
+                    string[] currentLineData;
+                    while ((currentLine = sr.ReadLine()) != null)
+                    {
+                        currentLineData = currentLine.Split('|');
+
+                        if (currentLineData.Length == 0) 
+                        { 
+                            continue; 
+                        }
+
+                        GenerationVariables.IdBasedPathsDataDict.Add(currentLineData[0], new List<string>());
+
+                        for (int i = 1; i < currentLineData.Length; i++)
+                        {
+                            GenerationVariables.IdBasedPathsDataDict[currentLineData[0]].Add(currentLineData[i]);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                GenerationVariables.HasIdPathsTxtFile = false;
             }
 
             var processedDataDict = new Dictionary<string, (int, int)>();
@@ -179,7 +206,7 @@ namespace WhiteFilelistManager.PathGenTools
 
                     SharedFunctions.Error(pathErrorMsg);
                     break;
-            }
+            }           
         }
     }
 }

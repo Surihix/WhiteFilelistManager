@@ -11,7 +11,8 @@ namespace WhiteFilelistManager.PathGenTools
         public static string CommonErrorMsg { get; set; }
         public static string PathErrorStringForBatch { get; set; }
         public static GenerationType GenerationType { get; set; }
+        public static bool HasIdPathsTxtFile { get; set; }
         public static string IdBasedPathsTxtFile { get; set; }
-        public static string[] IdBasedPathsData = new string[] { };
+        public static Dictionary<string, List<string>> IdBasedPathsDataDict { get; set; }
     }
 }
