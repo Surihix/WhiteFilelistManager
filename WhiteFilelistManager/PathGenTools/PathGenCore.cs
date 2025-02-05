@@ -87,6 +87,11 @@ namespace WhiteFilelistManager.PathGenTools
 
             foreach (var filePath in filesInDir)
             {
+                if (filePath == "#id-based_paths.txt")
+                {
+                    continue;
+                }
+
                 GenerationVariables.PathErrorStringForBatch = $"Error occured parsing path: {filePath}";
                 GenerationVariables.CommonExtnErrorMsg = $"Path does not contain a valid file extension for this root directory.\n{GenerationVariables.PathErrorStringForBatch}";
                 GenerationVariables.CommonErrorMsg = $"Unable to generate filecode. check if the path starts with a valid directory.\n{GenerationVariables.PathErrorStringForBatch}";
