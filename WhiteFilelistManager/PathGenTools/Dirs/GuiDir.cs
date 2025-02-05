@@ -79,7 +79,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             {
                                 if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
                                 {
-                                    GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
+                                    GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
                                     hasFileID = true;
                                 }
                             }
@@ -132,7 +132,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             {
                                 if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
                                 {
-                                    GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
+                                    GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
                                     hasFileID = true;
                                 }
                             }
@@ -185,7 +185,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             {
                                 if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
                                 {
-                                    GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
+                                    GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
                                     hasFileID = true;
                                 }
                             }
@@ -235,7 +235,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             {
                                 if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
                                 {
-                                    GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
+                                    GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
                                     hasCategoryID = true;
                                 }
                             }
@@ -263,7 +263,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             {
                                 if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 1)
                                 {
-                                    GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][1]);
+                                    GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][1], out int result) ? result : 0;
                                     hasFileID = true;
                                 }
                             }
@@ -316,7 +316,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             {
                                 if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
                                 {
-                                    GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
+                                    GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
                                     hasFileID = true;
                                 }
                             }
@@ -448,7 +448,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             {
                                 if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
                                 {
-                                    GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
+                                    GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
                                     hasFileID = true;
                                 }
                             }
@@ -517,7 +517,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             {
                                 if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
                                 {
-                                    GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
+                                    GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
                                     hasFileID = true;
                                 }
                             }

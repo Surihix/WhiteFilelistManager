@@ -120,7 +120,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                                 {
                                     if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
                                     {
-                                        GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
+                                        GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
                                         hasScdFileID = true;
                                     }
                                 }
@@ -256,7 +256,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                                 {
                                     if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
                                     {
-                                        GenerationVariables.NumInput = int.Parse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0]);
+                                        GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
                                         hasScdFileID = true;
                                     }
                                 }
