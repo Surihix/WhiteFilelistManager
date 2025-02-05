@@ -50,15 +50,13 @@ namespace WhiteFilelistManager.FilelistTools
                 }
             }
 
-            switch (parseType)
+            if (parseType == ParseType.json)
             {
-                case ParseType.json:
-                    JsonProcesses.JsonUnpackProcess(filelistVariables, gameCode);
-                    break;
-
-                case ParseType.txt:
-                    TxtsProcesses.TxtsUnpackProcess(filelistVariables, gameCode);
-                    break;
+                JsonProcesses.JsonUnpackProcess(filelistVariables, gameCode);
+            }
+            else
+            {
+                TxtsProcesses.TxtsUnpackProcess(filelistVariables, gameCode);
             }
         }
 
@@ -67,15 +65,13 @@ namespace WhiteFilelistManager.FilelistTools
         {
             CoreForm.CoreFormInstance.Invoke(new Action(() => BackupOldFilelist(jsonFileOrTxtDir, parseType)));
 
-            switch (parseType)
+            if (parseType == ParseType.json)
             {
-                case ParseType.json:
-                    JsonProcesses.JsonRepackProcess(jsonFileOrTxtDir, gameCode);
-                    break;
-
-                case ParseType.txt:
-                    TxtsProcesses.TxtsRepackProcess(jsonFileOrTxtDir, gameCode);
-                    break;
+                JsonProcesses.JsonRepackProcess(jsonFileOrTxtDir, gameCode);
+            }
+            else
+            {
+                TxtsProcesses.TxtsRepackProcess(jsonFileOrTxtDir, gameCode);
             }
         }
 
@@ -92,7 +88,7 @@ namespace WhiteFilelistManager.FilelistTools
                 {
                     filelistFile = Path.Combine(Path.GetDirectoryName(jsonFileOrTxtDir), Path.GetFileNameWithoutExtension(jsonFileOrTxtDir));
                 }
-                else if (parseType == ParseType.txt)
+                else
                 {
                     filelistFile = Path.Combine(Path.GetDirectoryName(jsonFileOrTxtDir), Path.GetFileName(jsonFileOrTxtDir).Remove(0, 1));
                 }
