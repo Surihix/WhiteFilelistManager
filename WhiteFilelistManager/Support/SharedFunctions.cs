@@ -13,7 +13,7 @@
 
         public static void Error(string errorMsg)
         {
-            CoreForm.CoreFormInstance.Invoke(new Action(() => MessageBox.Show(errorMsg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)));
+            MessageBox.Show(errorMsg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             throw new Exception("Handled");
         }
     }

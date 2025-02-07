@@ -63,7 +63,7 @@ namespace WhiteFilelistManager.FilelistTools
 
         public static void RepackFilelist(ParseType parseType, string jsonFileOrTxtDir, GameCode gameCode)
         {
-            CoreForm.CoreFormInstance.Invoke(new Action(() => BackupOldFilelist(jsonFileOrTxtDir, parseType)));
+            BackupOldFilelist(jsonFileOrTxtDir, parseType);
 
             if (parseType == ParseType.json)
             {

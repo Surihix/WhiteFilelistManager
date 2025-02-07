@@ -6,19 +6,12 @@ namespace WhiteFilelistManager
 {
     public partial class CoreForm : Form
     {
-        public static CoreForm CoreFormInstance { get; set; }
         public static TextBox OutputTxtBoxInstance { get; set; }
         public CoreForm()
         {
             InitializeComponent();
             OutputTxtBox.BackColor = SystemColors.Window;
             AppStatusStripLabel.Text = "Tool opened!";
-        }
-
-
-        private void CoreForm_Shown(object sender, EventArgs e)
-        {
-            CoreFormInstance = (CoreForm)Application.OpenForms["CoreForm"];
         }
 
 
@@ -34,7 +27,7 @@ namespace WhiteFilelistManager
         {
             if (ex.Message.ToString() != "Handled")
             {
-                CoreFormInstance.Invoke(new Action(() => MessageBox.Show($"An exception has occured\n{ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)));
+                MessageBox.Show($"An exception has occured\n{ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -101,7 +94,7 @@ namespace WhiteFilelistManager
                     try
                     {
                         FilelistToolsCore.UnpackFilelist(gameCode, FilelistSelect.FileName, ParseType.json);
-                        CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected filelist is now unpacked as JSON file", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                        MessageBox.Show("Selected filelist is now unpacked as JSON file", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
@@ -147,7 +140,7 @@ namespace WhiteFilelistManager
                     try
                     {
                         FilelistToolsCore.RepackFilelist(ParseType.json, jsonFileSelect.FileName, gameCode);
-                        CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected JSON file is now repacked as a filelist", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                        MessageBox.Show("Selected JSON file is now repacked as a filelist", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
@@ -187,7 +180,7 @@ namespace WhiteFilelistManager
                     try
                     {
                         FilelistToolsCore.UnpackFilelist(gameCode, FilelistSelect.FileName, ParseType.txt);
-                        CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected filelist is now unpacked as text files", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                        MessageBox.Show("Selected filelist is now unpacked as text files", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
@@ -234,7 +227,7 @@ namespace WhiteFilelistManager
                     try
                     {
                         FilelistToolsCore.RepackFilelist(ParseType.txt, txtFilesDir.SelectedPath, gameCode);
-                        CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Selected directory with text files is now repacked as a filelist", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                        MessageBox.Show("Selected directory with text files is now repacked as a filelist", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
@@ -280,7 +273,7 @@ namespace WhiteFilelistManager
                 {
                     var jsonOutput = PathGenCore.GenerateOutput(virtualPath, ParseType.json, gameID);
                     BeginInvoke(new Action(() => OutputTxtBoxInstance.Text = jsonOutput));
-                    CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Generated JSON output for the specified virtual path", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                    MessageBox.Show("Generated JSON output for the specified virtual path", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
@@ -322,7 +315,7 @@ namespace WhiteFilelistManager
                 {
                     var txtOutput = PathGenCore.GenerateOutput(virtualPath, ParseType.txt, gameID);
                     BeginInvoke(new Action(() => OutputTxtBoxInstance.Text = txtOutput));
-                    CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Generated TXT output for the specified virtual path", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                    MessageBox.Show("Generated TXT output for the specified virtual path", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
@@ -373,7 +366,7 @@ namespace WhiteFilelistManager
                     try
                     {
                         PathGenCore.GenerateForDir(ParseType.json, DirectorySelect.SelectedPath, gameID);
-                        CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Generated JSON for the specified directory", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                        MessageBox.Show("Generated JSON for the specified directory", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
@@ -413,7 +406,7 @@ namespace WhiteFilelistManager
                     try
                     {
                         PathGenCore.GenerateForDir(ParseType.txt, DirectorySelect.SelectedPath, gameID);
-                        CoreFormInstance.Invoke(new Action(() => MessageBox.Show("Generated TXT for the specified directory", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)));
+                        MessageBox.Show("Generated TXT for the specified directory", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
