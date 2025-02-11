@@ -38,7 +38,7 @@ namespace WhiteFilelistManager.PathGenTools
                 {
                     currentLineData = currentLine.Split('|');
 
-                    if (currentLineData.Length == 0)
+                    if (currentLineData.Length == 1)
                     {
                         continue;
                     }

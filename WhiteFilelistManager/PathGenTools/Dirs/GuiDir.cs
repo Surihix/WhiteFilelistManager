@@ -57,7 +57,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                 string fileIDbits;
                 int categoryGrpID;
 
-                switch (startingPortion + "/" + virtualPathData[3])
+                switch (startingPortion + "/" + virtualPathData[2])
                 {
                     case "gui/resident/autoclip":
                         // 5 bits
