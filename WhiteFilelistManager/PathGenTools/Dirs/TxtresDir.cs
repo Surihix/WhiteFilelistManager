@@ -39,7 +39,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             string extraInfo = string.Empty;
 
             string langIDbits;
-            int zoneID;
+            int zoneID = 0;
             string zoneIDbits;
 
             // 8 bits
@@ -51,7 +51,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                 {
                     zoneID = 0;
                 }
-                else
+                else if (startingPortion != "txtres/zone")
                 {
                     if (GenerationVariables.GenerationType == GenerationType.single)
                     {
@@ -273,7 +273,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             string langIDbits;
             string categoryBits;
 
-            int zoneID;
+            int zoneID = 0;
             string zoneIDbits;
 
             string reservedBits;
@@ -284,7 +284,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                 {
                     zoneID = 0;
                 }
-                else
+                else if (startingPortion != "txtres/zone")
                 {
                     if (GenerationVariables.GenerationType == GenerationType.single)
                     {
@@ -526,7 +526,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     langID = 1;
                     break;
 
-                case "txtes_uk.ztr":
+                case "txtres_uk.ztr":
                     langID = 2;
                     break;
 

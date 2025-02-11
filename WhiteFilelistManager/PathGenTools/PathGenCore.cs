@@ -83,11 +83,16 @@ namespace WhiteFilelistManager.PathGenTools
                 GenerationVariables.HasIdPathsTxtFile = false;
             }
 
-            var processedDataDict = new Dictionary<string, (int, int)>();
+            var processedDataDict = new Dictionary<string, (uint, int)>();
+
+            var excludedFiles = new string[]
+            {
+                "#id-based_paths.txt", "desktop.ini", "AlbumArtSmall.jpg", "Folder.jpg"
+            };
 
             foreach (var filePath in filesInDir)
             {
-                if (filePath == "#id-based_paths.txt")
+                if (excludedFiles.Contains(filePath))
                 {
                     continue;
                 }
@@ -100,11 +105,11 @@ namespace WhiteFilelistManager.PathGenTools
 
                 if (gameID == GameID.xiii)
                 {
-                    processedDataDict.Add(filePath, (int.Parse(GenerationVariables.FileCode), 0));
+                    processedDataDict.Add(filePath, (uint.Parse(GenerationVariables.FileCode), 0));
                 }
                 else
                 {
-                    processedDataDict.Add(filePath, (int.Parse(GenerationVariables.FileCode), int.Parse(GenerationVariables.FileTypeID)));
+                    processedDataDict.Add(filePath, (uint.Parse(GenerationVariables.FileCode), int.Parse(GenerationVariables.FileTypeID)));
                 }
             }
 

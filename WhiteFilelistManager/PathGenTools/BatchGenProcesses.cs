@@ -54,7 +54,7 @@ namespace WhiteFilelistManager.PathGenTools
         }
 
 
-        public static void CreateJSONOutputForDir(Dictionary<string, (int, int)> processedDataDict, GameID gameID)
+        public static void CreateJSONOutputForDir(Dictionary<string, (uint, int)> processedDataDict, GameID gameID)
         {
             var outJsonFile = Path.Combine(Path.GetDirectoryName(DirectoryPath), "#batch_json.json");
 
@@ -93,7 +93,7 @@ namespace WhiteFilelistManager.PathGenTools
         }
 
 
-        public static void CreateTxtOutputForDir(Dictionary<string, (int, int)> processedDataDict, GameID gameID)
+        public static void CreateTxtOutputForDir(Dictionary<string, (uint, int)> processedDataDict, GameID gameID)
         {
             var outTxtFile = Path.Combine(Path.GetDirectoryName(DirectoryPath), "#batch_txt.txt");
             SharedFunctions.IfFileExistsDel(outTxtFile);
