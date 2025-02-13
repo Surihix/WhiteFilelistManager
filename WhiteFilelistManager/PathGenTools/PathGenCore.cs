@@ -169,6 +169,27 @@ namespace WhiteFilelistManager.PathGenTools
                     MotDir.ProcessMotPath(virtualPathData, virtualPath, gameID);
                     break;
 
+                case "movie":
+                case "movie_win":
+                    if (gameID == GameID.xiii2 || gameID == GameID.xiii3)
+                    {
+                        MovieDir.ProcessMoviePath(virtualPathData, virtualPath);
+                    }
+                    else
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            pathErrorMsg = "Valid root directory is not specified for the specified game id";
+                        }
+                        else
+                        {
+                            pathErrorMsg = $"Valid root directory is not specified for the specified game id.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(pathErrorMsg);
+                    }
+                    break;
+
                 case "sound":
                     SoundDir.ProcessSoundPath(virtualPathData, virtualPath, gameID);
                     break;

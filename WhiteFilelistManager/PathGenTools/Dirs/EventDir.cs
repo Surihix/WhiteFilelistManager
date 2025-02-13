@@ -5,6 +5,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class EventDir
     {
+        private static GameID _gameID = new GameID();
+
         private static string ParsingErrorMsg = string.Empty;
 
         private static readonly List<string> _validExtensions = new List<string>()
@@ -14,6 +16,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
         public static void ProcessEventPath(string[] virtualPathData, string virtualPath, GameID gameID)
         {
+            _gameID = gameID;
+
             switch (gameID)
             {
                 case GameID.xiii:
@@ -22,7 +26,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                 case GameID.xiii2:
                 case GameID.xiii3:
-                    EventPathXIII2LR(virtualPathData, virtualPath, gameID);
+                    EventPathXIII2LR(virtualPathData, virtualPath);
                     break;
             }
         }
@@ -203,7 +207,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
 
         #region XIII-2 and XIII-LR
-        private static void EventPathXIII2LR(string[] virtualPathData, string virtualPath, GameID gameID)
+        private static void EventPathXIII2LR(string[] virtualPathData, string virtualPath)
         {
             var fileExtn = Path.GetExtension(virtualPath);
 
@@ -235,7 +239,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     var zoneName = virtualPathData[2].Split("_")[1];
                     var isExistingZone = false;
 
-                    if (gameID == GameID.xiii2)
+                    if (_gameID == GameID.xiii2)
                     {
                         if (ZoneMapping.XIII2Zones.ContainsKey(zoneName))
                         {
