@@ -157,6 +157,10 @@ namespace WhiteFilelistManager.PathGenTools
                     ChrDir.ProcessChrPath(virtualPathData, virtualPath, gameID);
                     break;
 
+                case "db":
+                    DbDir.ProcessDbPath(virtualPathData, virtualPath, gameID);
+                    break;
+
                 case "event":
                     EventDir.ProcessEventPath(virtualPathData, virtualPath, gameID);
                     break;

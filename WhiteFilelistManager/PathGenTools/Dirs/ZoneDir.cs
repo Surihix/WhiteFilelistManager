@@ -229,15 +229,15 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         SharedFunctions.Error(ParsingErrorMsg);
                     }
 
-                    if (zoneID > 1000)
+                    if (zoneID > 998)
                     {
                         if (GenerationVariables.GenerationType == GenerationType.single)
                         {
-                            ParsingErrorMsg = "Number in the zone folder name, is too large. must be from 0 to 1000.";
+                            ParsingErrorMsg = "Number in the zone folder name, is too large. must be from 0 to 998.";
                         }
                         else
                         {
-                            ParsingErrorMsg = $"Number in the zone folder name, is too large. must be from 0 to 1000.\n{GenerationVariables.PathErrorStringForBatch}";
+                            ParsingErrorMsg = $"Number in the zone folder name, is too large. must be from 0 to 998.\n{GenerationVariables.PathErrorStringForBatch}";
                         }
 
                         SharedFunctions.Error(ParsingErrorMsg);
