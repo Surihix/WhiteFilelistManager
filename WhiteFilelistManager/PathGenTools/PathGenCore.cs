@@ -149,6 +149,10 @@ namespace WhiteFilelistManager.PathGenTools
 
             switch (virtualPathData[0])
             {
+                case "bg":
+                    BgDir.ProcessBgPath(virtualPathData, virtualPath, gameID);
+                    break;
+
                 case "btscene":
                     BtsceneDir.ProcessBtscenePath(virtualPathData, virtualPath, gameID);
                     break;

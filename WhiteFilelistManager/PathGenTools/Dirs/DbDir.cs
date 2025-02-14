@@ -36,12 +36,12 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             var finalComputedBits = string.Empty;
             int fileNameNum;
-            var fileNameNumBits = string.Empty;
+            string fileNameNumBits;
             var dbCategoryBits = string.Empty;
-            var reservedBits = string.Empty;
+            string reservedBits;
 
-            string fileCode = string.Empty;
-            string extraInfo = string.Empty;
+            string fileCode;
+            var extraInfo = string.Empty;
 
             // 8 bits
             var mainTypeBits = string.Empty;
@@ -227,25 +227,26 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             var finalComputedBits = string.Empty;
 
-            var fileCode = string.Empty;
+            string fileCode;
             var extraInfo = string.Empty;
 
             // 8 bits
-            var reservedABits = string.Empty;
+            string reservedABits;
 
             if (virtualPathData.Length == 3)
             {
                 reservedABits = "00000000";
 
                 int fileNameNum;
-                var fileNameNumBits = string.Empty;
-                var dbCategoryBits = string.Empty;
-                var reservedBBits = string.Empty;
+                string fileNameNumBits;
+                string dbCategoryBits;
+                string reservedBBits;
 
                 switch (startingPortion)
                 {
                     case "db/ai":
                     case "db/bg":
+                    case "db/btscenetable":
                     case "db/script":
                         // 8 bits
                         dbCategoryBits = Convert.ToString(DetermineDbCategory(virtualPathData[1]), 2).PadLeft(8, '0');
@@ -333,6 +334,10 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                 case "bg":
                     categoryID = 12;
+                    break;
+
+                case "btscenetable":
+                    categoryID = 16;
                     break;
             }
 
