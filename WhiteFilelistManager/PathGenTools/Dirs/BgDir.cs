@@ -15,8 +15,11 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     break;
 
                 case GameID.xiii2:
+                    BgPathXIII2(virtualPathData, virtualPath);
+                    break;
+
                 case GameID.xiii3:
-                    BgPathXIII2LR(virtualPathData, virtualPath);
+                    BgPathXIIILR(virtualPathData, virtualPath);
                     break;
             }
         }
@@ -30,8 +33,16 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
         #endregion
 
 
-        #region XIII-2 and XIII-LR
-        private static void BgPathXIII2LR(string[] virtualPathData, string virtualPath)
+        #region XIII-2
+        private static void BgPathXIII2(string[] virtualPathData, string virtualPath)
+        {
+
+        }
+        #endregion
+
+
+        #region XIII-LR
+        private static void BgPathXIIILR(string[] virtualPathData, string virtualPath)
         {
 
         }

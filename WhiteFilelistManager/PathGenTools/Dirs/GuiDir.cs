@@ -41,34 +41,29 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             var finalComputedBits = string.Empty;
 
-            string fileCode = string.Empty;
-            string extraInfo = string.Empty;
+            string fileCode;
+            var extraInfo = string.Empty;
 
             // 4 bits
-            var mainTypeBits = string.Empty;
+            string mainTypeBits;
 
             if (virtualPathData.Length > 3)
             {
-                mainTypeBits = Convert.ToString(8, 2).PadLeft(4, '0');
-
-                string reservedBits;
                 string categoryBits;
-                string grpBits;
 
                 int numInFileName;
                 int fileID;
                 string fileIDbits;
-                int grpID;
                 int currentFileID = 0;
 
                 switch (startingPortion + "/" + virtualPathData[2])
                 {
                     case "gui/resident/autoclip":
-                        // 5 bits
-                        reservedBits = "00000";
+                        // 8 bits
+                        mainTypeBits = Convert.ToString(128, 2).PadLeft(8, '0');
 
-                        // 11 bits
-                        categoryBits = Convert.ToString(3, 2).PadLeft(11, '0');
+                        // 12 bits
+                        categoryBits = Convert.ToString(3, 2).PadLeft(12, '0');
 
                         // 12 bits
                         numInFileName = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
@@ -105,14 +100,12 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // Assemble bits
                         finalComputedBits += mainTypeBits;
-                        finalComputedBits += reservedBits;
                         finalComputedBits += categoryBits;
                         finalComputedBits += fileIDbits;
 
-                        extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Reserved (5 bits): {reservedBits}\r\n\r\n";
-                        extraInfo += $"Category (11 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"File number (12 bits): {fileIDbits}";
+                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Category (12 bits): {categoryBits}\r\n\r\n";
+                        extraInfo += $"File ID (12 bits): {fileIDbits}";
                         finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
@@ -122,11 +115,11 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
 
                     case "gui/resident/clipbg":
-                        // 5 bits
-                        reservedBits = "00000";
+                        // 8 bits
+                        mainTypeBits = Convert.ToString(128, 2).PadLeft(8, '0');
 
-                        // 11 bits
-                        categoryBits = Convert.ToString(5, 2).PadLeft(11, '0');
+                        // 12 bits
+                        categoryBits = Convert.ToString(5, 2).PadLeft(12, '0');
 
                         // 12 bits
                         numInFileName = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
@@ -163,14 +156,12 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // Assemble bits
                         finalComputedBits += mainTypeBits;
-                        finalComputedBits += reservedBits;
                         finalComputedBits += categoryBits;
                         finalComputedBits += fileIDbits;
 
-                        extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Reserved (5 bits): {reservedBits}\r\n\r\n";
-                        extraInfo += $"Category (11 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"File number (12 bits): {fileIDbits}";
+                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Category (12 bits): {categoryBits}\r\n\r\n";
+                        extraInfo += $"File ID (12 bits): {fileIDbits}";
                         finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
@@ -180,11 +171,11 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
 
                     case "gui/resident/monster":
-                        // 5 bits
-                        reservedBits = "00000";
+                        // 8 bits
+                        mainTypeBits = Convert.ToString(128, 2).PadLeft(8, '0');
 
-                        // 11 bits
-                        categoryBits = Convert.ToString(1, 2).PadLeft(11, '0');
+                        // 12 bits
+                        categoryBits = Convert.ToString(1, 2).PadLeft(12, '0');
 
                         // 12 bits
                         numInFileName = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
@@ -221,14 +212,12 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // Assemble bits
                         finalComputedBits += mainTypeBits;
-                        finalComputedBits += reservedBits;
                         finalComputedBits += categoryBits;
                         finalComputedBits += fileIDbits;
 
-                        extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Reserved (5 bits): {reservedBits}\r\n\r\n";
-                        extraInfo += $"Category (11 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"File number (12 bits): {fileIDbits}";
+                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Category (12 bits): {categoryBits}\r\n\r\n";
+                        extraInfo += $"File ID (12 bits): {fileIDbits}";
                         finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
@@ -238,8 +227,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
 
                     case "gui/resident/mission":
-                        // 5 bits
-                        categoryBits = Convert.ToString(4, 2).PadLeft(5, '0');
+                        // 8 bits
+                        mainTypeBits = Convert.ToString(130, 2).PadLeft(8, '0');
 
                         numInFileName = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
                         if (numInFileName == -1)
@@ -295,24 +284,81 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             }
                         }
 
-                        // 11 bits
-                        grpID = currentGrpID;
-                        grpBits = Convert.ToString(grpID, 2).PadLeft(11, '0');
+                        // 12 bits
+                        var grpBits = Convert.ToString(currentGrpID, 2).PadLeft(12, '0');
 
                         // 12 bits
-                        fileID = currentFileID;
-                        fileIDbits = Convert.ToString(fileID, 2).PadLeft(12, '0');
+                        fileIDbits = Convert.ToString(currentFileID, 2).PadLeft(12, '0');
 
                         // Assemble bits
                         finalComputedBits += mainTypeBits;
-                        finalComputedBits += categoryBits;
                         finalComputedBits += grpBits;
                         finalComputedBits += fileIDbits;
 
-                        extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Category (5 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"Group number (11 bits): {grpBits}\r\n\r\n";
-                        extraInfo += $"File number (12 bits): {fileIDbits}";
+                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Group ID (12 bits): {grpBits}\r\n\r\n";
+                        extraInfo += $"File ID (12 bits): {fileIDbits}";
+                        finalComputedBits.Reverse();
+
+                        fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                        GenerationVariables.FileCode = fileCode;
+                        break;
+
+
+                    case "gui/resident/pack":
+                        // 8 bits
+                        mainTypeBits = Convert.ToString(128, 2).PadLeft(8, '0');
+
+                        // 12 bits
+                        var reservedBits = "000000000000";
+
+                        // 4 bits
+                        categoryBits = Convert.ToString(4, 2).PadLeft(4, '0');
+
+                        // 8 bits
+                        numInFileName = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
+                        if (numInFileName == -1)
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = $"Unable to determine file number from path";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
+                        }
+
+                        if (numInFileName > 99)
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 99.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 99.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
+                        }
+
+                        fileID = GetFileID(virtualPath, 0, 0, fileExtn);
+                        fileIDbits = Convert.ToString(fileID, 2).PadLeft(8, '0');
+
+                        // Assemble bits
+                        finalComputedBits += mainTypeBits;
+                        finalComputedBits += reservedBits;
+                        finalComputedBits += categoryBits;
+                        finalComputedBits += fileIDbits;
+
+                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Reserved (12 bits): {reservedBits}\r\n\r\n";
+                        extraInfo += $"Category (4 bits): {categoryBits}\r\n\r\n";
+                        extraInfo += $"File ID (8 bits): {fileIDbits}";
                         finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
@@ -322,11 +368,11 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
 
                     case "gui/resident/shop":
-                        // 5 bits
-                        reservedBits = "00000";
+                        // 8 bits
+                        mainTypeBits = Convert.ToString(128, 2).PadLeft(8, '0');
 
-                        // 11 bits
-                        categoryBits = Convert.ToString(0, 2).PadLeft(11, '0');
+                        // 12 bits
+                        categoryBits = Convert.ToString(0, 2).PadLeft(12, '0');
 
                         // 12 bits
                         numInFileName = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
@@ -363,14 +409,12 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // Assemble bits
                         finalComputedBits += mainTypeBits;
-                        finalComputedBits += reservedBits;
                         finalComputedBits += categoryBits;
                         finalComputedBits += fileIDbits;
 
-                        extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Reserved (5 bits): {reservedBits}\r\n\r\n";
-                        extraInfo += $"Category (11 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"File number (12 bits): {fileIDbits}";
+                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Category (12 bits): {categoryBits}\r\n\r\n";
+                        extraInfo += $"File ID (12 bits): {fileIDbits}";
                         finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
@@ -380,11 +424,11 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
 
                     case "gui/resident/tutorial":
-                        // 5 bits
-                        reservedBits = "00000";
+                        // 8 bits
+                        mainTypeBits = Convert.ToString(128, 2).PadLeft(8, '0');
 
-                        // 11 bits
-                        categoryBits = Convert.ToString(4, 2).PadLeft(11, '0');
+                        // 12 bits
+                        categoryBits = Convert.ToString(4, 2).PadLeft(12, '0');
 
                         // 12 bits
                         numInFileName = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
@@ -479,14 +523,12 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // Assemble bits
                         finalComputedBits += mainTypeBits;
-                        finalComputedBits += reservedBits;
                         finalComputedBits += categoryBits;
                         finalComputedBits += fileIDbits;
 
-                        extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Reserved (5 bits): {reservedBits}\r\n\r\n";
-                        extraInfo += $"Category (11 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"File number (12 bits): {fileIDbits}";
+                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Category (12 bits): {categoryBits}\r\n\r\n";
+                        extraInfo += $"File ID (12 bits): {fileIDbits}";
                         finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
@@ -521,11 +563,11 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             var finalComputedBits = string.Empty;
 
-            string fileCode = string.Empty;
-            string extraInfo = string.Empty;
+            string fileCode;
+            var extraInfo = string.Empty;
 
             // 4 bits
-            var reservedABits = string.Empty;
+            string reservedABits;
 
             if (virtualPathData.Length > 3)
             {
@@ -637,7 +679,71 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         finalComputedBits += fileIDbits;
 
-                        extraInfo += $"File number (12 bits): {fileIDbits}";
+                        extraInfo += $"File ID (12 bits): {fileIDbits}";
+                        finalComputedBits.Reverse();
+
+                        fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                        GenerationVariables.FileCode = fileCode;
+                        GenerationVariables.FileTypeID = "128";
+                        break;
+
+
+                    case "gui/resident/pack":
+                        // 5 bits
+                        reservedBbits = "00000";
+
+                        // 11 bits
+                        var reservedCbits = "00000000000";
+
+                        // 4 bits
+                        categoryBits = Convert.ToString(4, 2).PadLeft(4, '0');
+
+                        // 8 bits
+                        numInFileName = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
+                        if (numInFileName == -1)
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = $"Unable to determine file number from path";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
+                        }
+
+                        if (numInFileName > 99)
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 99.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 99.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
+                        }
+
+                        fileID = GetFileID(virtualPath, 0, 0, fileExtn);
+                        fileIDbits = Convert.ToString(fileID, 2).PadLeft(8, '0');
+
+                        // Assemble bits
+                        finalComputedBits += reservedABits;
+                        finalComputedBits += reservedBbits;
+                        finalComputedBits += reservedCbits;
+                        finalComputedBits += categoryBits;
+                        finalComputedBits += fileIDbits;
+
+                        extraInfo += $"ReservedA (4 bits): {reservedABits}\r\n\r\n";
+                        extraInfo += $"ReservedB (5 bits): {reservedBbits}\r\n\r\n";
+                        extraInfo += $"ReservedC (11 bits): {reservedCbits}\r\n\r\n";
+                        extraInfo += $"Category (4 bits): {categoryBits}\r\n\r\n";
+                        extraInfo += $"File ID (8 bits): {fileIDbits}";
                         finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
@@ -759,7 +865,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         extraInfo += $"ReservedA (4 bits): {reservedABits}\r\n\r\n";
                         extraInfo += $"ReservedB (5 bits): {reservedBbits}\r\n\r\n";
                         extraInfo += $"Category (11 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"File number (12 bits): {fileIDbits}";
+                        extraInfo += $"File ID (12 bits): {fileIDbits}";
                         finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
