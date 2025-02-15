@@ -9,7 +9,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
         private static readonly List<string> _validExtensions = new List<string>()
         {
-            ".wdb", ".clb"
+            ".wdb", ".clb", ".bin"
         };
 
         public static void ProcessZonePath(string[] virtualPathData, string virtualPath, GameID gameID)
@@ -41,20 +41,20 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             var finalComputedBits = string.Empty;
 
-            string fileCode = string.Empty;
+            string fileCode;
             string extraInfo = string.Empty;
 
-            // 4 bits
-            var mainTypeBits = string.Empty;
+            // 8 bits
+            string mainTypeBits;
 
             if (virtualPathData.Length > 2)
             {
+                string categoryBits;
+                string reservedBits;
+                string zoneIDbits;
+
                 if (startingPortion.StartsWith("zone/z"))
                 {
-                    string categoryBits;
-                    string reservedBits;
-                    string zoneIDbits;
-
                     // Get zone number
                     var zoneID = GenerationFunctions.DeriveNumFromString(virtualPathData[1]);
                     if (zoneID == -1)
@@ -87,13 +87,13 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                     if (fileExtn == ".wdb")
                     {
-                        mainTypeBits = Convert.ToString(4, 2).PadLeft(4, '0');
+                        mainTypeBits = Convert.ToString(64, 2).PadLeft(8, '0');
 
-                        // 11 bits
-                        categoryBits = Convert.ToString(1, 2).PadLeft(11, '0');
+                        // 8 bits
+                        categoryBits = Convert.ToString(2, 2).PadLeft(8, '0');
 
-                        // 9 bits
-                        reservedBits = "000000000";
+                        // 8 bits
+                        reservedBits = "00000000";
 
                         // 8 bits
                         zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(8, '0');
@@ -104,9 +104,9 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += reservedBits;
                         finalComputedBits += zoneIDbits;
 
-                        extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Category (11 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"Reserved (9 bits): {reservedBits}\r\n\r\n";
+                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Category (8 bits): {categoryBits}\r\n\r\n";
+                        extraInfo += $"Reserved (8 bits): {reservedBits}\r\n\r\n";
                         extraInfo += $"ZoneID (8 bits): {zoneIDbits}";
                         finalComputedBits.Reverse();
 
@@ -116,10 +116,10 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     }
                     else if (fileExtn == ".clb")
                     {
-                        mainTypeBits = Convert.ToString(6, 2).PadLeft(4, '0');
+                        mainTypeBits = Convert.ToString(96, 2).PadLeft(8, '0');
 
-                        // 12 bits
-                        zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(12, '0');
+                        // 8 bits
+                        zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(8, '0');
 
                         // 8 bits
                         reservedBits = "00000000";
@@ -162,8 +162,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += reservedBits;
                         finalComputedBits += scrIDbits;
 
-                        extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"ZoneID (12 bits): {zoneIDbits}\r\n\r\n";
+                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"ZoneID (8 bits): {zoneIDbits}\r\n\r\n";
                         extraInfo += $"Reserved (8 bits): {reservedBits}\r\n\r\n";
                         extraInfo += $"ScrID (8 bits): {scrIDbits}";
                         finalComputedBits.Reverse();
@@ -173,15 +173,68 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         GenerationVariables.FileCode = fileCode;
                     }
                 }
+                else if (startingPortion.StartsWith("zone/lip"))
+                {
+                    mainTypeBits = Convert.ToString(97, 2).PadLeft(8, '0');
+
+                    // 8 bits
+                    var fileNameNum = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
+                    if (fileNameNum == -1)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = $"Unable to determine file number from path";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
+                    }
+
+                    if (fileNameNum > 255)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 255.";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 255.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
+                    }
+
+                    var fileNameNumBits = Convert.ToString(fileNameNum, 2).PadLeft(8, '0');
+
+                    // 16 bits
+                    reservedBits = "0000000000000000";
+
+                    // Assemble bits
+                    finalComputedBits += mainTypeBits;
+                    finalComputedBits += fileNameNumBits;
+                    finalComputedBits += reservedBits;
+
+                    extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                    extraInfo += $"File number (8 bits): {fileNameNumBits}\r\n\r\n";
+                    extraInfo += $"Reserved (16 bits): {reservedBits}";
+                    finalComputedBits.Reverse();
+
+                    fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                    GenerationVariables.FileCode = fileCode;
+                }
                 else
                 {
                     SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
                 }
             }
-            //else
-            //{
-            //    // Assume its a filelist file
-            //}
+            else
+            {
+                SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
+            }
         }
         #endregion
 
@@ -199,20 +252,20 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             var finalComputedBits = string.Empty;
 
-            string fileCode = string.Empty;
-            string extraInfo = string.Empty;
+            string fileCode;
+            var extraInfo = string.Empty;
 
             // 4 bits
             var reservedBits = "0000";
 
             if (virtualPathData.Length > 2)
             {
+                string categoryBits;
+                string reserved2Bits;
+                string zoneIDbits;
+
                 if (startingPortion.StartsWith("zone/z"))
                 {
-                    string categoryBits;
-                    string reserved2Bits;
-                    string zoneIDbits;
-
                     // Get zone number
                     var zoneID = GenerationFunctions.DeriveNumFromString(virtualPathData[1]);
                     if (zoneID == -1)
@@ -329,15 +382,72 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         GenerationVariables.FileTypeID = "96";
                     }
                 }
+                else if (startingPortion.StartsWith("zone/lip"))
+                {
+                    // 8 bits
+                    categoryBits = Convert.ToString(128, 2).PadLeft(8, '0');
+
+                    // 12 bits
+                    var fileNameNum = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
+                    if (fileNameNum == -1)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = $"Unable to determine file number from path";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
+                    }
+
+                    if (fileNameNum > 998)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 998.";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 998.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
+                    }
+
+                    var fileNameNumBits = Convert.ToString(fileNameNum, 2).PadLeft(12, '0');
+
+                    // 8 bits
+                    reserved2Bits = "00000000";
+
+                    // Assemble bits
+                    finalComputedBits += reservedBits;
+                    finalComputedBits += categoryBits;
+                    finalComputedBits += fileNameNumBits;
+                    finalComputedBits += reserved2Bits;
+
+                    extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
+                    extraInfo += $"Category (8 bits): {categoryBits}\r\n\r\n";
+                    extraInfo += $"File number (12 bits): {fileNameNumBits}\r\n\r\n";
+                    extraInfo += $"Reserved2 (8 bits): {reserved2Bits}";
+                    finalComputedBits.Reverse();
+
+                    fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                    GenerationVariables.FileCode = fileCode;
+                    GenerationVariables.FileTypeID = "96";
+                }
                 else
                 {
                     SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
                 }
             }
-            //else
-            //{
-            //    // Assume its a filelist file
-            //}
+            else
+            {
+                SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
+            }
         }
         #endregion
     }
