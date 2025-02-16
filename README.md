@@ -9,7 +9,7 @@ Note: `*.*` means that all file types in the virtual directory are supported
   | btscene/pack/wdb | .wdb files |  
   | chr/`*.*` | .trb, .imgb and .mpk files |
   | db/ai | .wdb files |
-  | db/ai/party/*.* | .wdb files |
+  | db/ai/party/`*.*` | .wdb files |
   | db/bg | .wdb files |
   | db/script | .wdb files | 
   | event/`*.*` | .xwb, .bin and .imgb files |
