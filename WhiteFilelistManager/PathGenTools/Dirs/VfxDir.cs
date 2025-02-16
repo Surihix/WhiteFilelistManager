@@ -43,17 +43,17 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             int fileExtnID = 0;
             string fileExtnBits;
 
-            string fileCode = string.Empty;
-            string extraInfo = string.Empty;
+            string fileCode;
+            var extraInfo = string.Empty;
 
-            // 4 bits
-            var mainTypeBits = string.Empty;
+            string mainTypeBits;
 
             if (virtualPathData.Length > 3)
             {
                 switch (startingPortion)
                 {
                     case "vfx/chr":
+                        // 4 bits
                         mainTypeBits = Convert.ToString(1, 2).PadLeft(4, '0');
 
                         // 5 bits
@@ -134,6 +134,62 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         extraInfo += $"ModelID (10 bits): {modelIDbits}\r\n\r\n";
                         extraInfo += $"ModelExtension Type (5 bits): {fileExtnBits}\r\n\r\n";
                         extraInfo += $"Version (8 bits): {versionBits}";
+                        finalComputedBits.Reverse();
+
+                        fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                        GenerationVariables.FileCode = fileCode;
+                        break;
+
+
+                    case "vfx/ac":
+                    case "vfx/event":
+                        // 8 bits
+                        mainTypeBits = Convert.ToString(130, 2).PadLeft(8, '0');
+
+                        // 4 bits
+                        var reservedBits = "0000";
+
+                        // 8 bits
+                        var categoryBits = Convert.ToString(8, 2).PadLeft(8, '0');
+
+                        // 12 bits
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            GenerationFunctions.UserInput("Enter file number", "Must be from 0 to 4095", 0, 4095);
+                        }
+                        else
+                        {
+                            var hasFileID = false;
+
+                            if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
+                            {
+                                if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
+                                {
+                                    GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
+                                    hasFileID = true;
+                                }
+                            }
+
+                            if (!hasFileID)
+                            {
+                                SharedFunctions.Error($"Unable to determine file number for a file.\n{GenerationVariables.PathErrorStringForBatch}");
+                            }
+                        }
+
+                        var fileID = GenerationVariables.NumInput;
+                        var fileIDbits = Convert.ToString(fileID, 2).PadLeft(12, '0');
+
+                        // Assemble bits
+                        finalComputedBits += mainTypeBits;
+                        finalComputedBits += reservedBits;
+                        finalComputedBits += categoryBits;
+                        finalComputedBits += fileIDbits;
+
+                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
+                        extraInfo += $"Category (8 bits): {categoryBits}\r\n\r\n";
+                        extraInfo += $"File ID (12 bits): {fileIDbits}";
                         finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
@@ -265,6 +321,60 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         GenerationVariables.FileCode = fileCode;
                         GenerationVariables.FileTypeID = "16";
+                        break;
+
+
+                    case "vfx/ac":
+                    case "vfx/event":
+                        // 8 bits
+                        var categoryBits = Convert.ToString(32, 2).PadLeft(8, '0');
+
+                        // 8 bits
+                        var category2Bits = Convert.ToString(8, 2).PadLeft(8, '0');
+
+                        // 12 bits
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            GenerationFunctions.UserInput("Enter file number", "Must be from 0 to 4095", 0, 4095);
+                        }
+                        else
+                        {
+                            var hasFileID = false;
+
+                            if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
+                            {
+                                if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
+                                {
+                                    GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
+                                    hasFileID = true;
+                                }
+                            }
+
+                            if (!hasFileID)
+                            {
+                                SharedFunctions.Error($"Unable to determine file number for a file.\n{GenerationVariables.PathErrorStringForBatch}");
+                            }
+                        }
+
+                        var fileID = GenerationVariables.NumInput;
+                        var fileIDbits = Convert.ToString(fileID, 2).PadLeft(12, '0');
+
+                        // Assemble bits
+                        finalComputedBits += reservedBits;
+                        finalComputedBits += categoryBits;
+                        finalComputedBits += category2Bits;
+                        finalComputedBits += fileIDbits;
+
+                        extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
+                        extraInfo += $"Category (8 bits): {categoryBits}\r\n\r\n";
+                        extraInfo += $"Category2 (8 bits): {category2Bits}\r\n\r\n";
+                        extraInfo += $"File ID (12 bits): {fileIDbits}";
+                        finalComputedBits.Reverse();
+
+                        fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                        GenerationVariables.FileCode = fileCode;
+                        GenerationVariables.FileTypeID = "128";
                         break;
 
 
