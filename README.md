@@ -4,6 +4,7 @@ Note: `*.*` means that all file types in the virtual directory are supported
 
   | Directories | File Types | 
   | --- | --- |
+  | ac/`*.*` | .xwb, .bin and .imgb files |
   | btscene/wdb/entry | .wdb files |
   | btscene/pack/clb | .clb files |  
   | btscene/pack/wdb | .wdb files |  

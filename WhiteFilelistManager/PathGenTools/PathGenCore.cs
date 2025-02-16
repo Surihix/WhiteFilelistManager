@@ -149,6 +149,26 @@ namespace WhiteFilelistManager.PathGenTools
 
             switch (virtualPathData[0])
             {
+                case "ac":
+                    if (gameID == GameID.xiii || gameID == GameID.xiii2)
+                    {
+                        AcDir.ProcessAcPath(virtualPathData, virtualPath, gameID);
+                    }
+                    else
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            pathErrorMsg = "Valid root directory is not specified for the specified game id";
+                        }
+                        else
+                        {
+                            pathErrorMsg = $"Valid root directory is not specified for the specified game id.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(pathErrorMsg);
+                    }
+                    break;
+
                 case "bg":
                     BgDir.ProcessBgPath(virtualPathData, virtualPath, gameID);
                     break;
