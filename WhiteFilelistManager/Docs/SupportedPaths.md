@@ -1,19 +1,22 @@
+# SupportedPaths
+
 You can generate the filelist data for these following virtual directories and file types:
 
-Note: `*.*` means that all file types in the virtual directory are supported
+**Note:** `*.*` means that all file types in the directory are supported.
 
   | Directories | File Types | 
   | --- | --- |
-  | ac/`*.*` | .xwb, .bin and .imgb files |
+  | ac/`*.*` | .bin, .imgb and .xwb files |
+  | bg/`*.*` | .imgb, .mpk and .xwb files |
   | btscene/wdb/entry | .wdb files |
   | btscene/pack/clb | .clb files |  
   | btscene/pack/wdb | .wdb files |  
-  | chr/`*.*` | .trb, .imgb and .mpk files |
+  | chr/`*.*` | .imgb, .mpk and .trb files |
   | db/ai | .wdb files |
   | db/ai/party/`*.*` | .wdb files |
   | db/bg | .wdb files |
   | db/script | .wdb files | 
-  | event/`*.*` | .xwb, .bin and .imgb files |
+  | event/`*.*` | .bin, .imgb and .xwb files |
   | gui/resident/autoclip | .imgb and .xgr files |
   | gui/resident/clipbg | .imgb and .xgr files |
   | gui/resident/mission | .imgb and .xgr files |
@@ -23,7 +26,7 @@ Note: `*.*` means that all file types in the virtual directory are supported
   | gui/resident/tutorial | .imgb and .xgr files |
   | mot/`*.*` | .bin files |
   | movie | .bik files |
-  | movie_win/`*.*` | bik files |
+  | movie_win/`*.*` | .bik files |
   | sound/pack | .scd and .wpd files |
   | txtres/ac | .ztr files |
   | txtres/event | .ztr files |
@@ -31,5 +34,6 @@ Note: `*.*` means that all file types in the virtual directory are supported
   | vfx/ac | .imgb and .xfv files |
   | vfx/chr | .imgb and .xfv files |
   | vfx/event | .imgb and .xfv files |
+  | vfx/field | .imgb and .xfv files |
   | zone/lip | .bin files |
-  | zone/z#### | .wdb and .clb files |
+  | zone/z#### | .clb and .wdb files |
