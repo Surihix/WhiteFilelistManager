@@ -580,7 +580,11 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                                 SharedFunctions.Error(ParsingErrorMsg);
                             }
 
-                            locID = _gameID == GameID.xiii3 ? locID -= 1 : locID;
+                            if (_gameID == GameID.xiii3)
+                            {
+                                locID--;
+                                locID = locID < 0 ? 0 : locID;
+                            }
 
                             var locIDbits = Convert.ToString(locID, 2).PadLeft(12, '0');
 

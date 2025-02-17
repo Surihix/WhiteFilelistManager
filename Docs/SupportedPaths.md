@@ -9,8 +9,8 @@ You can generate the filelist data for these following virtual directories and f
   | ac/`*.*` | .bin, .imgb and .xwb files |
   | bg/`*.*` | .imgb, .mpk and .xwb files |
   | btscene/wdb/entry | .wdb files |
-  | btscene/pack/clb | .clb files |  
-  | btscene/pack/wdb | .wdb files |  
+  | btscene/pack/clb | .bin files |  
+  | btscene/pack/wdb | .bin files |  
   | chr/`*.*` | .imgb, .mpk and .trb files |
   | db/ai | .wdb files |
   | db/ai/party/`*.*` | .wdb files |
