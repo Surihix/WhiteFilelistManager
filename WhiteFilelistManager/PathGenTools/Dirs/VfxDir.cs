@@ -5,6 +5,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class VfxDir
     {
+        private static GameID _gameID = new GameID();
+
         private static string ParsingErrorMsg = string.Empty;
 
         private static readonly List<string> _validExtensions = new List<string>()
@@ -14,6 +16,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
         public static void ProcessVfxPath(string[] virtualPathData, string virtualPath, GameID gameID)
         {
+            _gameID = gameID;
+
             switch (gameID)
             {
                 case GameID.xiii:
@@ -325,10 +329,10 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             }
 
             var finalComputedBits = string.Empty;
-            int fileExtnID = 0;
+            int fileExtnID;
             string fileExtnBits;
 
-            string fileCode = string.Empty;
+            string fileCode;
             string extraInfo = string.Empty;
 
             // 4 bits
@@ -477,6 +481,161 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         GenerationVariables.FileCode = fileCode;
                         GenerationVariables.FileTypeID = "128";
+                        break;
+
+
+                    case "vfx/field":
+                        if (virtualPathData[2] == "weather")
+                        {
+                            // 4 bits
+                            categoryBits = Convert.ToString(8, 2).PadLeft(4, '0');
+
+                            // 12 bits
+                            reservedBits = "000000000000";
+
+                            // 12 bits
+                            var weatherID = GenerationFunctions.DeriveNumFromString(virtualPathData[3]);
+
+                            if (weatherID == -1)
+                            {
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = "weather number in the path is invalid";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"weather number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
+                            }
+
+                            if (weatherID > 99)
+                            {
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = "weather number in the path is too large. must be from 0 to 99.";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"weather number in the path is too large. must be from 0 to 99.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
+                            }
+
+                            var weatherIDbits = Convert.ToString(weatherID, 2).PadLeft(12, '0');
+
+                            // 4 bits
+                            fileExtnID = fileExtn == ".xfv" ? 0 : 1;
+                            fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(4, '0');
+
+                            // Assemble bits
+                            finalComputedBits += categoryBits;
+                            finalComputedBits += reservedBits;
+                            finalComputedBits += weatherIDbits;
+                            finalComputedBits += fileExtnBits;
+
+                            extraInfo += $"Category (4 bits): {categoryBits}\r\n\r\n";
+                            extraInfo += $"Reserved (12 bits): {reservedBits}\r\n\r\n";
+                            extraInfo += $"Weather ID (12 bits): {weatherIDbits}\r\n\r\n";
+                            extraInfo += $"Extension Type (4 bits): {fileExtnBits}";
+                            finalComputedBits.Reverse();
+
+                            fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                            GenerationVariables.FileCode = fileCode;
+                            GenerationVariables.FileTypeID = "128";
+                        }
+                        else
+                        {
+                            // 12 bits
+                            var locID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
+
+                            if (locID == -1)
+                            {
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = "loc number in the path is invalid";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"loc number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
+                            }
+
+                            if (locID > 998)
+                            {
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = "loc number in the path is too large. must be from 0 to 998.";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"loc number in the path is too large. must be from 0 to 998.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
+                            }
+
+                            locID = _gameID == GameID.xiii3 ? locID -= 1 : locID;
+
+                            var locIDbits = Convert.ToString(locID, 2).PadLeft(12, '0');
+
+                            // 12 bits
+                            var fileNameNum = GenerationFunctions.DeriveNumFromString(virtualPathData[3]);
+
+                            if (fileNameNum == -1)
+                            {
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = $"Unable to determine file number from path";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
+                            }
+
+                            if (fileNameNum > 999)
+                            {
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
+                            }
+
+                            var fileNameNumBits = Convert.ToString(fileNameNum, 2).PadLeft(12, '0');
+
+                            // 8 bits
+                            var fileCategory = fileExtn == ".imgb" ? 2 : 3;
+                            var fileCategoryBits = Convert.ToString(fileCategory, 2).PadLeft(8, '0');
+
+                            // Assemble bits
+                            finalComputedBits += locIDbits;
+                            finalComputedBits += fileNameNumBits;
+                            finalComputedBits += fileCategoryBits;
+
+                            extraInfo += $"LocID (12 bits): {locIDbits}\r\n\r\n";
+                            extraInfo += $"File number (12 bits): {fileNameNumBits}\r\n\r\n";
+                            extraInfo += $"Category (8 bits): {fileCategoryBits}";
+                            finalComputedBits.Reverse();
+
+                            fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                            GenerationVariables.FileCode = fileCode;
+                            GenerationVariables.FileTypeID = "48";
+                        }
                         break;
 
 

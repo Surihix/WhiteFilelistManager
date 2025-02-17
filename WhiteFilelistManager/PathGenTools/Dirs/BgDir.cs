@@ -182,7 +182,158 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                 ".imgb", ".mpk", ".trb", ".xwb"
             };
 
-            throw new NotImplementedException();
+            var fileExtn = Path.GetExtension(virtualPath);
+
+            if (!validExtensions.Contains(fileExtn))
+            {
+                SharedFunctions.Error(GenerationVariables.CommonExtnErrorMsg);
+            }
+
+            var finalComputedBits = string.Empty;
+
+            string fileCode;
+            var extraInfo = string.Empty;
+
+            int locID;
+            string locIDbits;
+
+            int fileNameNum;
+            string fileNameNumBits;
+
+            var fileName = Path.GetFileName(virtualPath);
+            int fileCategory = 0;
+            string fileCategoryBits;
+
+            if (virtualPathData.Length > 4)
+            {
+                if (virtualPath.StartsWith("bg/loc"))
+                {
+                    // 12 bits
+                    locID = GenerationFunctions.DeriveNumFromString(virtualPathData[1]);
+
+                    if (locID == -1)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = "loc number in the path is invalid";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"loc number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
+                    }
+
+                    if (locID > 998)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = "loc number in the path is too large. must be from 0 to 998.";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"loc number in the path is too large. must be from 0 to 998.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
+                    }
+
+                    locIDbits = Convert.ToString(locID, 2).PadLeft(12, '0');
+
+                    // 12 bits
+                    fileNameNum = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
+
+                    if (fileNameNum == -1)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = $"Unable to determine file number from path";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
+                    }
+
+                    if (fileNameNum > 999)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
+                    }
+
+                    fileNameNumBits = Convert.ToString(fileNameNum, 2).PadLeft(12, '0');
+
+                    // 8 bits
+                    if (fileName.StartsWith("block"))
+                    {
+                        if (fileExtn == ".mpk")
+                        {
+                            switch (fileName.Substring(9))
+                            {
+                                case "def.win32.mpk":
+                                    fileCategory = 8;
+                                    break;
+
+                                case "rain.win32.mpk":
+                                    fileCategory = 9;
+                                    break;
+
+                                case "snow.win32.mpk":
+                                    fileCategory = 10;
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            fileCategory = fileExtn == ".imgb" ? 0 : 1;
+                        }
+                    }
+                    else if (fileName.StartsWith("ext"))
+                    {
+                        fileCategory = fileExtn == ".xwb" ? 4 : 6;
+                    }
+                    else
+                    {
+                        SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
+                    }
+
+                    fileCategoryBits = Convert.ToString(fileCategory, 2).PadLeft(8, '0');
+
+                    // Assemble bits
+                    finalComputedBits += locIDbits;
+                    finalComputedBits += fileNameNumBits;
+                    finalComputedBits += fileCategoryBits;
+
+                    extraInfo += $"LocID (12 bits): {locIDbits}\r\n\r\n";
+                    extraInfo += $"File number (12 bits): {fileNameNumBits}\r\n\r\n";
+                    extraInfo += $"Category (8 bits): {fileCategoryBits}";
+                    finalComputedBits.Reverse();
+
+                    fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                    GenerationVariables.FileCode = fileCode;
+                    GenerationVariables.FileTypeID = "48";
+                }
+                else
+                {
+                    SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
+                }
+            }
+            else
+            {
+                SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
+            }
         }
         #endregion
 
