@@ -5,10 +5,14 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class TxtresDir
     {
+        private static GameID _gameID = new GameID();
+
         private static string ParsingErrorMsg = string.Empty;
 
         public static void ProcessTxtresPath(string[] virtualPathData, string virtualPath, GameID gameID)
         {
+            _gameID = gameID;
+
             if (Path.GetExtension(virtualPath) != ".ztr")
             {
                 SharedFunctions.Error("Path does not contain a valid file extension");
@@ -53,30 +57,39 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                 }
                 else if (startingPortion != "txtres/zone")
                 {
-                    if (GenerationVariables.GenerationType == GenerationType.single)
+                    var zoneName = virtualPathData[2].Split("_")[1];
+
+                    if (ZoneMapping.XIIIZones.ContainsKey(zoneName))
                     {
-                        GenerationFunctions.UserInput("Enter Zone ID", "Must be from 0 to 255", 0, 255);
+                        zoneID = ZoneMapping.XIIIZones[zoneName];
                     }
                     else
                     {
-                        var hasZoneID = false;
-
-                        if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
+                        if (GenerationVariables.GenerationType == GenerationType.single)
                         {
-                            if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
+                            GenerationFunctions.UserInput("Enter Zone ID", "Must be from 0 to 255", 0, 255);
+                        }
+                        else
+                        {
+                            var hasZoneID = false;
+
+                            if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
                             {
-                                GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
-                                hasZoneID = true;
+                                if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
+                                {
+                                    GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
+                                    hasZoneID = true;
+                                }
+                            }
+
+                            if (!hasZoneID)
+                            {
+                                SharedFunctions.Error($"Unable to determine Zone ID for a file.\n{GenerationVariables.PathErrorStringForBatch}");
                             }
                         }
 
-                        if (!hasZoneID)
-                        {
-                            SharedFunctions.Error($"Unable to determine Zone ID for a file.\n{GenerationVariables.PathErrorStringForBatch}");
-                        }
+                        zoneID = GenerationVariables.NumInput;
                     }
-
-                    zoneID = GenerationVariables.NumInput;
                 }
 
                 switch (startingPortion)
@@ -267,7 +280,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             var finalComputedBits = string.Empty;
 
-            string fileCode = string.Empty;
+            string fileCode;
             string extraInfo = string.Empty;
 
             string langIDbits;
@@ -286,33 +299,56 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                 }
                 else if (startingPortion != "txtres/zone")
                 {
-                    if (GenerationVariables.GenerationType == GenerationType.single)
+                    var zoneName = virtualPathData[2].Split("_")[1];
+                    var isExistingZone = false;
+
+                    if (_gameID == GameID.xiii2)
                     {
-                        GenerationFunctions.UserInput("Enter Zone ID", "Must be from 0 to 1000", 0, 1000);
+                        if (ZoneMapping.XIII2Zones.ContainsKey(zoneName))
+                        {
+                            isExistingZone = true;
+                            zoneID = ZoneMapping.XIII2Zones[zoneName];
+                        }
                     }
                     else
                     {
-                        var hasZoneID = false;
-
-                        if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
+                        if (ZoneMapping.XIIILRZones.ContainsKey(zoneName))
                         {
-                            if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
-                            {
-                                if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
-                                {
-                                    GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
-                                    hasZoneID = true;
-                                }
-                            }
-                        }
-
-                        if (!hasZoneID)
-                        {
-                            SharedFunctions.Error($"Unable to determine Zone ID for a file.\n{GenerationVariables.PathErrorStringForBatch}");
+                            isExistingZone = true;
+                            zoneID = ZoneMapping.XIIILRZones[zoneName];
                         }
                     }
 
-                    zoneID = GenerationVariables.NumInput;
+                    if (!isExistingZone)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            GenerationFunctions.UserInput("Enter Zone ID", "Must be from 0 to 998", 0, 998);
+                        }
+                        else
+                        {
+                            var hasZoneID = false;
+
+                            if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
+                            {
+                                if (GenerationVariables.HasIdPathsTxtFile && GenerationVariables.IdBasedPathsDataDict.ContainsKey(virtualPath))
+                                {
+                                    if (GenerationVariables.IdBasedPathsDataDict[virtualPath].Count > 0)
+                                    {
+                                        GenerationVariables.NumInput = int.TryParse(GenerationVariables.IdBasedPathsDataDict[virtualPath][0], out int result) ? result : 0;
+                                        hasZoneID = true;
+                                    }
+                                }
+                            }
+
+                            if (!hasZoneID)
+                            {
+                                SharedFunctions.Error($"Unable to determine Zone ID for a file.\n{GenerationVariables.PathErrorStringForBatch}");
+                            }
+                        }
+
+                        zoneID = GenerationVariables.NumInput;
+                    }
                 }
 
                 switch (startingPortion)

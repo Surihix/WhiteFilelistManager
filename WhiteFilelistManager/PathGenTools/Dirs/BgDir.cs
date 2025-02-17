@@ -181,6 +181,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             {
                 ".imgb", ".mpk", ".trb", ".xwb"
             };
+
+            throw new NotImplementedException();
         }
         #endregion
 
@@ -192,6 +194,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             {
                 ".imgb", ".trb", ".xwb"
             };
+
+            throw new NotImplementedException();
         }
         #endregion
     }
