@@ -57,17 +57,18 @@ N.B: Set the Game to XIII-2 in the tool.
 | btscene/wdb/entry | .wdb files | |
 | btscene/pack/clb | .bin files | |  
 | btscene/pack/wdb | .bin files | | 
-| chr/fa | .imgb and .trb files | |
-| chr/mon | .imgb and .trb files | |
-| chr/npc | .imgb and .trb files | |
-| chr/pc | .imgb and .trb files | |
-| chr/summon | .imgb and .trb files | |
-| chr/weapon | .imgb and .trb files | |
+| chr/fa | .imgb .mpk and .trb files | |
+| chr/mon | .imgb, .mpk and .trb files | |
+| chr/npc | .imgb, .mpk and .trb files | |
+| chr/pc | .imgb, .mpk and .trb files | |
+| chr/summon | .imgb, .mpk and .trb files | |
+| chr/weapon | .imgb, .mpk and .trb files | |
 | db/ai | .wdb files | |
 | db/ai/party/interestpoint | .wdb files | |
 | db/bg | .wdb files | |
 | db/btscenetable | .wdb files | |
 | db/script | .wdb files | |
+| db/select | .wdb files | |
 | event/schedule | .bin, .imgb and .xwb files | |
 | gui/resident/autoclip | .imgb and .xgr files | |
 | gui/resident/clipbg | .imgb and .xgr files | |
@@ -112,6 +113,7 @@ N.B: Set the Game to XIII-LR in the tool.
 | db/bg | .wdb files | |
 | db/btscenetable | .wdb files | |
 | db/script | .wdb files | |
+| db/select | .wdb files | |
 | event/schedule | .bin, .imgb and .xwb files | |
 | gui/resident/autoclip | .imgb and .xgr files | |
 | gui/resident/clipbg | .imgb and .xgr files | |
