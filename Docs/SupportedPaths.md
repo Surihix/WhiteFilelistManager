@@ -53,7 +53,7 @@ N.B: Set the Game to XIII-2 in the tool.
 | Directories | File Types | Note |
 | --- | --- | --- |
 | ac/schedule | .bin, .imgb and .xwb files | |
-| bg/loc#### | .imgb, .trb and .xwb files | |
+| bg/loc#### | .imgb, .trb, .mpk and .xwb files | |
 | btscene/wdb/entry | .wdb files | |
 | btscene/pack/clb | .bin files | |  
 | btscene/pack/wdb | .bin files | | 
