@@ -248,6 +248,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     case "db/bg":
                     case "db/btscenetable":
                     case "db/script":
+                    case "db/select":
                         // 8 bits
                         dbCategoryBits = Convert.ToString(DetermineDbCategory(virtualPathData[1]), 2).PadLeft(8, '0');
 
@@ -338,6 +339,10 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                 case "btscenetable":
                     categoryID = 16;
+                    break;
+
+                case "select":
+                    categoryID = 18;
                     break;
             }
 
