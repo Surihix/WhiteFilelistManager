@@ -44,14 +44,12 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             string fileCode;
             var extraInfo = string.Empty;
 
-            // 4 bits
             string mainTypeBits;
+            string categoryBits;
+            int numInFileName;
 
             if (virtualPathData.Length > 3)
             {
-                string categoryBits;
-
-                int numInFileName;
                 int fileID;
                 string fileIDbits;
                 int currentFileID = 0;
@@ -542,6 +540,125 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         break;
                 }
             }
+            else if (virtualPathData.Length > 2 && startingPortion == "gui/scene")
+            {
+                string reservedBits;
+                string fileNameNumBits;
+
+                if (fileExtn == ".xgr")
+                {
+                    // 8 bits
+                    mainTypeBits = Convert.ToString(120, 2).PadLeft(8, '0');
+
+                    // 8 bits
+                    categoryBits = Convert.ToString(128, 2).PadLeft(8, '0');
+
+                    // 4 bits
+                    reservedBits = "0000";
+
+                    // 12 bits
+                    numInFileName = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
+                    if (numInFileName == -1)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = $"Unable to determine file number from path";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
+                    }
+
+                    if (numInFileName > 999)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
+                    }
+
+                    fileNameNumBits = Convert.ToString(numInFileName, 2).PadLeft(12, '0');
+
+                    // Assemble bits
+                    finalComputedBits += mainTypeBits;
+                    finalComputedBits += categoryBits;
+                    finalComputedBits += reservedBits;
+                    finalComputedBits += fileNameNumBits;
+
+                    extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                    extraInfo += $"Category (8 bits): {categoryBits}\r\n\r\n";
+                    extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
+                    extraInfo += $"File number (12 bits): {fileNameNumBits}";
+                    finalComputedBits.Reverse();
+
+                    fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                    GenerationVariables.FileCode = fileCode;
+                }
+                else
+                {
+                    // 8 bits
+                    mainTypeBits = Convert.ToString(121, 2).PadLeft(8, '0');
+
+                    // 12 bits
+                    reservedBits = "000000000000";
+
+                    // 12 bits
+                    numInFileName = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
+                    if (numInFileName == -1)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = $"Unable to determine file number from path";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
+                    }
+
+                    if (numInFileName > 999)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
+                    }
+
+                    fileNameNumBits = Convert.ToString(numInFileName, 2).PadLeft(12, '0');
+
+                    // Assemble bits
+                    finalComputedBits += mainTypeBits;
+                    finalComputedBits += reservedBits;
+                    finalComputedBits += fileNameNumBits;
+
+                    extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                    extraInfo += $"Reserved (12 bits): {reservedBits}\r\n\r\n";
+                    extraInfo += $"File number (12 bits): {fileNameNumBits}";
+                    finalComputedBits.Reverse();
+
+                    fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                    GenerationVariables.FileCode = fileCode;
+                }
+            }
             else
             {
                 SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
@@ -568,19 +685,19 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             // 4 bits
             string reservedABits;
+            string reservedBbits;
+
+            string categoryBits;
+            int numInFileName;
 
             if (virtualPathData.Length > 3)
             {
                 reservedABits = "0000";
 
-                string categoryBits;
-                string reservedBbits;
                 string reservedCbits;
 
-                int numInFileName;
                 int fileID;
                 string fileIDbits;
-                int currentFileID = 0;
 
                 switch (startingPortion + "/" + virtualPathData[2])
                 {
@@ -853,7 +970,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         var langID = Path.GetFileNameWithoutExtension(virtualPath).Replace(".win32", "");
                         langID = langID.Substring(langID.Length - 2);
 
-                        currentFileID = 32;
+                        var currentFileID = 32;
 
                         for (int i = 1; i < numInFileName + 1; i++)
                         {
@@ -939,6 +1056,66 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
                         break;
                 }
+            }
+            else if (virtualPathData.Length > 2 && startingPortion == "gui/scene")
+            {
+                string fileNameNumBits;
+                reservedABits = "0000";
+
+                // 8 bits
+                categoryBits = fileExtn == ".xgr" ? Convert.ToString(136, 2).PadLeft(8, '0') : Convert.ToString(144, 2).PadLeft(8, '0');
+
+                // 8 bits
+                reservedBbits = "00000000";
+
+                // 12 bits
+                numInFileName = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
+                if (numInFileName == -1)
+                {
+                    if (GenerationVariables.GenerationType == GenerationType.single)
+                    {
+                        ParsingErrorMsg = $"Unable to determine file number from path";
+                    }
+                    else
+                    {
+                        ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                    }
+
+                    SharedFunctions.Error(ParsingErrorMsg);
+                }
+
+                if (numInFileName > 999)
+                {
+                    if (GenerationVariables.GenerationType == GenerationType.single)
+                    {
+                        ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.";
+                    }
+                    else
+                    {
+                        ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
+                    }
+
+                    SharedFunctions.Error(ParsingErrorMsg);
+                }
+
+                fileNameNumBits = Convert.ToString(numInFileName, 2).PadLeft(12, '0');
+
+                // Assemble bits
+                finalComputedBits += reservedABits;
+                finalComputedBits += categoryBits;
+                finalComputedBits += reservedBbits;
+                finalComputedBits += fileNameNumBits;
+
+                extraInfo += $"ReservedA (4 bits): {reservedABits}\r\n\r\n";
+                extraInfo += $"Category (8 bits): {categoryBits}\r\n\r\n";
+                extraInfo += $"ReservedB (8 bits): {reservedBbits}\r\n\r\n";
+                extraInfo += $"File number (12 bits): {fileNameNumBits}";
+                finalComputedBits.Reverse();
+
+                fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                GenerationVariables.FileCode = fileCode;
+                GenerationVariables.FileTypeID = "112";
             }
             else
             {

@@ -2,7 +2,7 @@
 
 You can generate the filelist data for these following virtual directories and file types:
 
-**Note:** `*.*` means that all file types in the directory are supported.
+**Note:** `*.*` means that all file types and sub directories inside the main directory are supported.
 
   | Directories | File Types | 
   | --- | --- |
@@ -16,6 +16,7 @@ You can generate the filelist data for these following virtual directories and f
   | db/ai/party/`*.*` | .wdb files |
   | db/bg | .wdb files |
   | db/script | .wdb files | 
+  | db/select | .wdb files |
   | event/`*.*` | .bin, .imgb and .xwb files |
   | gui/resident/autoclip | .imgb and .xgr files |
   | gui/resident/clipbg | .imgb and .xgr files |
@@ -24,6 +25,7 @@ You can generate the filelist data for these following virtual directories and f
   | gui/resident/pack | .imgb and .xgr files |
   | gui/resident/shop | .imgb and .xgr files |
   | gui/resident/tutorial | .imgb and .xgr files |
+  | gui/scene | .imgb and .xgr files |
   | mot/`*.*` | .bin files |
   | movie | .bik files |
   | movie_win/`*.*` | .bik files |
