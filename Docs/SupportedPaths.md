@@ -5,7 +5,7 @@
 N.B: Set the Game to XIII-1 in the tool.
 | Directories | File Types | Note |
 | --- | --- | --- |
-| ac/schedule | .bin, .imgb and .xwb files | |
+| ac/schedule | .bin, .imgb and .xwb files | requires id to be specified, if its new zone |
 | bg/loc### | .imgb, .trb and .xwb files | |
 | btscene/wdb/entry | .wdb files | |
 | chr/fa | .imgb and .trb files | |
@@ -20,7 +20,7 @@ N.B: Set the Game to XIII-1 in the tool.
 | db/ai/party/voice | .wdb files | |
 | db/bg | .wdb files | |
 | db/script | .wdb files | |
-| event/schedule | .bin, .imgb and .xwb files | |
+| event/schedule | .bin, .imgb and .xwb files | requires id to be specified, if its new zone |
 | gui/resident/autoclip | .imgb and .xgr files | |
 | gui/resident/clipbg | .imgb and .xgr files | |
 | gui/resident/mission | .imgb and .xgr files | |
@@ -36,15 +36,15 @@ N.B: Set the Game to XIII-1 in the tool.
 | mot/summon | .bin files | |
 | mot/weapon | ..bin files | |
 | sound/pack | .scd and .wpd files | requires id to be specified |
-| txtres/ac | .ztr files | |
-| txtres/event | .ztr files | |
+| txtres/ac | .ztr files | requires id to be specified, if its new zone |
+| txtres/event | .ztr files | requires id to be specified, if its new zone |
 | txtres/zone | .ztr files | |
 | vfx/ac | .imgb and .xfv files | requires id to be specified |
 | vfx/chr | .imgb and .xfv files | |
 | vfx/event | .imgb and .xfv files | requires id to be specified |
 | vfx/field | .imgb and .xfv files | |
-| zone/lip | .bin files |
-| zone/z### | .clb and .wdb files |
+| zone/lip | .bin files | |
+| zone/z### | .clb and .wdb files | |
 
 
 ## FINAL FANTASY XIII-2
@@ -52,7 +52,7 @@ N.B: Set the Game to XIII-1 in the tool.
 N.B: Set the Game to XIII-2 in the tool.
 | Directories | File Types | Note |
 | --- | --- | --- |
-| ac/schedule | .bin, .imgb and .xwb files | |
+| ac/schedule | .bin, .imgb and .xwb files | requires id to be specified, if its new zone |
 | bg/loc#### | .imgb, .mpk, .trb  and .xwb files | |
 | btscene/wdb/entry | .wdb files | |
 | btscene/pack/clb | .bin files | |  
@@ -85,8 +85,8 @@ N.B: Set the Game to XIII-2 in the tool.
 | mot/weapon | ..bin files | |
 | movie_win | .bik files | |
 | sound/pack | .scd and .wpd files | requires id to be specified |
-| txtres/ac | .ztr files | |
-| txtres/event | .ztr files | |
+| txtres/ac | .ztr files | requires id to be specified, if its new zone |
+| txtres/event | .ztr files | requires id to be specified, if its new zone |
 | txtres/zone | .ztr files | |
 | vfx/ac | .imgb and .xfv files | requires id to be specified |
 | vfx/chr | .imgb and .xfv files | |
@@ -129,7 +129,7 @@ N.B: Set the Game to XIII-LR in the tool.
 | mot/weapon | ..bin files | |
 | movie | .bik files | |
 | sound/pack | .scd and .wpd files | requires id to be specified |
-| txtres/event | .ztr files | |
+| txtres/event | .ztr files | requires id to be specified, if its new zone |
 | txtres/zone | .ztr files | |
 | vfx/chr | .imgb and .xfv files | |
 | vfx/event | .imgb and .xfv files | requires id to be specified |
