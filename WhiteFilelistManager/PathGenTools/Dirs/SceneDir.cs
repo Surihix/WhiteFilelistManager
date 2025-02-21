@@ -248,7 +248,171 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
 
                 case 5:
+                    int sceneNameNum;
+                    string sceneNameNumBits;
 
+                    if (startingPortion.StartsWith("scene/lay") && virtualPathData[2].StartsWith("scene"))
+                    {
+                        // Get scene number
+                        sceneNameNum = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
+                        if (sceneNameNum == -1)
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = $"Unable to determine scene number from path";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Unable to determine scene number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
+                        }
+
+                        if (sceneNameNum > 255)
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = $"scene number in the path is too large. must be from 0 to 255.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"scene number in the path is too large. must be from 0 to 255.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
+                        }
+
+                        if (fileExtn == ".imgb")
+                        {
+                            mainTypeBits = Convert.ToString(144, 2).PadLeft(8, '0');
+
+                            var splitName = fileName.Split('_');
+
+                            if (splitName.Length < 4)
+                            {
+                                SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
+                            }
+
+                            // 2 bits
+                            var preSplitID = GenerationFunctions.DeriveNumFromString(splitName[1]);
+
+                            if (preSplitID == -1)
+                            {
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = $"Unable to determine pre split file number from path";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"Unable to determine pre split file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
+                            }
+
+                            if (preSplitID > 3)
+                            {
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = $"Pre split file number in the path is too large. must be from 0 to 3.";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"Pre split file number in the path is too large. must be from 0 to 3.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
+                            }
+
+                            var preSplitIDBits = Convert.ToString(preSplitID, 2).PadLeft(2, '0');
+
+                            // 8 bits
+                            var splitIDinFile = Convert.ToInt32(splitName[3].Replace(".win32.imgb", ""), 16);
+
+                            if (splitIDinFile > 255)
+                            {
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    ParsingErrorMsg = $"Split file number in the path is too large. must be from 0 to ff.";
+                                }
+                                else
+                                {
+                                    ParsingErrorMsg = $"Split file number in the path is too large. must be from 0 to ff.\n{GenerationVariables.PathErrorStringForBatch}";
+                                }
+
+                                SharedFunctions.Error(ParsingErrorMsg);
+                            }
+
+                            var splitID = GetSplitID(splitIDinFile);
+                            var splitIDBits = Convert.ToString(splitID, 2).PadLeft(8, '0');
+
+                            // 6 bits
+                            reservedBits = "000000";
+
+                            // 8 bits
+                            sceneNameNumBits = Convert.ToString(sceneNameNum, 2).PadLeft(8, '0');
+
+                            // Assemble bits
+                            finalComputedBits += mainTypeBits;
+                            finalComputedBits += preSplitIDBits;
+                            finalComputedBits += splitIDBits;
+                            finalComputedBits += reservedBits;
+                            finalComputedBits += sceneNameNumBits;
+
+                            extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                            extraInfo += $"Pre split number (2 bits): {preSplitIDBits}\r\n\r\n";
+                            extraInfo += $"Split number (8 bits): {splitIDBits}\r\n\r\n";
+                            extraInfo += $"Reserved (6 bits): {reservedBits}\r\n\r\n";
+                            extraInfo += $"Scene number (8 bits): {sceneNameNumBits}";
+                            finalComputedBits.Reverse();
+
+                            fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                            GenerationVariables.FileCode = fileCode;
+                        }
+                        else
+                        {
+                            switch (fileExtn)
+                            {
+                                case ".bin":
+                                    mainTypeBits = Convert.ToString(117, 2).PadLeft(8, '0');
+                                    break;
+
+                                case ".lyb":
+                                    mainTypeBits = Convert.ToString(113, 2).PadLeft(8, '0');
+                                    break;
+
+                                case ".xwp":
+                                    mainTypeBits = Convert.ToString(119, 2).PadLeft(8, '0');
+                                    break;
+                            }
+
+                            // 16 bits
+                            reservedBits = "0000000000000000";
+
+                            // 8 bits                           
+                            sceneNameNumBits = Convert.ToString(sceneNameNum, 2).PadLeft(8, '0');
+
+                            // Assemble bits
+                            finalComputedBits += mainTypeBits;
+                            finalComputedBits += reservedBits;
+                            finalComputedBits += sceneNameNumBits;
+
+                            extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                            extraInfo += $"Reserved (16 bits): {reservedBits}\r\n\r\n";
+                            extraInfo += $"Scene number (8 bits): {sceneNameNumBits}";
+                            finalComputedBits.Reverse();
+
+                            fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                            GenerationVariables.FileCode = fileCode;
+                        }
+                    }
+                    else
+                    {
+                        SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
+                    }
                     break;
 
 
@@ -274,5 +438,13 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             throw new NotImplementedException();
         }
         #endregion
+
+
+        private static int GetSplitID(int splitIDinFile)
+        {
+            var splitID = 0;
+
+            return splitID;
+        }
     }
 }
