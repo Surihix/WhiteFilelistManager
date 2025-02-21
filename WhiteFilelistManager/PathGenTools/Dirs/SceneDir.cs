@@ -186,10 +186,69 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
 
                 case 4:
+                case 8:
+                    if (virtualPathData.Length == 4 && startingPortion.StartsWith("scene/camera"))
+                    {
+                        mainTypeBits = Convert.ToString(114, 2).PadLeft(8, '0');
+                    }
+                    else if (virtualPathData.Length == 8)
+                    {
+                        mainTypeBits = Convert.ToString(116, 2).PadLeft(8, '0');
+                    }
+
+                    // 16 bits
+                    reservedBits = "0000000000000000";
+
+                    // 8 bits
+                    fileNameNum = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
+                    if (fileNameNum == -1)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = $"Unable to determine file number from path";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
+                    }
+
+                    if (fileNameNum > 255)
+                    {
+                        if (GenerationVariables.GenerationType == GenerationType.single)
+                        {
+                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 255.";
+                        }
+                        else
+                        {
+                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 255.\n{GenerationVariables.PathErrorStringForBatch}";
+                        }
+
+                        SharedFunctions.Error(ParsingErrorMsg);
+                    }
+
+                    fileNameNumBits = Convert.ToString(fileNameNum, 2).PadLeft(8, '0');
+
+                    // Assemble bits
+                    finalComputedBits += mainTypeBits;
+                    finalComputedBits += reservedBits;
+                    finalComputedBits += fileNameNumBits;
+
+                    extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                    extraInfo += $"Reserved (16 bits): {reservedBits}\r\n\r\n";
+                    extraInfo += $"File number (8 bits): {fileNameNumBits}";
+                    finalComputedBits.Reverse();
+
+                    fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                    GenerationVariables.FileCode = fileCode;
                     break;
 
 
                 case 5:
+
                     break;
 
 
