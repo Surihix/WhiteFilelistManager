@@ -35,6 +35,7 @@ N.B: Set the Game to XIII-1 in the tool.
 | mot/pc | .bin files | |
 | mot/summon | .bin files | |
 | mot/weapon | ..bin files | |
+| railcam/loc### | .xwp files | |
 | sound/pack | .scd and .wpd files | requires id to be specified |
 | txtres/ac | .ztr files | requires id to be specified, if its new zone |
 | txtres/event | .ztr files | requires id to be specified, if its new zone |
@@ -84,6 +85,7 @@ N.B: Set the Game to XIII-2 in the tool.
 | mot/summon | .bin files | |
 | mot/weapon | ..bin files | |
 | movie_win | .bik files | |
+| railcam/loc#### | .xwp files | |
 | sound/pack | .scd and .wpd files | requires id to be specified |
 | txtres/ac | .ztr files | requires id to be specified, if its new zone |
 | txtres/event | .ztr files | requires id to be specified, if its new zone |
