@@ -141,6 +141,10 @@ N.B: Set the Game to XIII-LR in the tool.
 | mot/summon | .bin files | |
 | mot/weapon | ..bin files | |
 | movie | .bik files | |
+| scene/ai | .wpb files | |
+| scene/talk | .wdb files | |
+| scene/lay/scene#####/bin | .bin, .imgb, .lyb, .wpk and .xwp files | |
+| scene/lay/scene#####/scene#####_lys/VFX/VLeafIns/bin | .vinsbin file | |
 | sound/pack | .scd and .wpd files | requires id to be specified |
 | txtres/event | .ztr files | requires id to be specified, if its new zone |
 | txtres/zone | .ztr files | |
