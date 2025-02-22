@@ -95,6 +95,8 @@ N.B: Set the Game to XIII-2 in the tool.
 | scene | .wdb files | |
 | scene/ai | .wpb files | |
 | scene/talk | .wdb files | |
+| scene/lay/scene#####/bin | .bin, .imgb, .lyb and .xwp files | |
+| scene/lay/scene#####/scene#####_lys/VFX/VLeafIns/bin | .vinsbin file | |
 | sound/pack | .scd and .wpd files | requires id to be specified |
 | txtres/ac | .ztr files | requires id to be specified, if its new zone |
 | txtres/event | .ztr files | requires id to be specified, if its new zone |
