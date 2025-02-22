@@ -169,7 +169,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += fileNameNumBits;
 
                         extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Category (8 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Category (8 bits): {categoryBits}\r\n\r\n";
                         extraInfo += $"Reserved (8 bits): {reservedBits}\r\n\r\n";
                         extraInfo += $"File number (8 bits): {fileNameNumBits}";
                         finalComputedBits.Reverse();
@@ -191,7 +191,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     {
                         mainTypeBits = Convert.ToString(114, 2).PadLeft(8, '0');
                     }
-                    else if (virtualPathData.Length == 8)
+                    else
                     {
                         mainTypeBits = Convert.ToString(116, 2).PadLeft(8, '0');
                     }
@@ -283,6 +283,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             SharedFunctions.Error(ParsingErrorMsg);
                         }
 
+                        // .imgb : scene#####_##_split_##.win32.imgb file
                         if (fileExtn == ".imgb")
                         {
                             mainTypeBits = Convert.ToString(144, 2).PadLeft(8, '0');
@@ -345,7 +346,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             }
 
                             var splitID = GetSplitID(splitIDinFile);
-                            var splitIDBits = Convert.ToString(splitID, 2).PadLeft(8, '0');
+                            var splitIDbits = Convert.ToString(splitID, 2).PadLeft(8, '0');
 
                             // 6 bits
                             reservedBits = "000000";
@@ -356,13 +357,13 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             // Assemble bits
                             finalComputedBits += mainTypeBits;
                             finalComputedBits += preSplitIDBits;
-                            finalComputedBits += splitIDBits;
+                            finalComputedBits += splitIDbits;
                             finalComputedBits += reservedBits;
                             finalComputedBits += sceneNameNumBits;
 
                             extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
                             extraInfo += $"Pre split number (2 bits): {preSplitIDBits}\r\n\r\n";
-                            extraInfo += $"Split number (8 bits): {splitIDBits}\r\n\r\n";
+                            extraInfo += $"Split number (8 bits): {splitIDbits}\r\n\r\n";
                             extraInfo += $"Reserved (6 bits): {reservedBits}\r\n\r\n";
                             extraInfo += $"Scene number (8 bits): {sceneNameNumBits}";
                             finalComputedBits.Reverse();
@@ -427,7 +428,161 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
         #region XIII-2
         private static void ScenePathXIII2(string[] virtualPathData, string virtualPath)
         {
-            throw new NotImplementedException();
+            var startingPortion = virtualPathData[0] + "/" + virtualPathData[1];
+            var fileExtn = Path.GetExtension(virtualPath);
+
+            if (!_validExtensions.Contains(fileExtn))
+            {
+                SharedFunctions.Error(GenerationVariables.CommonExtnErrorMsg);
+            }
+
+            var finalComputedBits = string.Empty;
+
+            string fileCode;
+            var extraInfo = string.Empty;
+            var categoryBits = string.Empty;
+
+            // 8 bits
+            string reservedAbits;
+
+            string reservedBbits;
+
+            var fileName = Path.GetFileName(virtualPath);
+            int fileNameNum;
+            string fileNameNumBits;
+
+            switch (virtualPathData.Length)
+            {
+                case 2:
+                    if (virtualPath.StartsWith("scene/s"))
+                    {
+                        reservedAbits = "00000000";
+
+                        // 12 bits
+                        reservedBbits = "000000000000";
+
+                        // 12 bits
+                        fileNameNum = GenerationFunctions.DeriveNumFromString(fileName);
+                        if (fileNameNum == -1)
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = $"Unable to determine file number from path";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
+                        }
+
+                        if (fileNameNum > 998)
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 998.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 998.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
+                        }
+
+                        fileNameNumBits = Convert.ToString(fileNameNum, 2).PadLeft(12, '0');
+
+                        // Assemble bits
+                        finalComputedBits += reservedAbits;
+                        finalComputedBits += reservedBbits;
+                        finalComputedBits += fileNameNumBits;
+
+                        extraInfo += $"ReservedA (8 bits): {reservedAbits}\r\n\r\n";
+                        extraInfo += $"ReservedB (12 bits): {reservedBbits}\r\n\r\n";
+                        extraInfo += $"File number (12 bits): {fileNameNumBits}";
+                        finalComputedBits.Reverse();
+
+                        fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                        GenerationVariables.FileCode = fileCode;
+                        GenerationVariables.FileTypeID = "112";
+                    }
+                    else
+                    {
+                        SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
+                    }
+                    break;
+
+
+                case 3:
+                    if (startingPortion == "scene/ai" || startingPortion == "scene/talk")
+                    {
+                        // 8 bits
+                        var mainTypeBits = startingPortion == "scene/ai" ? "00000000" : Convert.ToString(7, 2).PadLeft(8, '0');
+
+                        // 8 bits
+                        categoryBits = Convert.ToString(128, 2).PadLeft(8, '0');
+
+                        // 4 bits
+                        var reservedBits = "0000";
+
+                        // 12 bits
+                        fileNameNum = GenerationFunctions.DeriveNumFromString(fileName);
+                        if (fileNameNum == -1)
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = $"Unable to determine file number from path";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
+                        }
+
+                        if (fileNameNum > 998)
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 998.";
+                            }
+                            else
+                            {
+                                ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 998.\n{GenerationVariables.PathErrorStringForBatch}";
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
+                        }
+
+                        fileNameNumBits = Convert.ToString(fileNameNum, 2).PadLeft(12, '0');
+
+                        // Assemble bits
+                        finalComputedBits += mainTypeBits;
+                        finalComputedBits += categoryBits;
+                        finalComputedBits += reservedBits;
+                        finalComputedBits += fileNameNumBits;
+
+                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Category (8 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Reserved (8 bits): {reservedBits}\r\n\r\n";
+                        extraInfo += $"File number (8 bits): {fileNameNumBits}";
+                        finalComputedBits.Reverse();
+
+                        fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                        GenerationVariables.FileCode = fileCode;
+                        GenerationVariables.FileTypeID = "112";
+                    }
+                    break;
+
+
+                default:
+                    SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
+                    break;
+            }
         }
         #endregion
 
@@ -440,11 +595,23 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
         #endregion
 
 
-        private static int GetSplitID(int splitIDinFile)
+        private static int GetSplitID(int splitID)
         {
-            var splitID = 0;
+            var currentSplitID = 0;
 
-            return splitID;
+            for (int i = 0; i < splitID + 1; i++)
+            {
+                if (i == splitID)
+                {
+                    break;
+                }
+                else
+                {
+                    currentSplitID += 2;
+                }
+            }
+
+            return currentSplitID;
         }
     }
 }
