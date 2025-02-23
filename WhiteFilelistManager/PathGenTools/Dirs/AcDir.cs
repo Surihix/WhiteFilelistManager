@@ -99,34 +99,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                 // Get ac number
                 acID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-
-                if (acID == -1)
-                {
-                    if (GenerationVariables.GenerationType == GenerationType.single)
-                    {
-                        ParsingErrorMsg = "ac number in the path is invalid";
-                    }
-                    else
-                    {
-                        ParsingErrorMsg = $"ac number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                    }
-
-                    SharedFunctions.Error(ParsingErrorMsg);
-                }
-
-                if (acID > 999)
-                {
-                    if (GenerationVariables.GenerationType == GenerationType.single)
-                    {
-                        ParsingErrorMsg = "ac number in the path is too large. must be from 0 to 999.";
-                    }
-                    else
-                    {
-                        ParsingErrorMsg = $"ac number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
-                    }
-
-                    SharedFunctions.Error(ParsingErrorMsg);
-                }
+                GenerationFunctions.CheckDerivedNumber(acID, "ac", 999);
 
                 if (virtualPathData.Length > 4)
                 {
@@ -152,7 +125,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             extraInfo += $"ZoneID (8 bits): {zoneIDbits}\r\n\r\n";
                             extraInfo += $"AcID (10 bits): {acIDbits}\r\n\r\n";
                             extraInfo += $"FileID (10 bits): {fileIDbits}";
-                            finalComputedBits.Reverse();
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -184,7 +156,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             extraInfo += $"AcID (10 bits): {acIDbits}\r\n\r\n";
                             extraInfo += $"DataSetID (9 bits): {dataSetIDbits}\r\n\r\n";
                             extraInfo += $"FileType (1 bit): {fileTypeBit}";
-                            finalComputedBits.Reverse();
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -275,34 +246,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                 // Get ac number
                 acID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-
-                if (acID == -1)
-                {
-                    if (GenerationVariables.GenerationType == GenerationType.single)
-                    {
-                        ParsingErrorMsg = "ac number in the path is invalid";
-                    }
-                    else
-                    {
-                        ParsingErrorMsg = $"ac number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                    }
-
-                    SharedFunctions.Error(ParsingErrorMsg);
-                }
-
-                if (acID > 999)
-                {
-                    if (GenerationVariables.GenerationType == GenerationType.single)
-                    {
-                        ParsingErrorMsg = "ac number in the path is too large. must be from 0 to 999.";
-                    }
-                    else
-                    {
-                        ParsingErrorMsg = $"ac number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
-                    }
-
-                    SharedFunctions.Error(ParsingErrorMsg);
-                }
+                GenerationFunctions.CheckDerivedNumber(acID, "ac", 999);
 
                 if (virtualPathData.Length > 4)
                 {
@@ -326,7 +270,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             extraInfo += $"ZoneID (12 bits): {zoneIDbits}\r\n\r\n";
                             extraInfo += $"AcID (10 bits): {acIDbits}\r\n\r\n";
                             extraInfo += $"FileID (10 bits): {fileIDbits}";
-                            finalComputedBits.Reverse();
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -357,7 +300,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             extraInfo += $"AcID (10 bits): {acIDbits}\r\n\r\n";
                             extraInfo += $"DataSetID (9 bits): {dataSetIDbits}\r\n\r\n";
                             extraInfo += $"FileType (1 bit): {fileTypeBit}";
-                            finalComputedBits.Reverse();
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 

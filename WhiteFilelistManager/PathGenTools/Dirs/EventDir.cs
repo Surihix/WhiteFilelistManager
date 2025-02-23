@@ -104,34 +104,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                 // Get event number
                 evID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-
-                if (evID == -1)
-                {
-                    if (GenerationVariables.GenerationType == GenerationType.single)
-                    {
-                        ParsingErrorMsg = "Event number in the path is invalid";
-                    }
-                    else
-                    {
-                        ParsingErrorMsg = $"Event number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                    }
-
-                    SharedFunctions.Error(ParsingErrorMsg);
-                }
-
-                if (evID > 999)
-                {
-                    if (GenerationVariables.GenerationType == GenerationType.single)
-                    {
-                        ParsingErrorMsg = "Event number in the path is too large. must be from 0 to 999.";
-                    }
-                    else
-                    {
-                        ParsingErrorMsg = $"Event number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
-                    }
-
-                    SharedFunctions.Error(ParsingErrorMsg);
-                }
+                GenerationFunctions.CheckDerivedNumber(evID, "event", 999);
 
                 if (virtualPathData.Length > 4)
                 {
@@ -157,7 +130,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             extraInfo += $"ZoneID (8 bits): {zoneIDbits}\r\n\r\n";
                             extraInfo += $"EvID (10 bits): {evIDbits}\r\n\r\n";
                             extraInfo += $"FileID (10 bits): {fileIDbits}";
-                            finalComputedBits.Reverse();
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -189,7 +161,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             extraInfo += $"EvID (10 bits): {evIDbits}\r\n\r\n";
                             extraInfo += $"DataSetID (9 bits): {dataSetIDbits}\r\n\r\n";
                             extraInfo += $"FileType (1 bit): {fileTypeBit}";
-                            finalComputedBits.Reverse();
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -291,34 +262,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                 // Get event number
                 evID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-
-                if (evID == -1)
-                {
-                    if (GenerationVariables.GenerationType == GenerationType.single)
-                    {
-                        ParsingErrorMsg = "Event number in the path is invalid";
-                    }
-                    else
-                    {
-                        ParsingErrorMsg = $"Event number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                    }
-
-                    SharedFunctions.Error(ParsingErrorMsg);
-                }
-
-                if (evID > 999)
-                {
-                    if (GenerationVariables.GenerationType == GenerationType.single)
-                    {
-                        ParsingErrorMsg = "Event number in the path is too large. must be from 0 to 999.";
-                    }
-                    else
-                    {
-                        ParsingErrorMsg = $"Event number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
-                    }
-
-                    SharedFunctions.Error(ParsingErrorMsg);
-                }
+                GenerationFunctions.CheckDerivedNumber(evID, "event", 999);
 
                 if (virtualPathData.Length > 4)
                 {
@@ -342,7 +286,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             extraInfo += $"ZoneID (12 bits): {zoneIDbits}\r\n\r\n";
                             extraInfo += $"EvID (10 bits): {evIDbits}\r\n\r\n";
                             extraInfo += $"FileID (10 bits): {fileIDbits}";
-                            finalComputedBits.Reverse();
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -373,7 +316,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             extraInfo += $"EvID (10 bits): {evIDbits}\r\n\r\n";
                             extraInfo += $"DataSetID (9 bits): {dataSetIDbits}\r\n\r\n";
                             extraInfo += $"FileType (1 bit): {fileTypeBit}";
-                            finalComputedBits.Reverse();
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 

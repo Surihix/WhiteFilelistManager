@@ -5,8 +5,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class GuiDir
     {
-        private static string ParsingErrorMsg = string.Empty;
-
         private static readonly List<string> _validExtensions = new List<string>()
         {
             ".imgb", ".xgr"
