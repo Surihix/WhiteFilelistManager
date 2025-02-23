@@ -1,4 +1,5 @@
 ﻿using WhiteFilelistManager.Support;
+using static WhiteFilelistManager.Support.SharedEnums;
 
 namespace WhiteFilelistManager.PathGenTools
 {
@@ -58,6 +59,34 @@ namespace WhiteFilelistManager.PathGenTools
             var numInputForm = new InputForm(formTitle, rangeTxt, min, max);
             System.Media.SystemSounds.Asterisk.Play();
             numInputForm.ShowDialog();
+        }
+
+
+        public static void CheckDerivedNumber(int derivedNum, string numType, int limit)
+        {
+            if (derivedNum == -1)
+            {
+                if (GenerationVariables.GenerationType == GenerationType.single)
+                {
+                    SharedFunctions.Error($"Unable to determine '{numType}' number from file path");
+                }
+                else
+                {
+                    SharedFunctions.Error($"Unable to determine '{numType}' number from file path.\n{GenerationVariables.PathErrorStringForBatch}");
+                }
+            }
+
+            if (derivedNum > limit)
+            {
+                if (GenerationVariables.GenerationType == GenerationType.single)
+                {
+                    SharedFunctions.Error($"'{numType}' number in the path is too large. must be from 0 to {limit}.");
+                }
+                else
+                {
+                    SharedFunctions.Error($"'{numType}' number in the path is too large. must be from 0 to {limit}.\n{GenerationVariables.PathErrorStringForBatch}");
+                }
+            }
         }
     }
 }

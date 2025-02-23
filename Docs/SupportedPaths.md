@@ -78,8 +78,6 @@ N.B: Set the Game to XIII-2 in the tool.
 | db/select | .wdb files | |
 | event/schedule | .bin, .imgb and .xwb files | |
 | gui/resident/autoclip | .imgb and .xgr files | |
-| gui/resident/clipbg | .imgb and .xgr files | |
-| gui/resident/monster | .imgb and .xgr files | |
 | gui/resident/pack | .imgb and .xgr files | |
 | gui/resident/shop | .imgb and .xgr files | |
 | gui/resident/tutorial | .imgb and .xgr files | |
@@ -129,8 +127,6 @@ N.B: Set the Game to XIII-LR in the tool.
 | db/select | .wdb files | |
 | event/schedule | .bin, .imgb and .xwb files | |
 | gui/resident/autoclip | .imgb and .xgr files | |
-| gui/resident/clipbg | .imgb and .xgr files | |
-| gui/resident/monster | .imgb and .xgr files | |
 | gui/resident/pack | .imgb and .xgr files | |
 | gui/resident/shop | .imgb and .xgr files | |
 | gui/resident/tutorial | .imgb and .xgr files | |
