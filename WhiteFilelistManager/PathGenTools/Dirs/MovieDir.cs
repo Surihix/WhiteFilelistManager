@@ -26,9 +26,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             // Assemble bits
             var hashIDbits = Convert.ToString(hash, 2).PadLeft(32, '0');
-            hashIDbits.Reverse();
-
-            var extraInfo = $"Movie Hash (32 bits): {hashIDbits}";
 
             var fileCode = hashIDbits.BinaryToUInt(0, 32).ToString();
             GenerationVariables.FileCode = fileCode;

@@ -5,8 +5,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class BgDir
     {
-        private static string ParsingErrorMsg = string.Empty;
-
         public static void ProcessBgPath(string[] virtualPathData, string virtualPath, GameID gameID)
         {
             switch (gameID)
@@ -44,7 +42,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             var finalComputedBits = string.Empty;
 
             string fileCode;
-            var extraInfo = string.Empty;
 
             int locID;
             string locIDbits;
@@ -65,67 +62,13 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                 {
                     // 8 bits
                     locID = GenerationFunctions.DeriveNumFromString(virtualPathData[1]);
-
-                    if (locID == -1)
-                    {
-                        if (GenerationVariables.GenerationType == GenerationType.single)
-                        {
-                            ParsingErrorMsg = "loc number in the path is invalid";
-                        }
-                        else
-                        {
-                            ParsingErrorMsg = $"loc number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                        }
-
-                        SharedFunctions.Error(ParsingErrorMsg);
-                    }
-
-                    if (locID > 255)
-                    {
-                        if (GenerationVariables.GenerationType == GenerationType.single)
-                        {
-                            ParsingErrorMsg = "loc number in the path is too large. must be from 0 to 255.";
-                        }
-                        else
-                        {
-                            ParsingErrorMsg = $"loc number in the path is too large. must be from 0 to 255.\n{GenerationVariables.PathErrorStringForBatch}";
-                        }
-
-                        SharedFunctions.Error(ParsingErrorMsg);
-                    }
+                    GenerationFunctions.CheckDerivedNumber(locID, "loc", 255);
 
                     locIDbits = Convert.ToString(locID, 2).PadLeft(8, '0');
 
                     // 12 bits
                     fileNameNum = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-
-                    if (fileNameNum == -1)
-                    {
-                        if (GenerationVariables.GenerationType == GenerationType.single)
-                        {
-                            ParsingErrorMsg = $"Unable to determine file number from path";
-                        }
-                        else
-                        {
-                            ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
-                        }
-
-                        SharedFunctions.Error(ParsingErrorMsg);
-                    }
-
-                    if (fileNameNum > 999)
-                    {
-                        if (GenerationVariables.GenerationType == GenerationType.single)
-                        {
-                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.";
-                        }
-                        else
-                        {
-                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
-                        }
-
-                        SharedFunctions.Error(ParsingErrorMsg);
-                    }
+                    GenerationFunctions.CheckDerivedNumber(fileNameNum, "file", 999);
 
                     fileNameNumBits = Convert.ToString(fileNameNum, 2).PadLeft(12, '0');
 
@@ -150,12 +93,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     finalComputedBits += locIDbits;
                     finalComputedBits += fileNameNumBits;
                     finalComputedBits += fileCategoryBits;
-
-                    extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                    extraInfo += $"LocID (8 bits): {locIDbits}\r\n\r\n";
-                    extraInfo += $"File number (12 bits): {fileNameNumBits}\r\n\r\n";
-                    extraInfo += $"Category (8 bits): {fileCategoryBits}";
-                    finalComputedBits.Reverse();
 
                     fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -192,7 +129,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             var finalComputedBits = string.Empty;
 
             string fileCode;
-            var extraInfo = string.Empty;
 
             int locID;
             string locIDbits;
@@ -210,67 +146,13 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                 {
                     // 12 bits
                     locID = GenerationFunctions.DeriveNumFromString(virtualPathData[1]);
-
-                    if (locID == -1)
-                    {
-                        if (GenerationVariables.GenerationType == GenerationType.single)
-                        {
-                            ParsingErrorMsg = "loc number in the path is invalid";
-                        }
-                        else
-                        {
-                            ParsingErrorMsg = $"loc number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                        }
-
-                        SharedFunctions.Error(ParsingErrorMsg);
-                    }
-
-                    if (locID > 998)
-                    {
-                        if (GenerationVariables.GenerationType == GenerationType.single)
-                        {
-                            ParsingErrorMsg = "loc number in the path is too large. must be from 0 to 998.";
-                        }
-                        else
-                        {
-                            ParsingErrorMsg = $"loc number in the path is too large. must be from 0 to 998.\n{GenerationVariables.PathErrorStringForBatch}";
-                        }
-
-                        SharedFunctions.Error(ParsingErrorMsg);
-                    }
+                    GenerationFunctions.CheckDerivedNumber(locID, "loc", 998);
 
                     locIDbits = Convert.ToString(locID, 2).PadLeft(12, '0');
 
                     // 12 bits
                     fileNameNum = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-
-                    if (fileNameNum == -1)
-                    {
-                        if (GenerationVariables.GenerationType == GenerationType.single)
-                        {
-                            ParsingErrorMsg = $"Unable to determine file number from path";
-                        }
-                        else
-                        {
-                            ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
-                        }
-
-                        SharedFunctions.Error(ParsingErrorMsg);
-                    }
-
-                    if (fileNameNum > 999)
-                    {
-                        if (GenerationVariables.GenerationType == GenerationType.single)
-                        {
-                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.";
-                        }
-                        else
-                        {
-                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
-                        }
-
-                        SharedFunctions.Error(ParsingErrorMsg);
-                    }
+                    GenerationFunctions.CheckDerivedNumber(fileNameNum, "file", 999);
 
                     fileNameNumBits = Convert.ToString(fileNameNum, 2).PadLeft(12, '0');
 
@@ -315,11 +197,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     finalComputedBits += fileNameNumBits;
                     finalComputedBits += fileCategoryBits;
 
-                    extraInfo += $"LocID (12 bits): {locIDbits}\r\n\r\n";
-                    extraInfo += $"File number (12 bits): {fileNameNumBits}\r\n\r\n";
-                    extraInfo += $"Category (8 bits): {fileCategoryBits}";
-                    finalComputedBits.Reverse();
-
                     fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                     GenerationVariables.FileCode = fileCode;
@@ -356,7 +233,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             var finalComputedBits = string.Empty;
 
             string fileCode;
-            var extraInfo = string.Empty;
 
             int locID;
             string locIDbits;
@@ -374,67 +250,13 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                 {
                     // 12 bits
                     locID = GenerationFunctions.DeriveNumFromString(virtualPathData[1]);
-
-                    if (locID == -1)
-                    {
-                        if (GenerationVariables.GenerationType == GenerationType.single)
-                        {
-                            ParsingErrorMsg = "loc number in the path is invalid";
-                        }
-                        else
-                        {
-                            ParsingErrorMsg = $"loc number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                        }
-
-                        SharedFunctions.Error(ParsingErrorMsg);
-                    }
-
-                    if (locID > 998)
-                    {
-                        if (GenerationVariables.GenerationType == GenerationType.single)
-                        {
-                            ParsingErrorMsg = "loc number in the path is too large. must be from 0 to 998.";
-                        }
-                        else
-                        {
-                            ParsingErrorMsg = $"loc number in the path is too large. must be from 0 to 998.\n{GenerationVariables.PathErrorStringForBatch}";
-                        }
-
-                        SharedFunctions.Error(ParsingErrorMsg);
-                    }
+                    GenerationFunctions.CheckDerivedNumber(locID, "loc", 998);
 
                     locIDbits = Convert.ToString(locID, 2).PadLeft(12, '0');
 
                     // 12 bits
                     fileNameNum = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-
-                    if (fileNameNum == -1)
-                    {
-                        if (GenerationVariables.GenerationType == GenerationType.single)
-                        {
-                            ParsingErrorMsg = $"Unable to determine file number from path";
-                        }
-                        else
-                        {
-                            ParsingErrorMsg = $"Unable to determine file number from filename for a file.\n{GenerationVariables.PathErrorStringForBatch}";
-                        }
-
-                        SharedFunctions.Error(ParsingErrorMsg);
-                    }
-
-                    if (fileNameNum > 999)
-                    {
-                        if (GenerationVariables.GenerationType == GenerationType.single)
-                        {
-                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.";
-                        }
-                        else
-                        {
-                            ParsingErrorMsg = $"File number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
-                        }
-
-                        SharedFunctions.Error(ParsingErrorMsg);
-                    }
+                    GenerationFunctions.CheckDerivedNumber(fileNameNum, "file", 999);
 
                     fileNameNumBits = Convert.ToString(fileNameNum, 2).PadLeft(12, '0');
 
@@ -490,11 +312,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     finalComputedBits += locIDbits;
                     finalComputedBits += fileNameNumBits;
                     finalComputedBits += fileCategoryBits;
-
-                    extraInfo += $"LocID (12 bits): {locIDbits}\r\n\r\n";
-                    extraInfo += $"File number (12 bits): {fileNameNumBits}\r\n\r\n";
-                    extraInfo += $"Category (8 bits): {fileCategoryBits}";
-                    finalComputedBits.Reverse();
 
                     fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 

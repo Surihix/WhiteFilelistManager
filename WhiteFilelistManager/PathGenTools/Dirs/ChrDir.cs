@@ -43,14 +43,12 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             }
 
             var finalComputedBits = string.Empty;
-            int fileExtnID = 0;
+            int fileExtnID;
             string fileExtnBits;
 
-            string fileCode = string.Empty;
-            string extraInfo = string.Empty;
+            string fileCode;
 
-            // 4 bits
-            var mainTypeBits = string.Empty;
+            string mainTypeBits;
 
             if (virtualPathData.Length > 2)
             {
@@ -62,6 +60,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     case "chr/pc":
                     case "chr/summon":
                     case "chr/weapon":
+                        // 4 bits
                         mainTypeBits = Convert.ToString(1, 2).PadLeft(4, '0');
 
                         // 5 bits
@@ -69,33 +68,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // 10 bits
                         var modelID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-                        if (modelID == -1)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Model number in the path is invalid";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Model number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
-
-                        if (modelID > 999)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Model number in the path is too large. must be from 0 to 999.";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Model number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
+                        GenerationFunctions.CheckDerivedNumber(modelID, "model", 999);
 
                         var modelIDbits = Convert.ToString(modelID, 2).PadLeft(10, '0');
 
@@ -112,13 +85,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += modelIDbits;
                         finalComputedBits += fileExtnBits;
                         finalComputedBits += reservedBits;
-
-                        extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Category (5 bits): {chrCategoryBits}\r\n\r\n";
-                        extraInfo += $"ModelID (10 bits): {modelIDbits}\r\n\r\n";
-                        extraInfo += $"ModelExtension Type (5 bits): {fileExtnBits}\r\n\r\n";
-                        extraInfo += $"Reserved (8 bits): {reservedBits}";
-                        finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -156,11 +122,10 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             }
 
             var finalComputedBits = string.Empty;
-            int fileExtnID = 0;
+            var fileExtnID = 0;
             string fileExtnBits;
 
-            string fileCode = string.Empty;
-            string extraInfo = string.Empty;
+            string fileCode;
 
             // 4 bits
             var reservedBits = "0000";
@@ -181,33 +146,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // 10 bits
                         var modelID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-                        if (modelID == -1)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Model number specified is invalid";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Model number specified is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
-
-                        if (modelID > 999)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Model number in the path is too large. must be from 0 to 999.";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Model number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
+                        GenerationFunctions.CheckDerivedNumber(modelID, "model", 999);
 
                         var modelIDbits = Convert.ToString(modelID, 2).PadLeft(10, '0');
 
@@ -233,11 +172,11 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         var mpkID = 0;
                         if (fileExtn == ".mpk")
                         {
-                            if (virtualPath.Contains("_rain"))
+                            if (virtualPath.EndsWith("_rain.win32.mpk"))
                             {
                                 mpkID = 1;
                             }
-                            else if (virtualPath.Contains("_snow"))
+                            else if (virtualPath.EndsWith("_snow.win32.mpk"))
                             {
                                 mpkID = 2;
                             }
@@ -250,13 +189,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += modelIDbits;
                         finalComputedBits += fileExtnBits;
                         finalComputedBits += mpkIDbits;
-
-                        extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
-                        extraInfo += $"Category (5 bits): {chrCategoryBits}\r\n\r\n";
-                        extraInfo += $"ModelID (10 bits): {modelIDbits}\r\n\r\n";
-                        extraInfo += $"ModelExtension Type (5 bits): {fileExtnBits}\r\n\r\n";
-                        extraInfo += $"MpkID (8 bits): {mpkIDbits}";
-                        finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -298,8 +230,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             int fileExtnID = 0;
             string fileExtnBits;
 
-            string fileCode = string.Empty;
-            string extraInfo = string.Empty;
+            string fileCode;
 
             // 4 bits
             var reservedBits = "0000";
@@ -320,33 +251,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // 10 bits
                         var modelID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-                        if (modelID == -1)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Model number specified is invalid";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Model number specified is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
-
-                        if (modelID > 999)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Model number in the path is too large. must be from 0 to 999.";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Model number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
+                        GenerationFunctions.CheckDerivedNumber(modelID, "model", 999);
 
                         var modelIDbits = Convert.ToString(modelID, 2).PadLeft(10, '0');
 
@@ -373,13 +278,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += modelIDbits;
                         finalComputedBits += fileExtnBits;
                         finalComputedBits += reserved2Bits;
-
-                        extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
-                        extraInfo += $"Category (5 bits): {chrCategoryBits}\r\n\r\n";
-                        extraInfo += $"ModelID (10 bits): {modelIDbits}\r\n\r\n";
-                        extraInfo += $"ModelExtension Type (5 bits): {fileExtnBits}\r\n\r\n";
-                        extraInfo += $"Reserved2 (8 bits): {reserved2Bits}";
-                        finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 

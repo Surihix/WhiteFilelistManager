@@ -5,7 +5,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class GuiDir
     {
-        private static readonly List<string> _validExtensions = new List<string>()
+        private static readonly List<string> _validExtensions = new()
         {
             ".imgb", ".xgr"
         };
@@ -40,7 +40,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             var finalComputedBits = string.Empty;
 
             string fileCode;
-            var extraInfo = string.Empty;
 
             string mainTypeBits;
             string categoryBits;
@@ -73,10 +72,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += categoryBits;
                         finalComputedBits += fileIDbits;
 
-                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Category (12 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"File ID (12 bits): {fileIDbits}";
-
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
@@ -101,10 +96,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += mainTypeBits;
                         finalComputedBits += categoryBits;
                         finalComputedBits += fileIDbits;
-
-                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Category (12 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"File ID (12 bits): {fileIDbits}";
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -155,10 +146,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += grpBits;
                         finalComputedBits += fileIDbits;
 
-                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Group ID (12 bits): {grpBits}\r\n\r\n";
-                        extraInfo += $"File ID (12 bits): {fileIDbits}";
-
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
@@ -183,10 +170,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += mainTypeBits;
                         finalComputedBits += categoryBits;
                         finalComputedBits += fileIDbits;
-
-                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Category (12 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"File ID (12 bits): {fileIDbits}";
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -217,11 +200,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += categoryBits;
                         finalComputedBits += fileIDbits;
 
-                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Reserved (12 bits): {reservedBits}\r\n\r\n";
-                        extraInfo += $"Category (4 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"File ID (8 bits): {fileIDbits}";
-
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
@@ -246,10 +224,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += mainTypeBits;
                         finalComputedBits += categoryBits;
                         finalComputedBits += fileIDbits;
-
-                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Category (12 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"File ID (12 bits): {fileIDbits}";
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -334,10 +308,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += categoryBits;
                         finalComputedBits += fileIDbits;
 
-                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Category (12 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"File ID (12 bits): {fileIDbits}";
-
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
@@ -377,11 +347,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     finalComputedBits += reservedBits;
                     finalComputedBits += fileNameNumBits;
 
-                    extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
-                    extraInfo += $"Category (8 bits): {categoryBits}\r\n\r\n";
-                    extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
-                    extraInfo += $"File number (12 bits): {fileNameNumBits}";
-
                     fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                     GenerationVariables.FileCode = fileCode;
@@ -404,10 +369,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     finalComputedBits += mainTypeBits;
                     finalComputedBits += reservedBits;
                     finalComputedBits += fileNameNumBits;
-
-                    extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
-                    extraInfo += $"Reserved (12 bits): {reservedBits}\r\n\r\n";
-                    extraInfo += $"File number (12 bits): {fileNameNumBits}";
 
                     fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -436,7 +397,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             var finalComputedBits = string.Empty;
 
             string fileCode;
-            var extraInfo = string.Empty;
 
             // 4 bits
             string reservedABits;
@@ -505,28 +465,18 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         // Assemble bits
                         finalComputedBits += reservedABits;
 
-                        extraInfo += $"ReservedA (4 bits): {reservedABits}\r\n\r\n";
-
                         if (rangeTypeV1)
                         {
                             finalComputedBits += reservedBbits;
                             finalComputedBits += categoryBits;
-
-                            extraInfo += $"ReservedB (5 bits): {reservedBbits}\r\n\r\n";
-                            extraInfo += $"Category (11 bits): {categoryBits}\r\n\r\n";
                         }
                         else
                         {
                             finalComputedBits += categoryBits;
                             finalComputedBits += reservedBbits;
-
-                            extraInfo += $"Category (5 bits): {categoryBits}\r\n\r\n";
-                            extraInfo += $"ReservedB (11 bits): {reservedBbits}\r\n\r\n";
                         }
 
                         finalComputedBits += fileIDbits;
-
-                        extraInfo += $"File ID (12 bits): {fileIDbits}";
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -559,12 +509,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += categoryBits;
                         finalComputedBits += fileIDbits;
 
-                        extraInfo += $"ReservedA (4 bits): {reservedABits}\r\n\r\n";
-                        extraInfo += $"ReservedB (5 bits): {reservedBbits}\r\n\r\n";
-                        extraInfo += $"ReservedC (11 bits): {reservedCbits}\r\n\r\n";
-                        extraInfo += $"Category (4 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"File ID (8 bits): {fileIDbits}";
-
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
@@ -591,11 +535,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += reservedBbits;
                         finalComputedBits += reservedCbits;
                         finalComputedBits += fileIDbits;
-
-                        extraInfo += $"ReservedA (4 bits): {reservedABits}\r\n\r\n";
-                        extraInfo += $"ReservedB (5 bits): {reservedBbits}\r\n\r\n";
-                        extraInfo += $"ReservedC (11 bits): {reservedCbits}\r\n\r\n";
-                        extraInfo += $"File ID (12 bits): {fileIDbits}";
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -687,11 +626,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += categoryBits;
                         finalComputedBits += fileIDbits;
 
-                        extraInfo += $"ReservedA (4 bits): {reservedABits}\r\n\r\n";
-                        extraInfo += $"ReservedB (5 bits): {reservedBbits}\r\n\r\n";
-                        extraInfo += $"Category (11 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"File ID (12 bits): {fileIDbits}";
-
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
@@ -726,11 +660,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                 finalComputedBits += categoryBits;
                 finalComputedBits += reservedBbits;
                 finalComputedBits += fileNameNumBits;
-
-                extraInfo += $"ReservedA (4 bits): {reservedABits}\r\n\r\n";
-                extraInfo += $"Category (8 bits): {categoryBits}\r\n\r\n";
-                extraInfo += $"ReservedB (8 bits): {reservedBbits}\r\n\r\n";
-                extraInfo += $"File number (12 bits): {fileNameNumBits}";
 
                 fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 

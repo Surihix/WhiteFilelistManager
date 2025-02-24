@@ -5,11 +5,11 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class EventDir
     {
-        private static GameID _gameID = new GameID();
+        private static GameID _gameID = new();
 
         private static string ParsingErrorMsg = string.Empty;
 
-        private static readonly List<string> _validExtensions = new List<string>()
+        private static readonly List<string> _validExtensions = new()
         {
             ".bin", ".imgb", ".xwb"
         };
@@ -45,7 +45,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             var finalComputedBits = string.Empty;
 
             string fileCode;
-            var extraInfo = string.Empty;
 
             int zoneID;
             string zoneIDbits;
@@ -54,7 +53,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             string evIDbits;
 
             // 4 bits
-            var mainTypeBits = string.Empty;
+            string mainTypeBits;
 
             if (virtualPathData.Length > 2)
             {
@@ -126,11 +125,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             finalComputedBits += evIDbits;
                             finalComputedBits += fileIDbits;
 
-                            extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                            extraInfo += $"ZoneID (8 bits): {zoneIDbits}\r\n\r\n";
-                            extraInfo += $"EvID (10 bits): {evIDbits}\r\n\r\n";
-                            extraInfo += $"FileID (10 bits): {fileIDbits}";
-
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                             GenerationVariables.FileCode = fileCode;
@@ -155,12 +149,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             finalComputedBits += evIDbits;
                             finalComputedBits += dataSetIDbits;
                             finalComputedBits += fileTypeBit;
-
-                            extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                            extraInfo += $"ZoneID (8 bits): {zoneIDbits}\r\n\r\n";
-                            extraInfo += $"EvID (10 bits): {evIDbits}\r\n\r\n";
-                            extraInfo += $"DataSetID (9 bits): {dataSetIDbits}\r\n\r\n";
-                            extraInfo += $"FileType (1 bit): {fileTypeBit}";
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -193,8 +181,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             var finalComputedBits = string.Empty;
 
-            string fileCode = string.Empty;
-            string extraInfo = string.Empty;
+            string fileCode;
 
             var zoneID = 0;
             string zoneIDbits;
@@ -283,10 +270,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             finalComputedBits += evIDbits;
                             finalComputedBits += fileIDbits;
 
-                            extraInfo += $"ZoneID (12 bits): {zoneIDbits}\r\n\r\n";
-                            extraInfo += $"EvID (10 bits): {evIDbits}\r\n\r\n";
-                            extraInfo += $"FileID (10 bits): {fileIDbits}";
-
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                             GenerationVariables.FileCode = fileCode;
@@ -311,11 +294,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             finalComputedBits += evIDbits;
                             finalComputedBits += dataSetIDbits;
                             finalComputedBits += fileTypeBit;
-
-                            extraInfo += $"ZoneID (12 bits): {zoneIDbits}\r\n\r\n";
-                            extraInfo += $"EvID (10 bits): {evIDbits}\r\n\r\n";
-                            extraInfo += $"DataSetID (9 bits): {dataSetIDbits}\r\n\r\n";
-                            extraInfo += $"FileType (1 bit): {fileTypeBit}";
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
