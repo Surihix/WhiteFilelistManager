@@ -5,8 +5,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class ChrDir
     {
-        private static string ParsingErrorMsg = string.Empty;
-
         public static void ProcessChrPath(string[] virtualPathData, string virtualPath, GameID gameID)
         {
             switch (gameID)
@@ -336,14 +334,12 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                 default:
                     if (GenerationVariables.GenerationType == GenerationType.single)
                     {
-                        ParsingErrorMsg = "Unable to determine category from the filename. check if the chr filename, starts with a valid category string.";
+                        SharedFunctions.Error("Unable to determine category from the filename. check if the chr filename, starts with a valid category string.");
                     }
                     else
                     {
-                        ParsingErrorMsg = $"Unable to determine category from the filename. check if the chr filename, starts with a valid category string.\n{GenerationVariables.PathErrorStringForBatch}";
+                        SharedFunctions.Error($"Unable to determine category from the filename. check if the chr filename, starts with a valid category string.\n{GenerationVariables.PathErrorStringForBatch}");
                     }
-
-                    SharedFunctions.Error(ParsingErrorMsg);
                     break;
             }
 

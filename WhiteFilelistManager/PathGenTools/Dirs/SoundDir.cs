@@ -5,9 +5,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class SoundDir
     {
-        private static string ParsingErrorMsg = string.Empty;
-
-        private static readonly List<string> _validExtensions = new List<string>()
+        private static readonly List<string> _validExtensions = new()
         {
             ".scd", ".wpd"
         };
@@ -40,14 +38,13 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             }
 
             var finalComputedBits = string.Empty;
-            int fileExtnID = 0;
+            int fileExtnID;
             string fileExtnBits;
 
-            string fileCode = string.Empty;
-            string extraInfo = string.Empty;
+            string fileCode;
 
             // 4 bits
-            var mainTypeBits = string.Empty;
+            string mainTypeBits;
 
             if (virtualPathData.Length > 2)
             {
@@ -70,38 +67,12 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // 26 bits
                         var soundDirID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-                        string soundIDbits;
-
-                        if (soundDirID == -1)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Sound directory number in path was invalid";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Sound directory number in path was invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
-
-                        if (soundDirID > 9999)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Sound directory number in the path is too large. must be from 0 to 9999.";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Sound directory number in the path is too large. must be from 0 to 9999.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
+                        GenerationFunctions.CheckDerivedNumber(soundDirID, "sound-dir", 9999);
 
                         // If .wpd, then do not
                         // prompt for file number
+                        string soundIDbits;
+
                         if (fileExtn == ".wpd")
                         {
                             soundIDbits = Convert.ToString(soundDirID, 2).PadLeft(26, '0');
@@ -142,11 +113,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += fileExtnBits;
                         finalComputedBits += soundIDbits;
 
-                        extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"Category (2 bits): {fileExtnBits}\r\n\r\n";
-                        extraInfo += $"Dir & FileID (26 bits): {soundIDbits}";
-                        finalComputedBits.Reverse();
-
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
@@ -178,11 +144,10 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             }
 
             var finalComputedBits = string.Empty;
-            int fileExtnID = 0;
+            int fileExtnID;
             string fileExtnBits;
 
-            string fileCode = string.Empty;
-            string extraInfo = string.Empty;
+            string fileCode;
 
             // 4 bits
             var reservedBits = "0000";
@@ -206,38 +171,12 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // 26 bits
                         var soundDirID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-                        string soundIDbits;
-
-                        if (soundDirID == -1)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Sound directory number specified was invalid";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Sound directory number specified was invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
-
-                        if (soundDirID > 9999)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Sound directory number in the path is too large. must be from 0 to 9999.";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Sound directory number in the path is too large. must be from 0 to 9999.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
+                        GenerationFunctions.CheckDerivedNumber(soundDirID, "sound-dir", 9999);
 
                         // If .wpd, then do not
                         // prompt for file number
+                        string soundIDbits;
+
                         if (fileExtn == ".wpd")
                         {
                             soundIDbits = Convert.ToString(soundDirID, 2).PadLeft(26, '0');
@@ -277,11 +216,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += reservedBits;
                         finalComputedBits += fileExtnBits;
                         finalComputedBits += soundIDbits;
-
-                        extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
-                        extraInfo += $"Category (2 bits): {fileExtnBits}\r\n\r\n";
-                        extraInfo += $"Dir & FileID (26 bits): {soundIDbits}";
-                        finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 

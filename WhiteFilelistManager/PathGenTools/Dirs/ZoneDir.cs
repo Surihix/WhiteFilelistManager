@@ -5,8 +5,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class ZoneDir
     {
-        private static readonly string _newLineChara = Environment.NewLine;
-
         private static readonly List<string> _validExtensions = new()
         {
             ".wdb", ".clb", ".bin"
@@ -42,7 +40,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             var finalComputedBits = string.Empty;
 
             string fileCode;
-            string extraInfo = string.Empty;
 
             string mainTypeBits;
 
@@ -78,11 +75,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += reservedBits;
                         finalComputedBits += zoneIDbits;
 
-                        extraInfo += $"MainType (8 bits): {mainTypeBits}{_newLineChara}{_newLineChara}";
-                        extraInfo += $"Category (8 bits): {categoryBits}{_newLineChara}{_newLineChara}";
-                        extraInfo += $"Reserved (8 bits): {reservedBits}{_newLineChara}{_newLineChara}";
-                        extraInfo += $"ZoneID (8 bits): {zoneIDbits}";
-
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
@@ -110,11 +102,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += reservedBits;
                         finalComputedBits += scrIDbits;
 
-                        extraInfo += $"MainType (8 bits): {mainTypeBits}{_newLineChara}{_newLineChara}";
-                        extraInfo += $"ZoneID (8 bits): {zoneIDbits}{_newLineChara}{_newLineChara}";
-                        extraInfo += $"Reserved (8 bits): {reservedBits}{_newLineChara}{_newLineChara}";
-                        extraInfo += $"ScrID (8 bits): {scrIDbits}";
-
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
@@ -138,10 +125,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     finalComputedBits += mainTypeBits;
                     finalComputedBits += lsdpckNameNumBits;
                     finalComputedBits += reservedBits;
-
-                    extraInfo += $"MainType (8 bits): {mainTypeBits}{_newLineChara}{_newLineChara}";
-                    extraInfo += $"lsdpack number (8 bits): {lsdpckNameNumBits}{_newLineChara}{_newLineChara}";
-                    extraInfo += $"Reserved (16 bits): {reservedBits}";
 
                     fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -174,7 +157,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             var finalComputedBits = string.Empty;
 
             string fileCode;
-            var extraInfo = string.Empty;
 
             // 4 bits
             var reservedBits = "0000";
@@ -208,11 +190,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += reserved2Bits;
                         finalComputedBits += zoneIDbits;
 
-                        extraInfo += $"Reserved (4 bits): {reservedBits}{_newLineChara}{_newLineChara}";
-                        extraInfo += $"Category (11 bits): {categoryBits}{_newLineChara}{_newLineChara}";
-                        extraInfo += $"Reserved2 (5 bits): {reserved2Bits}{_newLineChara}{_newLineChara}";
-                        extraInfo += $"ZoneID (12 bits): {zoneIDbits}";
-
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
@@ -237,11 +214,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += reserved2Bits;
                         finalComputedBits += zoneIDbits;
                         finalComputedBits += scrIDbits;
-
-                        extraInfo += $"Reserved (4 bits): {reservedBits}{_newLineChara}{_newLineChara}";
-                        extraInfo += $"Reserved2 (8 bits): {reserved2Bits}{_newLineChara}{_newLineChara}";
-                        extraInfo += $"ZoneID (12 bits): {zoneIDbits}{_newLineChara}{_newLineChara}";
-                        extraInfo += $"ScrID (8 bits): {scrIDbits}";
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -268,11 +240,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     finalComputedBits += categoryBits;
                     finalComputedBits += lsdpckNameNumBits;
                     finalComputedBits += reserved2Bits;
-
-                    extraInfo += $"Reserved (4 bits): {reservedBits}{_newLineChara}{_newLineChara}";
-                    extraInfo += $"Category (8 bits): {categoryBits}{_newLineChara}{_newLineChara}";
-                    extraInfo += $"lsdpack number (12 bits): {lsdpckNameNumBits}{_newLineChara}{_newLineChara}";
-                    extraInfo += $"Reserved2 (8 bits): {reserved2Bits}";
 
                     fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 

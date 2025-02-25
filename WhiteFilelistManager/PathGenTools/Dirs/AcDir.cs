@@ -5,8 +5,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class AcDir
     {
-        private static string ParsingErrorMsg = string.Empty;
-
         private static readonly List<string> _validExtensions = new()
         {
             ".bin", ".imgb", ".xwb"
@@ -309,14 +307,12 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             {
                 if (GenerationVariables.GenerationType == GenerationType.single)
                 {
-                    ParsingErrorMsg = "Unable to get letter from filename";
+                    SharedFunctions.Error("Unable to get letter from filename");
                 }
                 else
                 {
-                    ParsingErrorMsg = $"Unable to get letter from filename.\n{GenerationVariables.PathErrorStringForBatch}";
+                    SharedFunctions.Error($"Unable to get letter from filename.\n{GenerationVariables.PathErrorStringForBatch}");
                 }
-
-                SharedFunctions.Error(ParsingErrorMsg);
             }
 
             int numInFileName = GenerationFunctions.DeriveNumFromString(fileName);
@@ -325,14 +321,12 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             {
                 if (GenerationVariables.GenerationType == GenerationType.single)
                 {
-                    ParsingErrorMsg = "Unable to get number from filename";
+                    SharedFunctions.Error("Unable to get number from filename");
                 }
                 else
                 {
-                    ParsingErrorMsg = $"Unable to get number from filename\n{GenerationVariables.PathErrorStringForBatch}";
+                    SharedFunctions.Error($"Unable to get number from filename\n{GenerationVariables.PathErrorStringForBatch}");
                 }
-
-                SharedFunctions.Error(ParsingErrorMsg);
             }
 
             return (GenerationFunctions.LettersList.IndexOf(fileName[0]) * 100) + numInFileName + 2;

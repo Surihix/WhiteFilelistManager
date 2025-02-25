@@ -200,7 +200,7 @@ namespace WhiteFilelistManager.PathGenTools
                 case "movie":
                     if (gameID == GameID.xiii3)
                     {
-                        MovieDir.ProcessMoviePath(virtualPathData, virtualPath);
+                        MovieDir.ProcessMoviePath(virtualPath);
                     }
                     else
                     {
@@ -220,7 +220,7 @@ namespace WhiteFilelistManager.PathGenTools
                 case "movie_win":
                     if (gameID == GameID.xiii2)
                     {
-                        MovieDir.ProcessMoviePath(virtualPathData, virtualPath);
+                        MovieDir.ProcessMoviePath(virtualPath);
                     }
                     else
                     {

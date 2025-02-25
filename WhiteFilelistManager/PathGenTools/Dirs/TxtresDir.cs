@@ -5,9 +5,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class TxtresDir
     {
-        private static GameID _gameID = new GameID();
-
-        private static string ParsingErrorMsg = string.Empty;
+        private static GameID _gameID = new();
 
         public static void ProcessTxtresPath(string[] virtualPathData, string virtualPath, GameID gameID)
         {
@@ -39,15 +37,14 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             var finalComputedBits = string.Empty;
 
-            string fileCode = string.Empty;
-            string extraInfo = string.Empty;
+            string fileCode;
 
             string langIDbits;
             int zoneID = 0;
             string zoneIDbits;
 
             // 8 bits
-            var mainTypeBits = string.Empty;
+            string mainTypeBits;
 
             if (virtualPathData.Length > 2)
             {
@@ -105,34 +102,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // 10 bits
                         var acID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-
-                        if (acID == -1)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "ac number in the path is invalid";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"ac number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
-
-                        if (acID > 999)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "ac number in the path is too large. must be from 0 to 999.";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"ac number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
+                        GenerationFunctions.CheckDerivedNumber(acID, "ac", 999);
 
                         var acIDbits = Convert.ToString(acID, 2).PadLeft(10, '0');
 
@@ -141,12 +111,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += langIDbits;
                         finalComputedBits += zoneIDbits;
                         finalComputedBits += acIDbits;
-
-                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"LanguageID (4 bits): {langIDbits}\r\n\r\n";
-                        extraInfo += $"ZoneID (10 bits): {zoneIDbits}\r\n\r\n";
-                        extraInfo += $"AcID (10 bits): {acIDbits}";
-                        finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -165,34 +129,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // 10 bits
                         var evID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-
-                        if (evID == -1)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Event number in the path is invalid";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Event number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
-
-                        if (evID > 999)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Event number in the path is too large. must be from 0 to 999.";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Event number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
+                        GenerationFunctions.CheckDerivedNumber(evID, "event", 999);
 
                         var evIDbits = Convert.ToString(evID, 2).PadLeft(10, '0');
 
@@ -201,12 +138,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += langIDbits;
                         finalComputedBits += zoneIDbits;
                         finalComputedBits += evIDbits;
-
-                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"LanguageID (4 bits): {langIDbits}\r\n\r\n";
-                        extraInfo += $"ZoneID (10 bits): {zoneIDbits}\r\n\r\n";
-                        extraInfo += $"EvID (10 bits): {evIDbits}";
-                        finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -225,20 +156,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // 10 bits
                         zoneID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-
-                        if (zoneID == -1)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Zone number in the path is invalid";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Zone number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
+                        GenerationFunctions.CheckDerivedNumber(zoneID, "zone", 255);
 
                         zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(10, '0');
 
@@ -247,12 +165,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += langIDbits;
                         finalComputedBits += reservedBits;
                         finalComputedBits += zoneIDbits;
-
-                        extraInfo += $"MainType (8 bits): {mainTypeBits}\r\n\r\n";
-                        extraInfo += $"LanguageID (4 bits): {langIDbits}\r\n\r\n";
-                        extraInfo += $"Reserved (10 bits): {reservedBits}\r\n\r\n";
-                        extraInfo += $"ZoneID (10 bits): {zoneIDbits}";
-                        finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -281,7 +193,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             var finalComputedBits = string.Empty;
 
             string fileCode;
-            string extraInfo = string.Empty;
 
             string langIDbits;
             string categoryBits;
@@ -368,34 +279,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // 10 bits
                         var acID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-
-                        if (acID == -1)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "ac number in the path is invalid";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"ac number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
-
-                        if (acID > 999)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "ac number in the path is too large. must be from 0 to 999.";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"ac number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
+                        GenerationFunctions.CheckDerivedNumber(acID, "ac", 999);
 
                         var acIDbits = Convert.ToString(acID, 2).PadLeft(10, '0');
 
@@ -405,13 +289,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += reservedBits;
                         finalComputedBits += zoneIDbits;
                         finalComputedBits += acIDbits;
-
-                        extraInfo += $"LanguageID (4 bits): {langIDbits}\r\n\r\n";
-                        extraInfo += $"Category (4 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
-                        extraInfo += $"ZoneID (10 bits): {zoneIDbits}\r\n\r\n";
-                        extraInfo += $"AcID (10 bits): {acIDbits}";
-                        finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -435,34 +312,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // 10 bits
                         var evID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-
-                        if (evID == -1)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Event number in the path is invalid";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Event number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
-
-                        if (evID > 999)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Event number in the path is too large. must be from 0 to 999.";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Event number in the path is too large. must be from 0 to 999.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
+                        GenerationFunctions.CheckDerivedNumber(evID, "event", 999);
 
                         var evIDbits = Convert.ToString(evID, 2).PadLeft(10, '0');
 
@@ -472,13 +322,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += reservedBits;
                         finalComputedBits += zoneIDbits;
                         finalComputedBits += evIDbits;
-
-                        extraInfo += $"LanguageID (4 bits): {langIDbits}\r\n\r\n";
-                        extraInfo += $"Category (4 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
-                        extraInfo += $"ZoneID (10 bits): {zoneIDbits}\r\n\r\n";
-                        extraInfo += $"EvID (10 bits): {evIDbits}";
-                        finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
@@ -499,20 +342,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                         // 10 bits
                         zoneID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
-
-                        if (zoneID == -1)
-                        {
-                            if (GenerationVariables.GenerationType == GenerationType.single)
-                            {
-                                ParsingErrorMsg = "Zone number in the path is invalid";
-                            }
-                            else
-                            {
-                                ParsingErrorMsg = $"Zone number in the path is invalid.\n{GenerationVariables.PathErrorStringForBatch}";
-                            }
-
-                            SharedFunctions.Error(ParsingErrorMsg);
-                        }
+                        GenerationFunctions.CheckDerivedNumber(zoneID, "zone", 998);
 
                         zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(10, '0');
 
@@ -521,12 +351,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         finalComputedBits += categoryBits;
                         finalComputedBits += reservedBits;
                         finalComputedBits += zoneIDbits;
-
-                        extraInfo += $"LanguageID (4 bits): {langIDbits}\r\n\r\n";
-                        extraInfo += $"Category (4 bits): {categoryBits}\r\n\r\n";
-                        extraInfo += $"Reserved (14 bits): {reservedBits}\r\n\r\n";
-                        extraInfo += $"ZoneID (10 bits): {zoneIDbits}";
-                        finalComputedBits.Reverse();
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 

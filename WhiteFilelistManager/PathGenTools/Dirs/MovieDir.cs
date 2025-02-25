@@ -5,7 +5,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 {
     internal class MovieDir
     {
-        public static void ProcessMoviePath(string[] virtualPathData, string virtualPath)
+        public static void ProcessMoviePath(string virtualPath)
         {
             var fileName = Path.GetFileName(virtualPath).Replace("_us", "");
 
@@ -16,6 +16,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             var fileNameNoExtn = Encoding.UTF8.GetBytes(Path.GetFileNameWithoutExtension(fileName));
 
+            // Get FNV1 hash
             uint hash = 0x811C9DC5;
 
             for (int s = 0; s < fileNameNoExtn.Length; s++)
