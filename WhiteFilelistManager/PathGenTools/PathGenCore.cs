@@ -265,6 +265,10 @@ namespace WhiteFilelistManager.PathGenTools
                     SoundDir.ProcessSoundPath(virtualPathData, virtualPath, gameID);
                     break;
 
+                case "sys":
+                    SysDir.ProcessSysPath(virtualPathData, virtualPath, gameID);
+                    break;
+
                 case "txtres":
                     TxtresDir.ProcessTxtresPath(virtualPathData, virtualPath, gameID);
                     break;
