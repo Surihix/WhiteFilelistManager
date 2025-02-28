@@ -230,7 +230,10 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             if (fileExtn != ".wdb")
             {
-                SharedFunctions.Error(GenerationVariables.CommonExtnErrorMsg);
+                if (fileExtn != ".bin")
+                {
+                    SharedFunctions.Error(GenerationVariables.CommonExtnErrorMsg);
+                }
             }
 
             var finalComputedBits = string.Empty;
