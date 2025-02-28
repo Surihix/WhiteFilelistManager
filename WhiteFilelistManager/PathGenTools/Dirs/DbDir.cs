@@ -14,8 +14,11 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     break;
 
                 case GameID.xiii2:
+                    ZonePathXIII2(virtualPathData, virtualPath);
+                    break;
+
                 case GameID.xiii3:
-                    ZonePathXIII2LR(virtualPathData, virtualPath);
+                    ZonePathXIIILR(virtualPathData, virtualPath);
                     break;
             }
         }
@@ -147,8 +150,8 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
         #endregion
 
 
-        #region XIII-2 and XIII-LR
-        private static void ZonePathXIII2LR(string[] virtualPathData, string virtualPath)
+        #region XIII-2
+        private static void ZonePathXIII2(string[] virtualPathData, string virtualPath)
         {
             var startingPortion = virtualPathData[0] + "/" + virtualPathData[1];
             var fileExtn = Path.GetExtension(virtualPath);
@@ -209,6 +212,88 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     default:
                         SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
                         break;
+                }
+            }
+            else
+            {
+                SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
+            }
+        }
+        #endregion
+
+
+        #region XIII-LR
+        private static void ZonePathXIIILR(string[] virtualPathData, string virtualPath)
+        {
+            var startingPortion = virtualPathData[0] + "/" + virtualPathData[1];
+            var fileExtn = Path.GetExtension(virtualPath);
+
+            if (fileExtn != ".wdb")
+            {
+                SharedFunctions.Error(GenerationVariables.CommonExtnErrorMsg);
+            }
+
+            var finalComputedBits = string.Empty;
+
+            string fileCode;
+
+            // 8 bits
+            string reservedABits;
+
+            if (virtualPathData.Length == 3)
+            {
+                reservedABits = "00000000";
+
+                int fileNameNum;
+                string fileNameNumBits;
+                string dbCategoryBits;
+                string reservedBBits;
+
+                switch (startingPortion)
+                {
+                    case "db/bg":
+                    case "db/btscenetable":
+                    case "db/script":
+                    case "db/select":
+                        // 8 bits
+                        dbCategoryBits = Convert.ToString(DetermineDbCategory(virtualPathData[1]), 2).PadLeft(8, '0');
+
+                        // 4 bits
+                        reservedBBits = "0000";
+
+                        // 12 bits
+                        fileNameNum = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
+                        GenerationFunctions.CheckDerivedNumber(fileNameNum, "file", 998);
+
+                        fileNameNumBits = Convert.ToString(fileNameNum, 2).PadLeft(12, '0');
+
+                        // Assemble bits
+                        finalComputedBits += reservedABits;
+                        finalComputedBits += dbCategoryBits;
+                        finalComputedBits += reservedBBits;
+                        finalComputedBits += fileNameNumBits;
+
+                        fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                        GenerationVariables.FileCode = fileCode;
+                        GenerationVariables.FileTypeID = "64";
+                        break;
+
+
+                    default:
+                        SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
+                        break;
+                }
+            }
+            else if (virtualPathData.Length == 5)
+            {
+                if (virtualPath.StartsWith("db/ai/npc/pack"))
+                {
+
+                }
+                else
+                {
+                    SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
                 }
             }
             else
