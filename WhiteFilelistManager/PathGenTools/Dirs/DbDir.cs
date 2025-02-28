@@ -240,68 +240,180 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
             string fileCode;
 
-            // 8 bits
             string reservedABits;
 
-            if (virtualPathData.Length == 3)
+            int fileNameNum;
+            string fileNameNumBits;
+            string dbCategoryBits;
+            string reservedBBits;
+
+            switch (virtualPathData.Length)
             {
-                reservedABits = "00000000";
+                case 3:
+                    // 8 bits
+                    reservedABits = "00000000";
 
-                int fileNameNum;
-                string fileNameNumBits;
-                string dbCategoryBits;
-                string reservedBBits;
+                    switch (startingPortion)
+                    {
+                        case "db/bg":
+                        case "db/btscenetable":
+                        case "db/script":
+                        case "db/select":
+                            // 8 bits
+                            dbCategoryBits = Convert.ToString(DetermineDbCategory(virtualPathData[1]), 2).PadLeft(8, '0');
 
-                switch (startingPortion)
-                {
-                    case "db/bg":
-                    case "db/btscenetable":
-                    case "db/script":
-                    case "db/select":
+                            // 4 bits
+                            reservedBBits = "0000";
+
+                            // 12 bits
+                            fileNameNum = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
+                            GenerationFunctions.CheckDerivedNumber(fileNameNum, "file", 998);
+
+                            fileNameNumBits = Convert.ToString(fileNameNum, 2).PadLeft(12, '0');
+
+                            // Assemble bits
+                            finalComputedBits += reservedABits;
+                            finalComputedBits += dbCategoryBits;
+                            finalComputedBits += reservedBBits;
+                            finalComputedBits += fileNameNumBits;
+
+                            fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                            GenerationVariables.FileCode = fileCode;
+                            GenerationVariables.FileTypeID = "64";
+                            break;
+
+
+                        default:
+                            SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
+                            break;
+                    }
+                    break;
+
+
+                case 5:
+                    if (virtualPath.StartsWith("db/ai/npc/pack"))
+                    {
+                        var fileName = Path.GetFileName(virtualPath);
+
                         // 8 bits
-                        dbCategoryBits = Convert.ToString(DetermineDbCategory(virtualPathData[1]), 2).PadLeft(8, '0');
+                        var mainTypeBits = Convert.ToString(1, 2).PadLeft(8, '0');
 
                         // 4 bits
-                        reservedBBits = "0000";
+                        var reservedBits = "0000";
+                        
+                        var fileID = 0;
+                        string fileIDBits;
 
-                        // 12 bits
-                        fileNameNum = GenerationFunctions.DeriveNumFromString(Path.GetFileName(virtualPath));
-                        GenerationFunctions.CheckDerivedNumber(fileNameNum, "file", 998);
+                        var nameNoExtn = Path.GetFileNameWithoutExtension(fileName);
+                        var nameSplit = nameNoExtn.Split('_');
 
-                        fileNameNumBits = Convert.ToString(fileNameNum, 2).PadLeft(12, '0');
+                        if (fileName.StartsWith("quest") && !fileName.Contains("resident"))
+                        {
+                            // 12 bits
+                            fileID = GenerationFunctions.DeriveNumFromString(fileName);
+                            GenerationFunctions.CheckDerivedNumber(fileID, "quest", 3100);
+
+                            if (nameSplit.Length != 2)
+                            {
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    SharedFunctions.Error("Unable to determine language id from file path");
+                                }
+                                else
+                                {
+                                    SharedFunctions.Error($"Unable to determine language id from file path.\n{GenerationVariables.PathErrorStringForBatch}");
+                                }
+                            }
+                        }
+                        else if (fileName.StartsWith("auto"))
+                        {
+                            // 12 bits
+                            fileID = GenerationFunctions.DeriveNumFromString(fileName);
+                            GenerationFunctions.CheckDerivedNumber(fileID, "auto_c", 4095);
+
+                            fileID += 3100;
+
+                            if (nameSplit.Length != 3)
+                            {
+                                if (GenerationVariables.GenerationType == GenerationType.single)
+                                {
+                                    SharedFunctions.Error("Unable to determine language id from file path");
+                                }
+                                else
+                                {
+                                    SharedFunctions.Error($"Unable to determine language id from file path.\n{GenerationVariables.PathErrorStringForBatch}");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
+                        }
+
+                        fileIDBits = Convert.ToString(fileID, 2).PadLeft(12, '0');
+
+                        // 8 bits
+                        var langID = nameNoExtn.Substring(nameNoExtn.Length - 2);
+                        string langIDbits;
+
+                        switch (langID)
+                        {
+                            default:
+                            case "jp":
+                                langIDbits = "00000000";
+                                break;
+
+                            case "us":
+                                langIDbits = Convert.ToString(1, 2).PadLeft(8, '0');
+                                break;
+
+                            case "it":
+                                langIDbits = Convert.ToString(3, 2).PadLeft(8, '0');
+                                break;
+
+                            case "gr":
+                                langIDbits = Convert.ToString(4, 2).PadLeft(8, '0');
+                                break;
+
+                            case "fr":
+                                langIDbits = Convert.ToString(5, 2).PadLeft(8, '0');
+                                break;
+
+                            case "sp":
+                                langIDbits = Convert.ToString(6, 2).PadLeft(8, '0');
+                                break;
+
+                            case "kr":
+                                langIDbits = Convert.ToString(8, 2).PadLeft(8, '0');
+                                break;
+
+                            case "ch":
+                                langIDbits = Convert.ToString(10, 2).PadLeft(8, '0');
+                                break;
+                        }
 
                         // Assemble bits
-                        finalComputedBits += reservedABits;
-                        finalComputedBits += dbCategoryBits;
-                        finalComputedBits += reservedBBits;
-                        finalComputedBits += fileNameNumBits;
+                        finalComputedBits += mainTypeBits;
+                        finalComputedBits += reservedBits;
+                        finalComputedBits += fileIDBits;
+                        finalComputedBits += langIDbits;
 
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
-                        GenerationVariables.FileTypeID = "64";
-                        break;
-
-
-                    default:
+                        GenerationVariables.FileTypeID = "96";
+                    }
+                    else
+                    {
                         SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
-                        break;
-                }
-            }
-            else if (virtualPathData.Length == 5)
-            {
-                if (virtualPath.StartsWith("db/ai/npc/pack"))
-                {
+                    }
+                    break;
 
-                }
-                else
-                {
+
+                default:
                     SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
-                }
-            }
-            else
-            {
-                SharedFunctions.Error(GenerationVariables.CommonErrorMsg);
+                    break;
             }
         }
         #endregion

@@ -123,6 +123,7 @@ N.B: Set the Game to XIII-LR in the tool.
 | chr/pc | .imgb and .trb files | |
 | chr/summon | .imgb and .trb files | |
 | chr/weapon | .imgb and .trb files | |
+| db/ai/npc/pack | .bin files | |
 | db/bg | .wdb files | |
 | db/btscenetable | .wdb files | |
 | db/script | .wdb files | |
