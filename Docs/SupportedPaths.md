@@ -1,4 +1,4 @@
-# SupportedPaths
+# Supported Paths
 
 ## FINAL FANTASY XIII
 
