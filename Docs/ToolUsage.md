@@ -133,7 +133,7 @@ These options help in generating the necessary path data for a supported path ty
 ### Batch Mode
 - The same type of options would also be present in the **Batch Mode** tab and you can use that to generate multiple paths data by providing the folder containing your new files with the correct virtual directory.
 - When generating id based paths with the **Batch Mode** tab's options, you have to create a txt file called '#id-based_paths' and have the id based paths be written there along with the id number. the `|` character should be used to separate the path and your id.
-<br>
+
 For example, if you are generating new sound file paths, then your #id-based_paths text file should be written like this:
 ```
 sound/pack/2028/snls160foley02.win32.scd|5
@@ -155,8 +155,9 @@ sound/pack/2069/snls140add04.win32.scd|26
 - The path data has to be pasted in the JSON or Chunk_## text file according to the filecode sequence. (this will be the first number after the `|` character, if you had used the ***Generate TXT Output*** option)
 <br>For example let's say your generated path data has a filecode value of `152900` and there is a filecode and path data in the JSON or Chunk_## text file, that has a filecode value of `152800`. your newly generated path data would have to be after the `152800` path data.
 
-- If you are repacking the new file back into the white archive and you want your file to be compressed when repacking, then you can set the third `0` from the virtual path data, to `1`. for example, if your generated path data's virtual path is `0:0:0:mot/pc/sk_c001_lt/s1.white.win32.bin`, then it should be `0:0:1:mot/pc/sk_c001_lt/s1.white.win32.bin`. make sure you do not do this for `.scd` type files as they should always be stored uncompressed inside the white archive.
+- If you are repacking the new file back into the white archive and you want your file to be compressed when repacking, then you can set the third `0` from the virtual path data, to `1`.
+<br>For example, if your generated path data's virtual path is `0:0:0:mot/pc/sk_c001_lt/s1.white.win32.bin`, then it should be `0:0:1:mot/pc/sk_c001_lt/s1.white.win32.bin`. make sure you do not do this for `.scd` type files as they should always be stored uncompressed inside the white archive.
 
-- After you have added your necessary path data, use the appropriate Repack options from the **Filelist Tools** section, to rebuild the data back to filelist format with the new file path(s). if you are trying to repack the file back into the white archive, you can use [WhiteBinTool's](https://github.com/Surihix/WhiteBinTools) `-r` switch's function, to repack new files into the archive using the newly rebuilt filelist.
+- After you have added your necessary path data, use the appropriate Repack options from the **Filelist Tools** section, to rebuild the data back to the filelist format. if you are trying to repack the new file back into the white archive, you can use the [WhiteBinTool's](https://github.com/Surihix/WhiteBinTools) `-r` repack function, to repack new files into the white archive, using the newly rebuilt filelist.
 
 - For any questions regarding this tool usage, general modding questions regarding the trilogy or for technical support, please reach out via the **Fabula Nova Crystalis modding community** discord server.
