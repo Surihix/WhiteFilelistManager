@@ -159,4 +159,4 @@ sound/pack/2069/snls140add04.win32.scd|26
 
 - After you have added your necessary path data, use the appropriate Repack options from the **Filelist Tools** section, to rebuild the data back to filelist format with the new file path(s). if you are trying to repack the file back into the white archive, you can use [WhiteBinTool's](https://github.com/Surihix/WhiteBinTools) `-r` switch's function, to repack new files into the archive using the newly rebuilt filelist.
 
-- For any questions regarding this tool usage, general modding questions regarding the trilogy or for technical support, please reach out via the Fabula Nova Crystalis modding community's discord server.
+- For any questions regarding this tool usage, general modding questions regarding the trilogy or for technical support, please reach out via the **Fabula Nova Crystalis modding community** discord server.
