@@ -1,6 +1,6 @@
 # Tool Usage
 
-**Important:** The *Select Game:* options determines how this tool's options functions. make sure to select the right game from this option before using any of the tool's functions.
+**Important:** The *Select Game:* options determines how this tool's options functions. make sure to select the right game from this option before using any of the functions.
 
 ## Filelist tools
 
