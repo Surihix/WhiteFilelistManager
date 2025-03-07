@@ -31,6 +31,16 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             }
         }
 
+        private static readonly Dictionary<char, int> VfxChrCategoryDict = new()
+        {
+            { 'c', 2 },
+            { 'f', 5 },
+            { 'm', 12 },
+            { 'n', 13 },
+            { 's', 18 },
+            { 'w', 22 }
+        };
+
 
         #region XIII
         private static void VfxPathXIII(string[] virtualPathData, string virtualPath)
@@ -110,7 +120,21 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         mainTypeBits = Convert.ToString(1, 2).PadLeft(4, '0');
 
                         // 5 bits
-                        var chrCategoryBits = Convert.ToString(DetermineVfxChrCategory(virtualPathData[2][0]), 2).PadLeft(5, '0');
+                        if (!VfxChrCategoryDict.ContainsKey(virtualPathData[2][0]))
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                SharedFunctions.Error("Unable to determine category from the filename. check if the vfx filename, starts with a valid category string.");
+                            }
+                            else
+                            {
+                                SharedFunctions.Error($"Unable to determine category from the filename. check if the vfx filename, starts with a valid category string.\n{GenerationVariables.PathErrorStringForBatch}");
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
+                        }
+
+                        var chrCategoryBits = Convert.ToString(VfxChrCategoryDict[virtualPathData[2][0]], 2).PadLeft(5, '0');
 
                         // 10 bits
                         var modelID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
@@ -291,7 +315,21 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                     case "vfx/chr":
                         // 5 bits
-                        var chrCategoryBits = Convert.ToString(DetermineVfxChrCategory(virtualPathData[2][0]), 2).PadLeft(5, '0');
+                        if (!VfxChrCategoryDict.ContainsKey(virtualPathData[2][0]))
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                SharedFunctions.Error("Unable to determine category from the filename. check if the vfx filename, starts with a valid category string.");
+                            }
+                            else
+                            {
+                                SharedFunctions.Error($"Unable to determine category from the filename. check if the vfx filename, starts with a valid category string.\n{GenerationVariables.PathErrorStringForBatch}");
+                            }
+
+                            SharedFunctions.Error(ParsingErrorMsg);
+                        }
+
+                        var chrCategoryBits = Convert.ToString(VfxChrCategoryDict[virtualPathData[2][0]], 2).PadLeft(5, '0');
 
                         // 10 bits
                         var modelID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
@@ -422,53 +460,5 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             }
         }
         #endregion
-
-
-        private static int DetermineVfxChrCategory(char startChara)
-        {
-            var categoryID = 0;
-
-            switch (startChara)
-            {
-                case 'c':
-                    categoryID = 2;
-                    break;
-
-                case 'f':
-                    categoryID = 5;
-                    break;
-
-                case 'm':
-                    categoryID = 12;
-                    break;
-
-                case 'n':
-                    categoryID = 13;
-                    break;
-
-                case 's':
-                    categoryID = 18;
-                    break;
-
-                case 'w':
-                    categoryID = 22;
-                    break;
-
-                default:
-                    if (GenerationVariables.GenerationType == GenerationType.single)
-                    {
-                        ParsingErrorMsg = "Unable to determine category from the filename. check if the vfx filename, starts with a valid category string.";
-                    }
-                    else
-                    {
-                        ParsingErrorMsg = $"Unable to determine category from the filename. check if the vfx filename, starts with a valid category string.\n{GenerationVariables.PathErrorStringForBatch}";
-                    }
-
-                    SharedFunctions.Error(ParsingErrorMsg);
-                    break;
-            }
-
-            return categoryID;
-        }
     }
 }

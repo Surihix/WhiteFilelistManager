@@ -23,6 +23,17 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             }
         }
 
+        private static readonly Dictionary<string, int> ChrCategoryDict = new()
+        {
+            { "pc", 2 },
+            { "exte", 4 },
+            { "fa", 5 },
+            { "mon", 12 },
+            { "npc", 13 },
+            { "summon", 18 },
+            { "weapon", 22 }
+        };
+
 
         #region XIII
         private static void ChrPathXIII(string[] virtualPathData, string virtualPath)
@@ -62,7 +73,19 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         mainTypeBits = Convert.ToString(1, 2).PadLeft(4, '0');
 
                         // 5 bits
-                        var chrCategoryBits = Convert.ToString(DetermineChrCategory(virtualPathData[1]), 2).PadLeft(5, '0');
+                        if (!ChrCategoryDict.ContainsKey(virtualPathData[1]))
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                SharedFunctions.Error("Unable to determine category from the filename. check if the chr filename, starts with a valid category string.");
+                            }
+                            else
+                            {
+                                SharedFunctions.Error($"Unable to determine category from the filename. check if the chr filename, starts with a valid category string.\n{GenerationVariables.PathErrorStringForBatch}");
+                            }
+                        }
+
+                        var chrCategoryBits = Convert.ToString(ChrCategoryDict[virtualPathData[1]], 2).PadLeft(5, '0');
 
                         // 10 bits
                         var modelID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
@@ -140,7 +163,19 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     case "chr/summon":
                     case "chr/weapon":
                         // 5 bits
-                        var chrCategoryBits = Convert.ToString(DetermineChrCategory(virtualPathData[1]), 2).PadLeft(5, '0');
+                        if (!ChrCategoryDict.ContainsKey(virtualPathData[1]))
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                SharedFunctions.Error("Unable to determine category from the filename. check if the chr filename, starts with a valid category string.");
+                            }
+                            else
+                            {
+                                SharedFunctions.Error($"Unable to determine category from the filename. check if the chr filename, starts with a valid category string.\n{GenerationVariables.PathErrorStringForBatch}");
+                            }
+                        }
+
+                        var chrCategoryBits = Convert.ToString(ChrCategoryDict[virtualPathData[1]], 2).PadLeft(5, '0');
 
                         // 10 bits
                         var modelID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
@@ -245,7 +280,19 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     case "chr/summon":
                     case "chr/weapon":
                         // 5 bits
-                        var chrCategoryBits = Convert.ToString(DetermineChrCategory(virtualPathData[1]), 2).PadLeft(5, '0');
+                        if (!ChrCategoryDict.ContainsKey(virtualPathData[1]))
+                        {
+                            if (GenerationVariables.GenerationType == GenerationType.single)
+                            {
+                                SharedFunctions.Error("Unable to determine category from the filename. check if the chr filename, starts with a valid category string.");
+                            }
+                            else
+                            {
+                                SharedFunctions.Error($"Unable to determine category from the filename. check if the chr filename, starts with a valid category string.\n{GenerationVariables.PathErrorStringForBatch}");
+                            }
+                        }
+
+                        var chrCategoryBits = Convert.ToString(ChrCategoryDict[virtualPathData[1]], 2).PadLeft(5, '0');
 
                         // 10 bits
                         var modelID = GenerationFunctions.DeriveNumFromString(virtualPathData[2]);
@@ -254,17 +301,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         var modelIDbits = Convert.ToString(modelID, 2).PadLeft(10, '0');
 
                         // 5 bits
-                        switch (fileExtn)
-                        {
-                            case ".imgb":
-                                fileExtnID = 0;
-                                break;
-
-                            case ".trb":
-                                fileExtnID = 1;
-                                break;
-                        }
-
+                        fileExtnID = fileExtn == ".imgb" ? 0 : 1;
                         fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(5, '0');
 
                         // 8 bits
@@ -295,55 +332,5 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             }
         }
         #endregion
-
-
-        private static int DetermineChrCategory(string dirName)
-        {
-            var categoryID = 0;
-
-            switch (dirName)
-            {
-                case "pc":
-                    categoryID = 2;
-                    break;
-
-                case "exte":
-                    categoryID = 4;
-                    break;
-
-                case "fa":
-                    categoryID = 5;
-                    break;
-
-                case "mon":
-                    categoryID = 12;
-                    break;
-
-                case "npc":
-                    categoryID = 13;
-                    break;
-
-                case "summon":
-                    categoryID = 18;
-                    break;
-
-                case "weapon":
-                    categoryID = 22;
-                    break;
-
-                default:
-                    if (GenerationVariables.GenerationType == GenerationType.single)
-                    {
-                        SharedFunctions.Error("Unable to determine category from the filename. check if the chr filename, starts with a valid category string.");
-                    }
-                    else
-                    {
-                        SharedFunctions.Error($"Unable to determine category from the filename. check if the chr filename, starts with a valid category string.\n{GenerationVariables.PathErrorStringForBatch}");
-                    }
-                    break;
-            }
-
-            return categoryID;
-        }
     }
 }

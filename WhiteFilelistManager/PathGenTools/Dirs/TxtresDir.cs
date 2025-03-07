@@ -29,6 +29,21 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             }
         }
 
+        private static readonly Dictionary<string, int> LangIDsDict = new()
+        {
+            { "txtres_jp.ztr", 0 },
+            { "txtres_us.ztr", 1 },
+            { "txtres_uk.ztr", 2 },
+            { "txtres_it.ztr", 3 },
+            { "txtres_gr.ztr", 4 },
+            { "txtres_fr.ztr", 5 },
+            { "txtres_sp.ztr", 6 },
+            { "txtres_ru.ztr", 7 },
+            { "txtres_kr.ztr", 8 },
+            { "txtres_ck.ztr", 9 },
+            { "txtres_ch.ztr", 10 }
+        };
+
 
         #region XIII
         private static void TxtresPathXIII(string[] virtualPathData, string virtualPath)
@@ -89,13 +104,27 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     }
                 }
 
+                var fileName = Path.GetFileName(virtualPath);
+
+                if (!LangIDsDict.ContainsKey(fileName))
+                {
+                    if (GenerationVariables.GenerationType == GenerationType.single)
+                    {
+                        SharedFunctions.Error("Unable to determine the language from the filename. check if the ztr filename, starts with a valid language id.");
+                    }
+                    else
+                    {
+                        SharedFunctions.Error($"Unable to determine the language from the filename. check if the ztr filename, starts with a valid language id.\n{GenerationVariables.PathErrorStringForBatch}");
+                    }
+                }
+
                 switch (startingPortion)
                 {
                     case "txtres/ac":
                         mainTypeBits = Convert.ToString(228, 2).PadLeft(8, '0');
 
                         // 4 bits
-                        langIDbits = Convert.ToString(GetLangID(Path.GetFileName(virtualPath)), 2).PadLeft(4, '0');
+                        langIDbits = Convert.ToString(LangIDsDict[fileName], 2).PadLeft(4, '0');
 
                         // 10 bits
                         zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(10, '0');
@@ -122,7 +151,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         mainTypeBits = Convert.ToString(227, 2).PadLeft(8, '0');
 
                         // 4 bits
-                        langIDbits = Convert.ToString(GetLangID(Path.GetFileName(virtualPath)), 2).PadLeft(4, '0');
+                        langIDbits = Convert.ToString(LangIDsDict[fileName], 2).PadLeft(4, '0');
 
                         // 10 bits
                         zoneIDbits = Convert.ToString(zoneID, 2).PadLeft(10, '0');
@@ -149,7 +178,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         mainTypeBits = Convert.ToString(229, 2).PadLeft(8, '0');
 
                         // 4 bits
-                        langIDbits = Convert.ToString(GetLangID(Path.GetFileName(virtualPath)), 2).PadLeft(4, '0');
+                        langIDbits = Convert.ToString(LangIDsDict[fileName], 2).PadLeft(4, '0');
 
                         // 10 bits
                         var reservedBits = "0000000000";
@@ -262,11 +291,25 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     }
                 }
 
+                var fileName = Path.GetFileName(virtualPath);
+
+                if (!LangIDsDict.ContainsKey(fileName))
+                {
+                    if (GenerationVariables.GenerationType == GenerationType.single)
+                    {
+                        SharedFunctions.Error("Unable to determine the language from the filename. check if the ztr filename, starts with a valid language id.");
+                    }
+                    else
+                    {
+                        SharedFunctions.Error($"Unable to determine the language from the filename. check if the ztr filename, starts with a valid language id.\n{GenerationVariables.PathErrorStringForBatch}");
+                    }
+                }
+
                 switch (startingPortion)
                 {
                     case "txtres/ac":
                         // 4 bits
-                        langIDbits = Convert.ToString(GetLangID(Path.GetFileName(virtualPath)), 2).PadLeft(4, '0');
+                        langIDbits = Convert.ToString(LangIDsDict[fileName], 2).PadLeft(4, '0');
 
                         // 4 bits
                         categoryBits = Convert.ToString(4, 2).PadLeft(4, '0');
@@ -299,7 +342,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                     case "txtres/event":
                         // 4 bits
-                        langIDbits = Convert.ToString(GetLangID(Path.GetFileName(virtualPath)), 2).PadLeft(4, '0');
+                        langIDbits = Convert.ToString(LangIDsDict[fileName], 2).PadLeft(4, '0');
 
                         // 4 bits
                         categoryBits = Convert.ToString(3, 2).PadLeft(4, '0');
@@ -332,7 +375,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
 
                     case "txtres/zone":
                         // 4 bits
-                        langIDbits = Convert.ToString(GetLangID(Path.GetFileName(virtualPath)), 2).PadLeft(4, '0');
+                        langIDbits = Convert.ToString(LangIDsDict[fileName], 2).PadLeft(4, '0');
 
                         // 4 bits
                         categoryBits = Convert.ToString(5, 2).PadLeft(4, '0');
@@ -370,64 +413,5 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
             }
         }
         #endregion
-
-
-        private static int GetLangID(string fileName)
-        {
-            var langID = 0;
-
-            switch (fileName)
-            {
-                case "txtres_jp.ztr":
-                    langID = 0;
-                    break;
-
-                case "txtres_us.ztr":
-                    langID = 1;
-                    break;
-
-                case "txtres_uk.ztr":
-                    langID = 2;
-                    break;
-
-                case "txtres_it.ztr":
-                    langID = 3;
-                    break;
-
-                case "txtres_gr.ztr":
-                    langID = 4;
-                    break;
-
-                case "txtres_fr.ztr":
-                    langID = 5;
-                    break;
-
-                case "txtres_sp.ztr":
-                    langID = 6;
-                    break;
-
-                case "txtres_ru.ztr":
-                    langID = 7;
-                    break;
-
-                case "txtres_kr.ztr":
-                    langID = 8;
-                    break;
-
-                case "txtres_ck.ztr":
-                    langID = 9;
-                    break;
-
-                case "txtres_ch.ztr":
-                    langID = 10;
-                    break;
-
-                default:
-                    SharedFunctions.Error("Unable to determine the language from the filename. check if the ztr filename, starts with a valid language id.");
-                    break;
-            }
-
-            return langID;
-        }
     }
 }

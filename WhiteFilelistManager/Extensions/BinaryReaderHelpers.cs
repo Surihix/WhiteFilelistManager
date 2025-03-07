@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Text;
+﻿using System.Text;
 
 /// <summary>
 /// Provides endianness for BinaryReader methods.
@@ -209,77 +205,6 @@ public static class BinaryReaderHelpers
         if (isBigEndian)
         {
             Array.Reverse(readValueBuffer);
-        }
-    }
-
-
-    /// <summary>
-    /// Reads byte values to each non-static public variables, declared in a class. 
-    /// the amount of bytes read, value derivation, and assignment will all depend 
-    /// on the variable type.
-    /// </summary>
-    /// 
-    /// <remarks>
-    /// <para>
-    /// To ensure that the bytes are read in BigEndian for a variable, specify a '_BE' suffix at the end of 
-    /// the variable name.
-    /// </para>
-    /// </remarks>
-    /// 
-    /// <param name="classVar">The name of the class containing the variables.</param>
-    public static void AssignByteValuesInClass(this BinaryReader reader, object classVar)
-    {
-        var classFields = classVar.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-
-        foreach (var field in classFields)
-        {
-            if (!field.IsStatic)
-            {
-                switch (field.FieldType.Name)
-                {
-                    case "SByte":
-                        field.SetValue(classVar, reader.ReadSByte());
-                        break;
-
-                    case "Byte":
-                        field.SetValue(classVar, reader.ReadByte());
-                        break;
-
-                    case "Int32":
-                        field.SetValue(classVar, field.Name.EndsWith("_BE") ?
-                            reader.ReadBytesInt32(true) : reader.ReadBytesInt32(false));
-                        break;
-
-                    case "UInt32":
-                        field.SetValue(classVar, field.Name.EndsWith("_BE") ?
-                            reader.ReadBytesUInt32(true) : reader.ReadBytesUInt32(false));
-                        break;
-
-                    case "UInt64":
-                        field.SetValue(classVar, field.Name.EndsWith("_BE") ?
-                            reader.ReadBytesUInt64(true) : reader.ReadBytesUInt64(false));
-                        break;
-
-                    case "Int64":
-                        field.SetValue(classVar, field.Name.EndsWith("_BE") ?
-                            reader.ReadBytesInt64(true) : reader.ReadBytesInt64(false));
-                        break;
-
-                    case "String":
-                        field.SetValue(classVar, reader.ReadStringTillNull());
-                        break;
-
-                    case "Float":
-                        field.SetValue(classVar, field.Name.EndsWith("_BE") ?
-                            reader.ReadBytesFloat(true) : reader.ReadBytesFloat(false));
-                        break;
-
-                    case "Double":
-                        field.SetValue(classVar, field.Name.EndsWith("_BE") ?
-                            reader.ReadBytesDouble(true) : reader.ReadBytesDouble(false));
-                        break;
-                }
-            }
         }
     }
 }

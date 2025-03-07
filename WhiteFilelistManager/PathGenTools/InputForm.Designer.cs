@@ -72,6 +72,7 @@
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "InputForm";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Input";
             ((System.ComponentModel.ISupportInitialize)RangeNumericUpDown).EndInit();
             ResumeLayout(false);
