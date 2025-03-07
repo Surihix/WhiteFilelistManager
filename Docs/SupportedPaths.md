@@ -51,6 +51,7 @@ N.B: Set the Game to XIII-1 in the tool.
 | vfx/chr | .imgb and .xfv files | |
 | vfx/event | .imgb and .xfv files | requires id to be specified |
 | vfx/field | .imgb and .xfv files | |
+| zone | .bin and .bin2 files | |
 | zone/lip | .bin files | |
 | zone/z### | .clb and .wdb files | |
 
@@ -105,6 +106,7 @@ N.B: Set the Game to XIII-2 in the tool.
 | vfx/chr | .imgb and .xfv files | |
 | vfx/event | .imgb and .xfv files | requires id to be specified |
 | vfx/field | .imgb and .xfv files | |
+| zone | .bin and .bin2 files | |
 | zone/lip | .bin files | |
 | zone/z#### | .clb and .wdb files | |
 
@@ -151,5 +153,6 @@ N.B: Set the Game to XIII-LR in the tool.
 | vfx/chr | .imgb and .xfv files | |
 | vfx/event | .imgb and .xfv files | requires id to be specified |
 | vfx/field | .imgb and .xfv files | |
+| zone | .bin and .bin2 files | |
 | zone/lip | .bin files | |
 | zone/z#### | .clb and .wdb files | |
