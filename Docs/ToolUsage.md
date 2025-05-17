@@ -132,7 +132,7 @@ These options help in generating the necessary path data for a supported path ty
 
 ### Batch Mode
 - The same type of options would also be present in the **Batch Mode** tab and you can use that to generate multiple paths data by providing the folder containing your new files with the correct virtual directory.
-- When generating id based paths with the **Batch Mode** tab's options, you have to create a txt file called '#id-based_paths' and have the id based paths be written there along with the id number. the `|` character should be used to separate the path and your id.
+- When generating id based paths with the **Batch Mode** tab's options, you have to create a txt file called '#id-based_paths' inside the folder containing your new files and have the id based paths be written there along with the id number. the `|` character should be used to separate the path and your id.
 
 For example, if you are generating new sound file paths, then your #id-based_paths text file should be written like this:
 ```
