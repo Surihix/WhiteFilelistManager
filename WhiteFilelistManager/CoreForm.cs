@@ -429,6 +429,46 @@ namespace WhiteFilelistManager
                 });
             }
         }
+
+        private void GenerateFilelistButton_Click(object sender, EventArgs e)
+        {
+            if (DirectorySelect.ShowDialog() == DialogResult.OK)
+            {
+                AppStatusStripLabel.Text = "Generating filelist for directory....";
+
+                var gameID = GetGameID();
+                EnableDisableGUI(false);
+
+                Task.Run(() =>
+                {
+                    bool success = true;
+
+                    try
+                    {
+                        PathGenCore.GenerateForDir(ParseType.filelistGen, DirectorySelect.SelectedPath, gameID);
+                        MessageBox.Show("Generated filelist for the specified directory", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        success = false;
+                        ShowException(ex);
+                    }
+                    finally
+                    {
+                        if (success)
+                        {
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Finished generating filelist for the directory!"));
+                        }
+                        else
+                        {
+                            BeginInvoke(new Action(() => AppStatusStripLabel.Text = "Failed to generate filelist for the directory!"));
+                        }
+
+                        BeginInvoke(new Action(() => EnableDisableGUI(true)));
+                    }
+                });
+            }
+        }
         #endregion
     }
 }

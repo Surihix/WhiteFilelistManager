@@ -53,6 +53,7 @@ namespace WhiteFilelistManager
             GenerateJSONDirButton = new Button();
             AppStatusStrip = new StatusStrip();
             AppStatusStripLabel = new ToolStripStatusLabel();
+            GenerateFilelistButton = new Button();
             GameSelectGroupBox.SuspendLayout();
             FilelistToolsGroupBox.SuspendLayout();
             PathGenToolsGroupBox.SuspendLayout();
@@ -275,6 +276,7 @@ namespace WhiteFilelistManager
             // 
             // BatchModePage
             // 
+            BatchModePage.Controls.Add(GenerateFilelistButton);
             BatchModePage.Controls.Add(GenerateTXTDirButton);
             BatchModePage.Controls.Add(GenerateJSONDirButton);
             BatchModePage.Location = new Point(4, 24);
@@ -319,6 +321,16 @@ namespace WhiteFilelistManager
             // 
             AppStatusStripLabel.Name = "AppStatusStripLabel";
             AppStatusStripLabel.Size = new Size(0, 17);
+            // 
+            // GenerateFilelistButton
+            // 
+            GenerateFilelistButton.Location = new Point(185, 174);
+            GenerateFilelistButton.Name = "GenerateFilelistButton";
+            GenerateFilelistButton.Size = new Size(189, 35);
+            GenerateFilelistButton.TabIndex = 6;
+            GenerateFilelistButton.Text = "Generate Filelist (Experimental)";
+            GenerateFilelistButton.UseVisualStyleBackColor = true;
+            GenerateFilelistButton.Click += GenerateFilelistButton_Click;
             // 
             // CoreForm
             // 
@@ -374,5 +386,6 @@ namespace WhiteFilelistManager
         private TabPage BatchModePage;
         private Button GenerateTXTDirButton;
         private Button GenerateJSONDirButton;
+        private Button GenerateFilelistButton;
     }
 }

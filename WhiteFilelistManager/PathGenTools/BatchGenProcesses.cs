@@ -54,6 +54,32 @@ namespace WhiteFilelistManager.PathGenTools
         }
 
 
+        public static void CreateFilelistForDir(Dictionary<string, (uint, int)> processedDataDict, GameID gameID)
+        {
+            var outFilelistFile = Path.Combine(Path.GetDirectoryName(DirectoryPath), "#batch_filelist.bin");
+
+            var arrangedDataDict = new Dictionary<int, List<string>>();
+
+            string fileCodeBinary;
+            int mainTypeID;
+
+            foreach (var item in processedDataDict)
+            {
+                if (gameID == GameID.xiii)
+                {
+                    fileCodeBinary = Convert.ToString(item.Value.Item1, 2);
+                }
+                else
+                {
+                    if (arrangedDataDict.ContainsKey(item.Value.Item2))
+                    {
+                        arrangedDataDict.Add(item.Value.Item2, new List<string>());
+                    }
+                }
+            }
+        }
+
+
         public static void CreateJSONOutputForDir(Dictionary<string, (uint, int)> processedDataDict, GameID gameID)
         {
             var outJsonFile = Path.Combine(Path.GetDirectoryName(DirectoryPath), "#batch_json.json");

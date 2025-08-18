@@ -115,13 +115,19 @@ namespace WhiteFilelistManager.PathGenTools
 
             if (processedDataDict.Count > 0)
             {
-                if (parseType == ParseType.json)
+                switch (parseType)
                 {
-                    BatchGenProcesses.CreateJSONOutputForDir(processedDataDict, gameID);
-                }
-                else
-                {
-                    BatchGenProcesses.CreateTxtOutputForDir(processedDataDict, gameID);
+                    case ParseType.filelistGen:
+                        BatchGenProcesses.CreateFilelistForDir(processedDataDict, gameID);
+                        break;
+
+                    case ParseType.json:
+                        BatchGenProcesses.CreateJSONOutputForDir(processedDataDict, gameID);
+                        break;
+
+                    case ParseType.txt:
+                        BatchGenProcesses.CreateTxtOutputForDir(processedDataDict, gameID);
+                        break;
                 }
             }
         }

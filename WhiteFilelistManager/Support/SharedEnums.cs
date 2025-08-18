@@ -10,6 +10,7 @@
 
         public enum ParseType
         {
+            filelistGen,
             json,
             txt
         }
