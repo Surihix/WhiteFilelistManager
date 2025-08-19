@@ -146,6 +146,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                             GenerationVariables.FileCode = fileCode;
+                            GenerationVariables.FileTypeID = "13";
                             break;
 
                         default:

@@ -102,15 +102,7 @@ namespace WhiteFilelistManager.PathGenTools
                 GenerationVariables.CommonErrorMsg = $"Unable to generate filecode. check if the path starts with a valid directory.\n{GenerationVariables.PathErrorStringForBatch}";
 
                 ProcessPath(filePath, gameID);
-
-                if (gameID == GameID.xiii)
-                {
-                    processedDataDict.Add(filePath, (uint.Parse(GenerationVariables.FileCode), 0));
-                }
-                else
-                {
-                    processedDataDict.Add(filePath, (uint.Parse(GenerationVariables.FileCode), int.Parse(GenerationVariables.FileTypeID)));
-                }
+                processedDataDict.Add(filePath, (uint.Parse(GenerationVariables.FileCode), int.Parse(GenerationVariables.FileTypeID)));
             }
 
             if (processedDataDict.Count > 0)

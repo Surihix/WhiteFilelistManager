@@ -128,6 +128,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                             GenerationVariables.FileCode = fileCode;
+                            GenerationVariables.FileTypeID = "12";
                             break;
 
                         case "DataSet":
@@ -153,6 +154,7 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                             GenerationVariables.FileCode = fileCode;
+                            GenerationVariables.FileTypeID = "12";
                             break;
 
                         default:
