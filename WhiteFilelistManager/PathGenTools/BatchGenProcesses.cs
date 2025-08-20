@@ -58,24 +58,21 @@ namespace WhiteFilelistManager.PathGenTools
         {
             var outFilelistFile = Path.Combine(Path.GetDirectoryName(DirectoryPath), "#batch_filelist.bin");
 
-            var arrangedDataDict = new Dictionary<int, List<string>>();
-
-            string fileCodeBinary;
-            int mainTypeID;
+            var pass1Dict = new Dictionary<int, List<uint>>();
 
             foreach (var item in processedDataDict)
             {
-                if (gameID == GameID.xiii)
+                if (!pass1Dict.ContainsKey(item.Value.Item2))
                 {
-                    fileCodeBinary = Convert.ToString(item.Value.Item1, 2);
+                    pass1Dict.Add(item.Value.Item2, new List<uint>());
                 }
-                else
-                {
-                    if (arrangedDataDict.ContainsKey(item.Value.Item2))
-                    {
-                        arrangedDataDict.Add(item.Value.Item2, new List<string>());
-                    }
-                }
+
+                pass1Dict[item.Value.Item2].Add(item.Value.Item1);
+            }
+
+            foreach (var item in pass1Dict)
+            {
+                pass1Dict[item.Key].Sort();
             }
         }
 
