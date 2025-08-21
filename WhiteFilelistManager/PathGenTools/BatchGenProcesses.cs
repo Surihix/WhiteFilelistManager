@@ -56,23 +56,46 @@ namespace WhiteFilelistManager.PathGenTools
 
         public static void CreateFilelistForDir(Dictionary<string, (uint, int)> processedDataDict, GameID gameID)
         {
-            var outFilelistFile = Path.Combine(Path.GetDirectoryName(DirectoryPath), "#batch_filelist.bin");
+            var outFilelistFile = Path.Combine(Path.GetDirectoryName(DirectoryPath), $"filelist_{Path.GetFileName(DirectoryPath)}.bin");
 
-            var pass1Dict = new Dictionary<int, List<uint>>();
+            var filetypeDict = new Dictionary<int, List<uint>>();
 
             foreach (var item in processedDataDict)
             {
-                if (!pass1Dict.ContainsKey(item.Value.Item2))
+                if (!filetypeDict.ContainsKey(item.Value.Item2))
                 {
-                    pass1Dict.Add(item.Value.Item2, new List<uint>());
+                    filetypeDict.Add(item.Value.Item2, new List<uint>());
                 }
 
-                pass1Dict[item.Value.Item2].Add(item.Value.Item1);
+                filetypeDict[item.Value.Item2].Add(item.Value.Item1);
             }
 
-            foreach (var item in pass1Dict)
+            foreach (var item in filetypeDict)
             {
-                pass1Dict[item.Key].Sort();
+                filetypeDict[item.Key].Sort();
+            }
+
+            var fileTypeSorted = new List<int>();
+            fileTypeSorted.AddRange(filetypeDict.Keys);
+            fileTypeSorted.Sort();
+
+            var filelistDataDict = new Dictionary<string, (uint, int)>();
+
+            foreach (var fileType in fileTypeSorted)
+            {
+                var currentFileCodeList = filetypeDict[fileType];
+
+                foreach (var fileCode in currentFileCodeList)
+                {
+                    foreach (var path in processedDataDict)
+                    {
+                        if ((path.Value.Item1, path.Value.Item2) == (fileCode, fileType))
+                        {
+                            filelistDataDict.Add(path.Key, (fileCode, fileType));
+                            break;
+                        }
+                    }
+                }
             }
         }
 

@@ -97,6 +97,12 @@ namespace WhiteFilelistManager.PathGenTools
                     continue;
                 }
 
+                if (filePath == "sys/dlc/key/key00000000.dat")
+                {
+                    processedDataDict.Add(filePath, (4098, 224));
+                    continue;
+                }
+
                 GenerationVariables.PathErrorStringForBatch = $"Error occured parsing path: {filePath}";
                 GenerationVariables.CommonExtnErrorMsg = $"Path does not contain a valid file extension for this root directory.\n{GenerationVariables.PathErrorStringForBatch}";
                 GenerationVariables.CommonErrorMsg = $"Unable to generate filecode. check if the path starts with a valid directory.\n{GenerationVariables.PathErrorStringForBatch}";
