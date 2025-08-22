@@ -144,7 +144,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
-                        GenerationVariables.FileTypeID = "228";
                         break;
 
 
@@ -172,7 +171,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
-                        GenerationVariables.FileTypeID = "227";
                         break;
 
 
@@ -200,7 +198,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
-                        GenerationVariables.FileTypeID = "229";
                         break;
 
 

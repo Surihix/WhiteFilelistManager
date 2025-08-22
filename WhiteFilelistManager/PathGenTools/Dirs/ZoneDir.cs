@@ -81,7 +81,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
-                        GenerationVariables.FileTypeID = "64";
                     }
                     else if (fileExtn == ".clb")
                     {
@@ -109,7 +108,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         GenerationVariables.FileCode = fileCode;
-                        GenerationVariables.FileTypeID = "96";
                     }
                 }
                 else if (startingPortion == "zone/lip")
@@ -134,7 +132,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                     fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                     GenerationVariables.FileCode = fileCode;
-                    GenerationVariables.FileTypeID = "97";
                 }
                 else
                 {
@@ -204,7 +201,6 @@ namespace WhiteFilelistManager.PathGenTools.Dirs
                 fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                 GenerationVariables.FileCode = fileCode;
-                GenerationVariables.FileTypeID = "80";
             }
             else
             {

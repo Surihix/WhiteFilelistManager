@@ -62,41 +62,70 @@ namespace WhiteFilelistManager.PathGenTools
         private static readonly string[] UncmpExtns = new string[] { ".bik", ".scd" };
         public static void CreateFilelistForDir(Dictionary<string, (uint, int)> processedDataDict, GameID gameID)
         {
-            var filetypeDict = new Dictionary<int, List<uint>>();
-
-            foreach (var item in processedDataDict)
-            {
-                if (!filetypeDict.ContainsKey(item.Value.Item2))
-                {
-                    filetypeDict.Add(item.Value.Item2, new List<uint>());
-                }
-
-                filetypeDict[item.Value.Item2].Add(item.Value.Item1);
-            }
-
-            foreach (var item in filetypeDict)
-            {
-                filetypeDict[item.Key].Sort();
-            }
-
-            var fileTypeSorted = new List<int>();
-            fileTypeSorted.AddRange(filetypeDict.Keys);
-            fileTypeSorted.Sort();
-
             var filelistDataDict = new Dictionary<string, (uint, int)>();
 
-            foreach (var fileType in fileTypeSorted)
+            if (gameID == GameID.xiii)
             {
-                var currentFileCodeList = filetypeDict[fileType];
+                var fileCodeSorted = new List<uint>();
 
-                foreach (var fileCode in currentFileCodeList)
+                foreach (var item in processedDataDict)
+                {
+                    if (!fileCodeSorted.Contains(item.Value.Item1))
+                    {
+                        fileCodeSorted.Add(item.Value.Item1);
+                    }
+                }
+
+                fileCodeSorted.Sort();
+
+                foreach (var fileCode in fileCodeSorted)
                 {
                     foreach (var path in processedDataDict)
                     {
-                        if ((path.Value.Item1, path.Value.Item2) == (fileCode, fileType))
+                        if (path.Value.Item1 == fileCode)
                         {
-                            filelistDataDict.Add(path.Key, (fileCode, fileType));
+                            filelistDataDict.Add(path.Key, (fileCode, 0));
                             break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var filetypeDict = new Dictionary<int, List<uint>>();
+
+                foreach (var item in processedDataDict)
+                {
+                    if (!filetypeDict.ContainsKey(item.Value.Item2))
+                    {
+                        filetypeDict.Add(item.Value.Item2, new List<uint>());
+                    }
+
+                    filetypeDict[item.Value.Item2].Add(item.Value.Item1);
+                }
+
+                foreach (var item in filetypeDict)
+                {
+                    filetypeDict[item.Key].Sort();
+                }
+
+                var fileTypeSorted = new List<int>();
+                fileTypeSorted.AddRange(filetypeDict.Keys);
+                fileTypeSorted.Sort();
+
+                foreach (var fileType in fileTypeSorted)
+                {
+                    var currentFileCodeList = filetypeDict[fileType];
+
+                    foreach (var fileCode in currentFileCodeList)
+                    {
+                        foreach (var path in processedDataDict)
+                        {
+                            if ((path.Value.Item1, path.Value.Item2) == (fileCode, fileType))
+                            {
+                                filelistDataDict.Add(path.Key, (fileCode, fileType));
+                                break;
+                            }
                         }
                     }
                 }
