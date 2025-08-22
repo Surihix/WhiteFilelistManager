@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using WhiteFilelistManager.FilelistTools.FilelistHelpers;
 using WhiteFilelistManager.Support;
 using static WhiteFilelistManager.Support.SharedEnums;
 
@@ -54,10 +55,13 @@ namespace WhiteFilelistManager.PathGenTools
         }
 
 
+        private static readonly int MaxChunkLimit = 8250;
+        private static readonly string Position = "fffff";
+        private static readonly string UnCmpSize = "ffffff";
+        private static readonly string CmpSize = "ffff00";
+        private static readonly string[] UncmpExtns = new string[] { ".bik", ".scd" };
         public static void CreateFilelistForDir(Dictionary<string, (uint, int)> processedDataDict, GameID gameID)
         {
-            var outFilelistFile = Path.Combine(Path.GetDirectoryName(DirectoryPath), $"filelist_{Path.GetFileName(DirectoryPath)}.bin");
-
             var filetypeDict = new Dictionary<int, List<uint>>();
 
             foreach (var item in processedDataDict)
@@ -96,6 +100,117 @@ namespace WhiteFilelistManager.PathGenTools
                         }
                     }
                 }
+            }
+
+            var outFilelistFile = Path.Combine(Path.GetDirectoryName(DirectoryPath), $"filelist_{Path.GetFileName(DirectoryPath)}.bin");
+            SharedFunctions.IfFileExistsDel(outFilelistFile);
+
+            var outFilelistUnpackedDir = Path.Combine(Path.GetDirectoryName(outFilelistFile), $"_{Path.GetFileName(outFilelistFile)}");
+            if (Directory.Exists(outFilelistUnpackedDir))
+            {
+                Directory.Delete(outFilelistUnpackedDir, true);
+            }
+
+            Directory.CreateDirectory(outFilelistUnpackedDir);
+
+            var filelistDataDictKeys = new List<string>();
+            filelistDataDictKeys.AddRange(filelistDataDict.Keys);
+
+            var fileCount = filelistDataDictKeys.Count;
+            var chunkCounter = 0;
+
+            for (int f = 0; f < fileCount; f++)
+            {
+                var currentChunkSize = 0;
+
+                using (var chunkWriter = new StreamWriter(Path.Combine(outFilelistUnpackedDir, $"Chunk_{chunkCounter}.txt")))
+                {
+                    while (true)
+                    {
+                        if (f == fileCount)
+                        {
+                            break;
+                        }
+
+                        var filePath = filelistDataDictKeys[f];
+                        var filelistData = filelistDataDict[filePath];
+
+                        string currentPath;
+
+                        if (UncmpExtns.Contains(Path.GetExtension(filePath)))
+                        {
+                            currentPath = $"{Position}:{UnCmpSize}:{UnCmpSize}:{filePath}";
+                        }
+                        else
+                        {
+                            currentPath = $"{Position}:{UnCmpSize}:{CmpSize}:{filePath}";
+                        }
+
+                        currentChunkSize += System.Text.Encoding.UTF8.GetByteCount(currentPath + "\0");
+
+                        if (currentChunkSize > MaxChunkLimit)
+                        {
+                            f--;
+                            break;
+                        }
+
+                        string currentChunkTxtLine;
+
+                        if (gameID == GameID.xiii)
+                        {
+                            currentChunkTxtLine = $"{filelistData.Item1}|{currentPath}";
+                        }
+                        else
+                        {
+                            currentChunkTxtLine = $"{filelistData.Item1}|{filelistData.Item2}|{currentPath}";
+                        }
+
+                        chunkWriter.WriteLine(currentChunkTxtLine);
+
+                        f++;
+                    }
+                }
+
+                chunkCounter++;
+            }
+
+            using (var infoWriter = new StreamWriter(Path.Combine(outFilelistUnpackedDir, "#info.txt")))
+            {
+                if (gameID != GameID.xiii)
+                {
+                    infoWriter.WriteLine("encrypted: false");
+                }
+
+                infoWriter.WriteLine($"fileCount: {fileCount}");
+                infoWriter.WriteLine($"chunkCount: {chunkCounter}");
+            }
+
+            var gameCode = gameID == GameID.xiii ? GameCode.ff131 : GameCode.ff132;
+            FilelistTools.TxtsProcesses.TxtsRepackProcess(outFilelistUnpackedDir, gameCode);
+            Directory.Delete(outFilelistUnpackedDir, true);
+
+            if (gameCode == GameCode.ff132)
+            {
+                var filelistData = File.ReadAllBytes(outFilelistFile);
+                SharedFunctions.IfFileExistsDel(outFilelistFile);
+
+                byte[] md5Hash;
+
+                using (var md5 = System.Security.Cryptography.MD5.Create())
+                {
+                    md5Hash = md5.ComputeHash(filelistData);
+                }
+
+                using (var filelistPreEncStream = new FileStream(outFilelistFile, FileMode.Append, FileAccess.Write))
+                {
+                    filelistPreEncStream.Write(md5Hash);
+                    filelistPreEncStream.Write(new byte[4]);
+                    filelistPreEncStream.Write(BitConverter.GetBytes((uint)501232760));
+                    filelistPreEncStream.Write(new byte[8]);
+                    filelistPreEncStream.Write(filelistData);
+                }
+
+                FilelistCrypto.EncryptProcess(outFilelistFile);
             }
         }
 
