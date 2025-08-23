@@ -98,6 +98,7 @@ N.B: Set the Game to XIII-2 in the tool.
 | scene/lay/scene#####/bin | .bin, .imgb, .lyb and .xwp files | |
 | scene/lay/scene#####/scene#####_lys/VFX/VLeafIns/bin | .vinsbin file | |
 | sound/pack | .scd and .wpd files | requires id to be specified |
+| sys/dlc/key | key00000000.dat | should have this exact filename |
 | sys/x360/savedata/us/saveicon | .imgb files | |
 | txtres/ac | .ztr files | requires id to be specified, if its new zone |
 | txtres/event | .ztr files | requires id to be specified, if its new zone |
@@ -147,6 +148,7 @@ N.B: Set the Game to XIII-LR in the tool.
 | scene/lay/scene#####/bin | .bin, .imgb, .lyb, .wpk and .xwp files | |
 | scene/lay/scene#####/scene#####_lys/VFX/VLeafIns/bin | .vinsbin file | |
 | sound/pack | .scd and .wpd files | requires id to be specified |
+| sys/dlc/key | key00000000.dat | should have this exact filename |
 | sys/ps3/savedata/us/saveicon | .png files | |
 | txtres/event | .ztr files | requires id to be specified, if its new zone |
 | txtres/zone | .ztr files | |
