@@ -89,7 +89,7 @@ N.B: Set the Game to XIII-2 in the tool.
 | mot/npc | .bin files | |
 | mot/pc | .bin files | |
 | mot/summon | .bin files | |
-| mot/weapon | ..bin files | |
+| mot/weapon | .bin files | |
 | movie_win | .bik files | |
 | railcam/loc#### | .xwp files | |
 | scene | .wdb files | |
