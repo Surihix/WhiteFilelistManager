@@ -141,7 +141,7 @@ sound/pack/2069/snls140foley02.win32.scd|8
 sound/pack/2069/snls140add04.win32.scd|26
 ```
 
-- The ***Generate Filelist (Experimental)*** option allows you to generate a new filelist from scratch by providing the folder containing your new files with the correct virtual directory. using this filelist, you can repack the folder that you provided into a white archive file with [WhiteBinTools](https://github.com/Surihix/WhiteBinTools). the same step that is given for generating id based paths with the **Batch Mode** (refer to the previous step), is applicable for this filelist generation option as well.
+- The ***Generate Filelist (Experimental)*** option allows you to generate a new filelist from scratch by providing the folder containing your new files with the correct virtual directory. using this filelist, you can repack the folder that you provided into a white archive file with [WhiteBinTools](https://github.com/Surihix/WhiteBinTools) program. the same step that is given for generating id based paths with the **Batch Mode** (refer to the previous step), is applicable for this filelist generation option as well.
 
 #### Tips
 - Ensure that you have set the correct game from the **Select Game** section of this tool before generating the path data.
